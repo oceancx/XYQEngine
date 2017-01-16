@@ -24,7 +24,7 @@ namespace star
 		/// <param name="full_path">a reference of a FilePath object</param>
 		/// <param name="mode">the mode to be used, defining the root directory</param>
 		explicit FilePath(const tstring & full_path,
-			DirectoryMode mode = DirectoryMode::assets);
+			DirectoryMode mode = DirectoryMode::custom);
 		/// <summary>
 		/// An overload of the constructor requiring the reference
 		/// of an FilePath object where the datamembers will be copped from.

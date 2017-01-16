@@ -1,8 +1,9 @@
 #include "SpriteComponent.h"
 #include "../../Objects/Object.h"
 #include "../../Graphics/SpriteBatch.h"
-#include "SpriteSheetComponent.h"
-#include "TextComponent.h"
+#include "../../Graphics/TextureManager.h"
+//#include "SpriteSheetComponent.h"
+//#include "TextComponent.h"
 
 namespace star
 {
@@ -26,7 +27,7 @@ namespace star
 
 	void SpriteComponent::InitializeComponent()
 	{	
-		if(m_pParentObject->HasComponent<SpriteSheetComponent>(this)
+		/*if(m_pParentObject->HasComponent<SpriteSheetComponent>(this)
 			|| m_pParentObject->HasComponent<TextComponent>(this))
 		{
 			ASSERT_LOG(false,
@@ -36,7 +37,10 @@ having a SpriteSheet- or TextComponent."), STARENGINE_LOG_TAG);
 			m_pParentObject->RemoveComponent(this);
 		}
 		else
-		{
+		{*/
+	
+		std::cout << "path:" << m_FilePath.GetFullPath() << std::endl;
+		
 			TextureManager::GetInstance()->LoadTexture(
 				m_FilePath.GetFullPath(),
 				m_SpriteName
@@ -45,6 +49,7 @@ having a SpriteSheet- or TextComponent."), STARENGINE_LOG_TAG);
 			m_Dimensions.x = TextureManager::GetInstance()->
 				GetTextureDimensions(m_SpriteName).x /
 				m_WidthSegments;
+	
 			m_Dimensions.y =  TextureManager::GetInstance()->
 				GetTextureDimensions(m_SpriteName).y /
 				m_HeightSegments;
@@ -53,7 +58,7 @@ having a SpriteSheet- or TextComponent."), STARENGINE_LOG_TAG);
 
 			CreateUVCoords();
 			FillSpriteInfo();
-		}
+		//}
 	}
 
 	void SpriteComponent::FillSpriteInfo()
@@ -78,7 +83,6 @@ having a SpriteSheet- or TextComponent."), STARENGINE_LOG_TAG);
 			float32(m_CurrentHeightSegment) /
 			float32(m_HeightSegments);
 		float32 endY = 1.0f / m_HeightSegments;
-
 		SetUVCoords(vec4(startX, startY, endX, endY));
 	}
 

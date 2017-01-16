@@ -2,8 +2,8 @@
 
 #include "../Entity.h"
 
-//#include "../Helpers/TimerManager.h"
-//#include "../Helpers/Stopwatch.h"
+#include "../Helpers/TimerManager.h"
+#include "../Helpers/Stopwatch.h"
 #include "../Objects/Object.h"
 //#include "../Input/Gestures/GestureManager.h"
 

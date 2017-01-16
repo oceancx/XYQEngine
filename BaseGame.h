@@ -15,7 +15,7 @@ namespace star
 		virtual void Initialize(int32, int32) = 0;
 
 		virtual void Draw() = 0;
-		virtual void Update(const Context &) = 0;
+		virtual void Update() = 0;
 
 		virtual void End() = 0;
 

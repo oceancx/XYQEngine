@@ -5,7 +5,7 @@
 #include <memory>
 #include "Shader.h"
 #include "../Components/Graphics/SpriteComponent.h"
-#include "../Components/Graphics/TextComponent.h"
+//#include "../Components/Graphics/TextComponent.h"
 
 namespace star
 {
@@ -24,7 +24,7 @@ namespace star
 		void Initialize();
 		void Flush();
 		void AddSpriteToQueue(const SpriteInfo* spriteInfo);
-		void AddTextToQueue(const TextInfo* text);
+	//	void AddTextToQueue(const TextInfo* text);
 
 		void SetSpriteSortingMode(SpriteSortingMode mode);
 
@@ -47,14 +47,18 @@ namespace star
 		static const uint32 FIRST_REAL_ASCII_CHAR = 31;
 
 		std::vector<const SpriteInfo*> m_SpriteQueue;
-		std::vector<const TextInfo*> m_TextQueue;
+	//	std::vector<const TextInfo*> m_TextQueue;
 
 		//[TODO] Check if can be changed to vector<vec4 or vec2>
-		std::vector<vec4> m_VertexBuffer;
-		std::vector<float32> m_UvCoordBuffer;
-		std::vector<float32> m_IsHUDBuffer;
-		std::vector<Color> m_ColorBuffer;
+		std::vector<vec4> m_VertexBuffer2;
+		std::vector<GLfloat> m_VertexBuffer;
+		std::vector<GLfloat> m_UvCoordBuffer;
+		std::vector<GLfloat> m_IsHUDBuffer;
+		std::vector<Color> m_ColorBuffer2;
+		std::vector<GLfloat> m_ColorBuffer;
 		
+		GLuint m_VBO,
+			   m_VAO;
 		GLuint m_VertexID,
 			   m_UVID,
 			   m_IsHUDID;

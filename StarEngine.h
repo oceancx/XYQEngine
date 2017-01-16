@@ -6,14 +6,6 @@
 
 #include <random>
 
-#ifdef ANDROID
-#include "android_native_app_glue.h"
-#include  <SLES/OpenSLES.h>
-#include  <SLES/OpenSLES_Android.h>
-#include  <SLES/OpenSLES_AndroidConfiguration.h>
-#elif defined(_WIN32)
-class Window;
-#endif
 
 namespace star
 {
@@ -49,10 +41,6 @@ namespace star
 
 		void Quit();
 
-#ifdef ANDROID
-		void SetAndroidApp(android_app * app);
-		android_app * GetAndroidApp() const;
-#endif
 
 	private:
 		static StarEngine * m_pEngine;
@@ -61,15 +49,9 @@ namespace star
 		bool m_TitleHasUpdated;
 		std::mt19937 m_RandomEngine;
 
-#ifdef ANDROID
-		android_app *m_pAndroidApp;
-#endif
+
 		bool m_bInitialized;
 		StarEngine();
-
-#ifdef _WIN32
-		friend class Window;
-#endif
 
 		StarEngine(const StarEngine &);
 		StarEngine(StarEngine &&);

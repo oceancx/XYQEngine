@@ -5,11 +5,17 @@
 #include "../../Graphics/Color.h"
 #include "../../Graphics/Shader.h"
 #include <vector>
-#ifdef DESKTOP
-#include <gl\GL.h>
-#else
-#include <GLES2/gl2.h>
-#endif
+//#ifdef DESKTOP
+//#include <gl\GL.h>
+//#else
+//#include <GLES2/gl2.h>
+//#endif
+
+//GLEW
+#define GLEW_STATIC
+#include <GL/glew.h>
+// GLFW
+#include <GLFW/glfw3.h>
 
 namespace star  
 {  

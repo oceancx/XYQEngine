@@ -4,8 +4,8 @@
 #include "../Helpers/Singleton.h"
 
 //#include <Windows.h>
-#define GLEW_STATIC
-#include <GL\glew.h>
+//#define GLEW_STATIC
+//#include <GL\glew.h>
 
 
 namespace star
@@ -16,7 +16,6 @@ namespace star
 		friend Singleton<GraphicsManager>;
 
 		void Initialize(int32 screenWidth, int32 screenHeight);
-
 
 		void StartDraw();
 		void StopDraw();
@@ -60,8 +59,6 @@ namespace star
 		~GraphicsManager();
 
 		void InitializeOpenGLStates();
-
-	
 		bool InitializeOpenGLFunctors();
 
 		int32 mHorizontalViewportOffset,

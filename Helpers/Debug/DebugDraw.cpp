@@ -45,32 +45,15 @@ namespace star
 
 	void DebugDraw::Initialize()
 	{
-		static const GLchar* vertexShader = "\
-			uniform mat4 MVP;\
-			attribute vec2 position;\
-			void main()\
-			{\
-			  vec4 NewPosition = vec4(position, 0.0, 1.0);\
-			  NewPosition *= MVP;\
-			  gl_Position = NewPosition;\
-			}\
-			";
-
-		static const GLchar* fragmentShader = "\
-			precision mediump float;\
-			uniform vec4 color;\
-			void main()\
-			{\
-			  gl_FragColor = color;\
-			}\
-			";
-
+		
+		tstring vShader(_T("E:\\mhxy_code_repo\\Engine\\assets\\shaders\\DebugDraw.vert")),
+			fShader(_T("E:\\mhxy_code_repo\\Engine\\assets\\shaders\\DebugDraw.frag"));
 		// create program
-		m_Shader = new Shader(vertexShader, fragmentShader);
+		m_Shader = new Shader(vShader, fShader);
 
 		m_ColorLocation = m_Shader->GetUniformLocation("color");
 		m_MVPLocation = m_Shader->GetUniformLocation("MVP");
-		m_PositionLocation = m_Shader->GetAttribLocation("position");
+	//	m_PositionLocation = m_Shader->GetAttribLocation("position");
 	}
 
 	void DebugDraw::DrawPolygon(
@@ -272,12 +255,21 @@ more vertices than allocated space"),
 		float32 scaleValue(ScaleSystem::GetInstance()->GetScale());
 		mat4 scaleMat(Scale(scaleValue, scaleValue, 1.0f));
 
+		//const mat4 viewInverseMat;// = GraphicsManager::GetInstance()->GetViewInverseMatrix();
+		glm::mat4 model;
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+
+		glm::mat4 projectionMat = glm::ortho(0.0f, 800.0f, 0.0f, 600.0f, -1.0f, 1.0f);
+
 		glUniformMatrix4fv(
 			m_MVPLocation,
 			1, GL_FALSE,
 			ToPointerValue(
-				scaleMat *
-				GraphicsManager::GetInstance()->GetViewInverseProjectionMatrix()
+				projectionMat * model
+				//Transpose(projectionMat*model)
+			//	scaleMat *
+		//		GraphicsManager::GetInstance()->GetViewInverseProjectionMatrix()
 				)
 			);
 	}
@@ -287,11 +279,31 @@ more vertices than allocated space"),
 #ifdef DESKTOP
 		Begin();
 
+		GLuint m_VBO, m_VAO;
+		glGenBuffers(1, &m_VBO);
+		glGenVertexArrays(1, &m_VAO);
+
 		for(const auto & elem : m_VertexBuffer)
 		{
-			glEnableVertexAttribArray(m_PositionLocation);
-			glVertexAttribPointer(m_PositionLocation, 2, GL_FLOAT, 
-				GL_FALSE, 0, elem.vertices);
+	
+			glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
+			int vbsize = m_VertexBuffer.size() * sizeof(GLfloat);
+			std::vector<GLfloat> vetexes;
+			for (auto e : elem.vertices)
+			{
+				vetexes.push_back(e.x);
+				vetexes.push_back(e.y);
+			}
+			glBufferData(GL_ARRAY_BUFFER, vetexes.size()*sizeof(GLfloat), &vetexes[0], GL_STATIC_DRAW);
+			vetexes.clear();
+			glBindVertexArray(m_VAO);
+			glEnableVertexAttribArray(0);
+			glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0,
+				(GLvoid*)0);
+			
+			//glEnableVertexAttribArray(m_PositionLocation);
+			//glVertexAttribPointer(m_PositionLocation, 2, GL_FLOAT, 
+			//	GL_FALSE, 0, elem.vertices);
 
 			if ((elem.primitiveType & Triangles) != 0)
 			{
@@ -312,7 +324,9 @@ more vertices than allocated space"),
 				glPointSize(m_PointSize);
 				glDrawArrays(GL_POINTS, 0, elem.count);
 			}
-			glDisableVertexAttribArray(m_PositionLocation);
+			
+			//glDisableVertexAttribArray(m_PositionLocation);
+			glBindVertexArray(0);
 		}
 
 		End();

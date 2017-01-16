@@ -88,7 +88,7 @@ enum class DirectoryMode : byte
 /// <summary>
 /// The default directory mode used by all functions related to I/O.
 /// </summary>
-static const DirectoryMode DEFAULT_DIRECTORY_MODE = DirectoryMode::assets;
+static const DirectoryMode DEFAULT_DIRECTORY_MODE = DirectoryMode::custom;
 
 /// <summary>
 /// Idle UI state

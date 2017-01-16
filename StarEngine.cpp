@@ -1,18 +1,19 @@
 #include "StarEngine.h"
 #include "Graphics/GraphicsManager.h"
-#include "Graphics/SpriteAnimationManager.h"
+//#include "Graphics/SpriteAnimationManager.h"
 #include "Graphics/SpriteBatch.h"
-#include "Graphics/FontManager.h"
+//#include "Graphics/FontManager.h"
 #include "Graphics/ScaleSystem.h"
-#include "Scenes/SceneManager.h"
-#include "Input/InputManager.h"
+//#include "Scenes/SceneManager.h"
+//#include "Input/InputManager.h"
 #include "Context.h"
 #include "Logger.h"
-#include "Sound/AudioManager.h"
+//#include "Sound/AudioManager.h"
 #include "Helpers/TimerManager.h"
-#include "AI/Pathfinding/PathFindManager.h"
-#include "Physics/Collision/CollisionManager.h"
+//#include "AI/Pathfinding/PathFindManager.h"
+//#include "Physics/Collision/CollisionManager.h"
 #include "Helpers/Debug/DebugDraw.h"
+#include "Helpers\Rect.h"
 
 namespace star
 {
@@ -39,12 +40,12 @@ namespace star
 		//Only for windows we need to pas the window paramaters
 		//for android these will be fetched when setting up the OpenGL context
 		//within the Graphics Manager
-#ifdef DESKTOP
-		GraphicsManager::GetInstance()->Initialize(window_width,window_height);
-#endif
 
-		AudioManager::GetInstance()->Start();
-		GraphicsManager::GetInstance()->CalculateViewPort();
+		GraphicsManager::GetInstance()->Initialize(window_width,window_height);
+		GraphicsManager::GetInstance()->SetWindowDimensions(window_width, window_height);
+
+	//	AudioManager::GetInstance()->Start();
+	//	GraphicsManager::GetInstance()->CalculateViewPort();
 		SpriteBatch::GetInstance()->Initialize();
 		DebugDraw::GetInstance()->Initialize();
 	}
@@ -52,51 +53,79 @@ namespace star
 	void StarEngine::Update(const Context & context)
 	{
 		m_FPS.Update(context);
-		SceneManager::GetInstance()->Update(context);
-		GraphicsManager::GetInstance()->Update();
-		InputManager::GetInstance()->EndUpdate();
+	//	SceneManager::GetInstance()->Update(context);
+	//	GraphicsManager::GetInstance()->Update();
+	//	InputManager::GetInstance()->EndUpdate();
 		Logger::GetInstance()->Update(context);
-#if defined(DEBUG) | defined(_DEBUG)
-		OPENGL_LOG();
-#endif
+
 		m_bInitialized = true;
+
+		std::cout << "Engine Update" << std::endl;
 	}
 
 	void StarEngine::Draw()
 	{
-		GraphicsManager::GetInstance()->StartDraw();
+	//	GraphicsManager::GetInstance()->StartDraw();
 		if(m_bInitialized)
 		{
-			SceneManager::GetInstance()->Draw();
+	//		SceneManager::GetInstance()->Draw();
 		}
-		GraphicsManager::GetInstance()->StopDraw();
+	//	GraphicsManager::GetInstance()->StopDraw();
+	/*	Color c = Color(0xff, 0, 0, 1);
+		DebugDraw::GetInstance()->DrawLine(vec2(0.0f,0.0f),vec2(20.0f,20.0f), c);
+		DebugDraw::GetInstance()->DrawPoint(vec2(50, 50), 30, Color(0xff, 0, 0, 1));
+*/
+		for(int k=0;k<50;k++)
+		{
+			int x = 200-k, y = 100-k;
+			int w = 50, h = 50;
+			for (int i = 0; i < 9; i++)
+			{
+				for (int j = 0; j < 9; j++)
+				{
+					const vec2 BL(x, y);
+					const vec2 BR(x + w, y);
+					const vec2 TL(x, y + h);
+					const vec2 TR(x + w, y + h);
+
+					Rect ret(BL, BR, TL, TR);
+					DebugDraw::GetInstance()->DrawRect(ret, Color(i*40,j*40,i+j,0xff));
+					x += 50;
+				}
+				x = 200;
+				y += 50;
+			}
+		}
+		
+		DebugDraw::GetInstance()->Flush();
+		std::cout << "Engine Draw" << std::endl;
 	}
 
 	void StarEngine::End()
 	{
-		FontManager::GetInstance()->EraseFonts();
-		DebugDraw::DeleteSingleton();
-		ScaleSystem::DeleteSingleton();
-		FontManager::DeleteSingleton();
-		SpriteAnimationManager::DeleteSingleton();
-		TextureManager::DeleteSingleton();
-		GraphicsManager::DeleteSingleton();
-		SpriteBatch::DeleteSingleton();
-		AudioManager::DeleteSingleton();
-		PathFindManager::DeleteSingleton();
-		SceneManager::DeleteSingleton();
-		Logger::DeleteSingleton();
-		TimeManager::DeleteSingleton();
+	//	FontManager::GetInstance()->EraseFonts();
+	//	DebugDraw::DeleteSingleton();
+	//	ScaleSystem::DeleteSingleton();
+	//	FontManager::DeleteSingleton();
+	//	SpriteAnimationManager::DeleteSingleton();
+	//	TextureManager::DeleteSingleton();
+	//	GraphicsManager::DeleteSingleton();
+	//	SpriteBatch::DeleteSingleton();
+	//	AudioManager::DeleteSingleton();
+	//	PathFindManager::DeleteSingleton();
+	//	SceneManager::DeleteSingleton();
+	//	Logger::DeleteSingleton();
+	//	TimeManager::DeleteSingleton();
 	}
 	
 	void StarEngine::SetActive()
 	{
-		AudioManager::GetInstance()->ResumeAllSounds();
+	//	AudioManager::GetInstance()->ResumeAllSounds();
 	}
 
 	void StarEngine::SetInactive()
 	{
-		AudioManager::GetInstance()->PauseAllSounds();
+	//	AudioManager::GetInstance()->PauseAllSounds();
 	}
 
 	int32 StarEngine::GetCurrentFPS() const
@@ -143,24 +172,8 @@ namespace star
 
 	void StarEngine::Quit()
 	{
-#ifdef _WIN32
-		PostQuitMessage(0);
-#else
-		ANativeActivity_finish(m_pAndroidApp->activity);
-#endif
-	}
 
-#ifdef ANDROID
-	void StarEngine::SetAndroidApp(android_app * app)
-	{
-		m_pAndroidApp = app;
 	}
-
-	android_app * StarEngine::GetAndroidApp() const
-	{
-		return m_pAndroidApp;
-	}
-#endif
 
 	StarEngine::StarEngine()
 		: m_FPS()

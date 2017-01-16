@@ -1,5 +1,5 @@
 #include "GraphicsManager.h"
-//#include "SpriteBatch.h"
+#include "SpriteBatch.h"
 #include "ScaleSystem.h"
 #include "../Logger.h"
 #include "../defines.h"
@@ -7,14 +7,14 @@
 //#include "../Objects/BaseCamera.h"
 //#include "../Scenes/BaseScene.h"
 //#include "../Components/CameraComponent.h"
-
-#ifdef DESKTOP
-//#include <wglext.h>
-#endif
-
-#ifdef MOBILE
-#include <GLES/gl.h>
-#endif
+//
+//#ifdef DESKTOP
+////#include <wglext.h>
+//#endif
+//
+//#ifdef MOBILE
+//#include <GLES/gl.h>
+//#endif
 
 namespace star
 {
@@ -126,23 +126,23 @@ namespace star
 		{
 			mScreenResolution.x = float32(screenWidth);
 			mScreenResolution.y = float32(screenHeight);
-			glewInit();
+			//glewInit();
 
-			LOG(star::LogLevel::Info,
-				_T("Graphics Manager : Initializing OpenGL Functors"),
-				STARENGINE_LOG_TAG);
-			if (!InitializeOpenGLFunctors())
-			{
-				LOG(star::LogLevel::Error,
-					_T("Graphics Manager : Graphics card doesn't support VSync option!!"),
-					STARENGINE_LOG_TAG);
-			}
+			//LOG(star::LogLevel::Info,
+			//	_T("Graphics Manager : Initializing OpenGL Functors"),
+			//	STARENGINE_LOG_TAG);
+			//if (!InitializeOpenGLFunctors())
+			//{
+			//	LOG(star::LogLevel::Error,
+			//		_T("Graphics Manager : Graphics card doesn't support VSync option!!"),
+			//		STARENGINE_LOG_TAG);
+			//}
 
-			SetVSync(true);
+			//SetVSync(true);
 
-			//Initializes base GL state.
-			//DEPTH_TEST is default disabled
-			InitializeOpenGLStates();
+			////Initializes base GL state.
+			////DEPTH_TEST is default disabled
+			//InitializeOpenGLStates();
 			mIsInitialized = true;
 		}
 	}
@@ -150,14 +150,14 @@ namespace star
 	void GraphicsManager::InitializeOpenGLStates()
 	{
 		//glDisable(GL_DEPTH_TEST);
-		glClearColor(0.f, 0.f, 0.f, 1.0f);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glEnable(GL_BLEND);
+	//	glClearColor(0.f, 0.f, 0.f, 1.0f);
+	//	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	//	glEnable(GL_BLEND);
 	}
 
 	void GraphicsManager::StartDraw()
 	{
-		glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+	//	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 
 	}
 

@@ -9,6 +9,10 @@
 #include "../Objects/BaseCamera.h"
 #include "../Graphics/ScaleSystem.h"
 
+
+/*
+	Set orth Matrix.
+*/
 namespace star
 {
 	CameraComponent::CameraComponent():
