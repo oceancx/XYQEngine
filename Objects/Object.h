@@ -8,12 +8,13 @@
 //#include "../AI/Pathfinding/PathFindManager.h"
 #include "../Helpers/HashTag.h"
 #include "../Graphics/Color.h"
+#include "../Scenes/BaseScene.h"
 
 namespace star
 {
 	class BaseComponent;
 	//class PathFindNodeComponent;
-	//class BaseScene;
+	class BaseScene;
 	class Action;
 
 	class Object : public Entity
@@ -92,14 +93,14 @@ namespace star
 
 		bool IsInitialized() const;
 
-	/*	void SetScene(BaseScene * pScene);
-		void UnsetScene(); */
+		void SetScene(BaseScene * pScene);
+		void UnsetScene(); 
 
 		virtual void Reset();
 
 		TransformComponent * GetTransform() const;
 
-		//BaseScene * GetScene() const;
+		BaseScene * GetScene() const;
 
 		template <typename T>
 		void RemoveComponent();
@@ -162,7 +163,7 @@ namespace star
 		bool m_IsFrozen;
 		Object* m_pParentGameObject;
 		//PathFindNodeComponent* m_pPathFindComp;
-		//BaseScene *m_pScene;
+		BaseScene *m_pScene;
 		
 		std::vector<GarbageInfo> m_pGarbageContainer;
 

@@ -14,10 +14,10 @@ namespace star
 {
 	struct Context;
 	class CameraComponent;
-	class CollisionManager;
+	//class CollisionManager;
 	class BaseCamera;
-	class UIBaseCursor;
-	class BaseGesture;
+	//class UIBaseCursor;
+	//class BaseGesture;
 
 	class BaseScene : public Entity
 	{
@@ -45,9 +45,9 @@ namespace star
 		virtual void RemoveObject(Object * pObject);
 		void RemoveObject(const tstring & name);
 
-		void AddGesture(BaseGesture* pGesture);
+		/*void AddGesture(BaseGesture* pGesture);
 		void AddGesture(BaseGesture* pGesture, const tstring & name);
-		void RemoveGesture(BaseGesture* pGesture);
+		void RemoveGesture(BaseGesture* pGesture);*/
 		void RemoveGesture(const tstring & name);
 
 		template <typename T>
@@ -76,7 +76,7 @@ namespace star
 		void SetCursorHidden(bool hidden);
 		void SetSystemCursorHidden(bool hidden);
 
-		void SetCursor(UIBaseCursor * pCursor);
+		//void SetCursor(UIBaseCursor * pCursor);
 		void UnsetCursor(bool showSystemCursor = true);
 
 		void SetStateActiveCursor(const tstring & state);
@@ -86,29 +86,29 @@ namespace star
 		void SetCullingOffset(int32 offset);
 		void SetCullingOffset(int32 offsetX, int32 offsetY);
 
-	//	std::shared_ptr<TimerManager> GetTimerManager() const;
+		std::shared_ptr<TimerManager> GetTimerManager() const;
 
 	//	std::shared_ptr<GestureManager> GetGestureManager() const;
-		std::shared_ptr<CollisionManager> GetCollisionManager() const;
+	//	std::shared_ptr<CollisionManager> GetCollisionManager() const;
 
 	protected:
-		virtual void CreateObjects() = 0;
-		virtual void AfterInitializedObjects() = 0;
-		virtual void OnActivate() = 0;
-		virtual void OnDeactivate() = 0;
-		virtual void Update(const Context& context) = 0;
-		virtual void Draw() = 0;
+		virtual void CreateObjects();// = 0;
+		virtual void AfterInitializedObjects();// = 0;
+		virtual void OnActivate();// = 0;
+		virtual void OnDeactivate();// = 0;
+		virtual void Update(const Context& context);// = 0;
+		virtual void Draw();// = 0;
 
 		void SetOSCursorHidden(bool hidden);
 
 		//std::shared_ptr<GestureManager> m_pGestureManager;
-		std::shared_ptr<CollisionManager> m_pCollisionManager;
+		//std::shared_ptr<CollisionManager> m_pCollisionManager;
 
 		std::vector<Object*> m_pObjects;
 		std::vector<Object*> m_pGarbage;
 		BaseCamera *m_pDefaultCamera, *m_pActiveCamera;
-	//	std::shared_ptr<TimerManager> m_pTimerManager;
-		UIBaseCursor *m_pCursor;
+		std::shared_ptr<TimerManager> m_pTimerManager;
+	//	UIBaseCursor *m_pCursor;
 
 	private:
 		void CollectGarbage();

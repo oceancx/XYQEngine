@@ -49,7 +49,7 @@ namespace star
 		mat4	m_Projection,
 				m_View,
 				m_ViewInverse;
-
+		mat4 projectionMat;
 		float32	m_FarPlane,
 				m_NearPlane,
 				m_FOV,

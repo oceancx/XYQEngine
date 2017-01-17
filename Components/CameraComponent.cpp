@@ -1,18 +1,13 @@
 #include "CameraComponent.h"
 #include "../Graphics/GraphicsManager.h"
-#include "../Scenes/BaseScene.h"
 #include "../Objects/Object.h"
-#include "../Input/InputManager.h"
 #include "../Context.h"
 #include "../Logger.h"
 #include "../Helpers/Math.h"
 #include "../Objects/BaseCamera.h"
 #include "../Graphics/ScaleSystem.h"
+//#include "../Scenes/BaseScene.h"
 
-
-/*
-	Set orth Matrix.
-*/
 namespace star
 {
 	CameraComponent::CameraComponent():
@@ -60,6 +55,7 @@ namespace star
 										m_Size * m_Zoom, 
 										m_NearPlane, 
 										m_FarPlane);
+			//projectionMat = glm::ortho(0.0f, 800.0f, 0.0f, 600.0f, -1.0f, 1.0f);
 		}
 	}
 
@@ -101,6 +97,7 @@ namespace star
 	
 #ifdef STAR2D
 		float32 rotDegrees = m_pParentObject->GetTransform()->GetWorldRotation();
+		rotDegrees = PI / 4;
 		rotDegrees = RadiansToDegrees(rotDegrees);
 		quat rotation(vec3(0, 0, rotDegrees));
 #else
@@ -118,7 +115,9 @@ namespace star
 
 		//Calculate the viewmatrix and inverse
 		m_View = MatrixLookAt(eyeVec, (eyeVec + lookAtVec), upVec);
+		//glm::mat4 view = glm::lookAt(eyeVec, eyeVec + lookAtVec, upVec);
 		m_ViewInverse = Transpose(m_View);
+
 	}
 
 	void CameraComponent::Draw()
@@ -148,7 +147,7 @@ namespace star
 		
 	void CameraComponent::SetActive()
 	{
-		auto scene = GetGameScene();
+		/*auto scene = GetGameScene();
 	
 		if(scene == nullptr)
 		{
@@ -161,7 +160,7 @@ namespace star
 		else
 		{
 			scene->SetActiveCamera(dynamic_cast<BaseCamera*>(m_pParentObject));
-		}
+		}*/
 	}
 
 	bool CameraComponent::IsActive() const

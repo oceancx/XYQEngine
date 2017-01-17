@@ -3,10 +3,10 @@
 #include "ScaleSystem.h"
 #include "../Logger.h"
 #include "../defines.h"
-//#include "../Scenes/SceneManager.h"
-//#include "../Objects/BaseCamera.h"
-//#include "../Scenes/BaseScene.h"
-//#include "../Components/CameraComponent.h"
+#include "../Scenes/SceneManager.h"
+#include "../Objects/BaseCamera.h"
+#include "../Scenes/BaseScene.h"
+#include "../Components/CameraComponent.h"
 //
 //#ifdef DESKTOP
 ////#include <wglext.h>
@@ -168,7 +168,7 @@ namespace star
 
 	void GraphicsManager::Update()
 	{
-		/*if (SceneManager::GetInstance()->GetActiveScene())
+		if (SceneManager::GetInstance()->GetActiveScene())
 		{
 			auto projectionObject(SceneManager::GetInstance()->GetActiveScene()->GetActiveCamera());
 			if (projectionObject)
@@ -184,7 +184,7 @@ namespace star
 				mViewInverseMatrix = viewInverse;
 				mViewProjectionMatrix = projection * viewInverse;
 			}
-		}*/
+		}
 	}
 
 	int32 GraphicsManager::GetWindowWidth() const

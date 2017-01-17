@@ -3,7 +3,7 @@
 #include "..\Logger.h"
 #include "..\Context.h"
 #include "..\Helpers\Math.h"
-//#include "..\Graphics\GraphicsManager.h"
+#include "..\Graphics\GraphicsManager.h"
 
 namespace star
 {
@@ -479,7 +479,7 @@ namespace star
 	void TransformComponent::CheckForUpdate(bool force)
 	{
 		if(m_IsChanged == TransformChanged::NONE && !force && !m_Invalidate
-			)//&& !GraphicsManager::GetInstance()->GetHasWindowChanged())
+			&& !GraphicsManager::GetInstance()->GetHasWindowChanged())
 		{
 			return;
 		}

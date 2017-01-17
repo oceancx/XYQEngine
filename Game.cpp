@@ -22,7 +22,7 @@ namespace star
 		m_State = GAME_ACTIVE;
 		std::cout << "Initialize" << std::endl;
 		m_Context.time = TimeManager::GetInstance();
-		ScaleSystem::GetInstance()->SetWorkingResolution(width*2, height*2);
+		ScaleSystem::GetInstance()->SetWorkingResolution(width, height);
 		StarEngine::GetInstance()->Initialize(width, height);
 	}
 	

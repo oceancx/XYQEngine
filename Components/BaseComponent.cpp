@@ -77,11 +77,10 @@ namespace star
 		m_pParentObject = parent;
 	}
 
-	//BaseScene* BaseComponent::GetGameScene() const
-	//{ 
-	//	//return m_pParentObject->GetScene();
-	//	return nullptr;
-	//}
+	BaseScene* BaseComponent::GetGameScene() const
+	{ 
+		return m_pParentObject->GetScene();
+	}
 
 	TransformComponent* BaseComponent::GetTransform() const
 	{
@@ -95,7 +94,8 @@ namespace star
 		float bottom
 		) const
 	{
-		return false;
+		return true;
+		//return false;
 	}
 
 	void BaseComponent::SetEnabled(bool bEnabled)

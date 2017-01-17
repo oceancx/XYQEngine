@@ -31,6 +31,7 @@ namespace star
 	template <typename T>
 	T * BaseScene::GetGestureByName(const tstring & name) const
 	{
-		return m_pGestureManager->GetGesture<T>(name);
+		//return m_pGestureManager->GetGesture<T>(name);
+		return nullptr;
 	}
 }

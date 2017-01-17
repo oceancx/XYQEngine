@@ -4,13 +4,13 @@
 #include "../Objects/BaseCamera.h"
 #include "../Graphics/GraphicsManager.h"
 #include "../Graphics/ScaleSystem.h"
-//#include "../Helpers/Debug/DebugDraw.h"
+#include "../Helpers/Debug/DebugDraw.h"
 #include "../Helpers/Helpers.h" 
 //#include "../Physics/Collision/CollisionManager.h"
 //#include "../Input/Gestures/GestureManager.h"
 //#include "../Graphics/UI/UICursor.h"
 //#include "../Graphics/UI/UIBaseCursor.h"
-#include "SceneManager.h"
+//#include "SceneManager.h"
 #include "../Input/Gestures/BaseGesture.h"
 #include "../Components/CameraComponent.h"
 
@@ -21,12 +21,12 @@ namespace star
 	BaseScene::BaseScene(const tstring & name)
 		: Entity(name)
 	//	, m_pGestureManager(nullptr)
-		, m_pCollisionManager(nullptr)
+	//	, m_pCollisionManager(nullptr)
 		, m_pObjects()
 		, m_pGarbage()
 		, m_pDefaultCamera(nullptr)
 		, m_pActiveCamera(nullptr)
-		, m_pCursor(nullptr)
+	//	, m_pCursor(nullptr)
 		, m_CullingOffsetX(0)
 		, m_CullingOffsetY(0)
 		, m_Initialized(false)
@@ -34,9 +34,9 @@ namespace star
 		, m_SystemCursorIsHidden(false)
 		, m_GestureID(0)
 	{
-	//	m_pTimerManager = std::make_shared<TimerManager>();
+		m_pTimerManager = std::make_shared<TimerManager>();
 		//m_pGestureManager = std::make_shared<GestureManager>();
-		m_pCollisionManager = std::make_shared<CollisionManager>();
+	//	m_pCollisionManager = std::make_shared<CollisionManager>();
 	}
 	
 	BaseScene::~BaseScene()
@@ -47,13 +47,13 @@ namespace star
 		}
 		m_pObjects.clear();
 	//	m_pGestureManager = nullptr;
-		m_pCollisionManager = nullptr;
-		SafeDelete(m_pCursor);
+	//	m_pCollisionManager = nullptr;
+	//	SafeDelete(m_pCursor);
 	}
 
 	void BaseScene::Destroy()
 	{
-		SceneManager::GetInstance()->RemoveScene(GetName());
+		//SceneManager::GetInstance()->RemoveScene(GetName());
 	}
 
 	void BaseScene::BaseInitialize()
@@ -105,19 +105,19 @@ namespace star
 	{	
 		CollectGarbage();
 
-	//	m_pTimerManager->Update(context);
+		m_pTimerManager->Update(context);
 		
 #ifdef DESKTOP
 		if(m_SystemCursorIsHidden && !m_CursorIsHidden)
 		{
-			if(m_pCursor)
+		/*	if(m_pCursor)
 			{
 				m_pCursor->BaseUpdate(context);
 			}
 			else
 			{
 				SceneManager::GetInstance()->UpdateDefaultCursor(context);
-			}
+			}*/
 		}
 #endif
 		
@@ -161,20 +161,20 @@ namespace star
 				pObject->BaseDrawWithCulling(left, right, top, bottom);
 			}
 		}
-	
+		
 		Draw(); 
 
 #ifdef DESKTOP
 		if(m_SystemCursorIsHidden && !m_CursorIsHidden)
 		{
-			if(m_pCursor)
+			/*if(m_pCursor)
 			{
 				m_pCursor->BaseDraw();
 			}
 			else
 			{
 				SceneManager::GetInstance()->DrawDefaultCursor();
-			}
+			}*/
 		}
 #endif
 	}
@@ -277,27 +277,27 @@ Object gets added but beware, duplicate names can become the cause of problems."
 				   + name + _T("'."), STARENGINE_LOG_TAG);
 	}
 
-	void BaseScene::AddGesture(BaseGesture* pGesture)
-	{
-		LOG(LogLevel::Warning, 
-_T("Please use the method AddGesture(BaseGesture* gesture, \
-const tstring & name) to add gestures. \
-using BaseScene::AddGesture(BaseGesture* gesture) is much slower, use with care!"),
-			STARENGINE_LOG_TAG);
-
-	//	m_pGestureManager->AddGesture(pGesture, _T("Gesture_") + string_cast<tstring>(m_GestureID));
-		++m_GestureID;
-	}
-
-	void BaseScene::AddGesture(BaseGesture* pGesture, const tstring & name)
-	{
-	//	m_pGestureManager->AddGesture(pGesture, name);
-	}
-
-	void BaseScene::RemoveGesture(BaseGesture* pGesture)
-	{
-	//	m_pGestureManager->RemoveGesture(pGesture);
-	}
+//	void BaseScene::AddGesture(BaseGesture* pGesture)
+//	{
+//		LOG(LogLevel::Warning, 
+//_T("Please use the method AddGesture(BaseGesture* gesture, \
+//const tstring & name) to add gestures. \
+//using BaseScene::AddGesture(BaseGesture* gesture) is much slower, use with care!"),
+//			STARENGINE_LOG_TAG);
+//
+//	//	m_pGestureManager->AddGesture(pGesture, _T("Gesture_") + string_cast<tstring>(m_GestureID));
+//		++m_GestureID;
+//	}
+//
+//	void BaseScene::AddGesture(BaseGesture* pGesture, const tstring & name)
+//	{
+//	//	m_pGestureManager->AddGesture(pGesture, name);
+//	}
+//
+//	void BaseScene::RemoveGesture(BaseGesture* pGesture)
+//	{
+//	//	m_pGestureManager->RemoveGesture(pGesture);
+//	}
 
 	void BaseScene::RemoveGesture(const tstring & name)
 	{
@@ -457,12 +457,12 @@ using BaseScene::AddGesture(BaseGesture* gesture) is much slower, use with care!
 
 	void BaseScene::SetOSCursorHidden(bool hidden)
 	{
-#ifdef _WIN32
-		ShowCursor(BOOL(!hidden));
-#endif
+//#ifdef _WIN32
+//		ShowCursor(BOOL(!hidden));
+//#endif
 	}
 
-	void BaseScene::SetCursor(UIBaseCursor * pCursor)
+	/*void BaseScene::SetCursor(UIBaseCursor * pCursor)
 	{
 		SafeDelete(m_pCursor);
 		m_pCursor = pCursor;
@@ -474,11 +474,11 @@ using BaseScene::AddGesture(BaseGesture* gesture) is much slower, use with care!
 			+ _T(" For optimialisation reasons it's better to disable the code related to\
 the custom cursor code in your game project."), STARENGINE_LOG_TAG);
 #endif
-	}
+	}*/
 
 	void BaseScene::UnsetCursor(bool showSystemCursor)
 	{
-		SafeDelete(m_pCursor);
+		/*SafeDelete(m_pCursor);
 		if(SceneManager::GetInstance()->IsDefaultCursorDefined())
 		{
 			SetSystemCursorHidden(!showSystemCursor);
@@ -488,12 +488,12 @@ the custom cursor code in your game project."), STARENGINE_LOG_TAG);
 			tstring(_T("BaseScene::UnsetCursor: Cursor isn't supported on mobile device."))
 			+ _T(" For optimialisation reasons it's better to disable the code related to\
 the custom cursor code in your game project."), STARENGINE_LOG_TAG);
-#endif
+#endif*/
 	}
 
 	void BaseScene::SetStateActiveCursor(const tstring & state)
 	{
-		if(m_pCursor)
+		/*if(m_pCursor)
 		{
 			m_pCursor->SetState(state);
 #ifdef MOBILE
@@ -508,12 +508,12 @@ the custom cursor code in your game project."), STARENGINE_LOG_TAG);
 		{
 			SceneManager::GetInstance()->SetDefaultCursorState(state);
 			return;
-		}
+		}*/
 	}
 	
 	void BaseScene::SetActiveCursorLocked(bool locked)
 	{
-		if(m_pCursor)
+		/*if(m_pCursor)
 		{
 			m_pCursor->SetLocked(locked);
 #ifdef MOBILE
@@ -528,35 +528,36 @@ the custom cursor code in your game project."), STARENGINE_LOG_TAG);
 		{
 			SceneManager::GetInstance()->SetDefaultCursorLocked(locked);
 			return;
-		}
+		}*/
 	}
 	
 	bool BaseScene::IsActiveCursorLocked() const
 	{
-		if(m_pCursor)
+		/*if(m_pCursor)
 		{
 			return m_pCursor->IsLocked();
 		}
 		else
 		{
 			return SceneManager::GetInstance()->IsDefaultCursorLocked();
-		}
+		}*/
+		return false;
 	}
 	
-	/*std::shared_ptr<TimerManager> BaseScene::GetTimerManager() const
+	std::shared_ptr<TimerManager> BaseScene::GetTimerManager() const
 	{
 		return m_pTimerManager;
-	}*/
+	}
 
 	/*std::shared_ptr<GestureManager> BaseScene::GetGestureManager() const
 	{
 		return m_pGestureManager;
 	}*/
 
-	std::shared_ptr<CollisionManager> BaseScene::GetCollisionManager() const
+	/*std::shared_ptr<CollisionManager> BaseScene::GetCollisionManager() const
 	{
 		return m_pCollisionManager;
-	}
+	}*/
 
 	void BaseScene::SetCullingOffset(int32 offset)
 	{
@@ -569,6 +570,37 @@ the custom cursor code in your game project."), STARENGINE_LOG_TAG);
 		m_CullingOffsetX = offsetX;
 		m_CullingOffsetY = offsetY;
 	}
+
+	void BaseScene::CreateObjects() 
+	{
+
+	}
+	
+	void BaseScene::AfterInitializedObjects()
+	{
+
+	}
+
+	void BaseScene::OnActivate() 
+	{
+
+	}
+
+	void BaseScene::OnDeactivate() 
+	{
+
+	}
+
+	void BaseScene::Update(const Context& context)
+	{
+
+	}
+
+	void BaseScene::Draw()
+	{
+
+	}
+
 
 	void BaseScene::CollectGarbage()
 	{

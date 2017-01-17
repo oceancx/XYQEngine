@@ -5,7 +5,7 @@
 namespace star
 {
 	struct Context;
-	//class BaseScene;
+	class BaseScene;
 	class TransformComponent;
 	class Object;
 
@@ -77,7 +77,7 @@ namespace star
 		/// </summary>
 		/// <returns>The scene this component belongs to.</returns>
 		/// <seealso cref="BaseScene"/>
-		//BaseScene* GetGameScene() const;
+		BaseScene* GetGameScene() const;
 		/// <summary>
 		/// Gets the transform component.
 		/// Every <see cref="Object"/>< is guaranteed to have a <see cref="TransformComponent"/>

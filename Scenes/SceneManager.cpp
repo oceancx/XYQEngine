@@ -7,12 +7,12 @@
 #include "../Graphics/TextureManager.h"
 //#include "../Graphics/UI/UICursor.h"
 //#include "../Graphics/UI/UIBaseCursor.h"
-//#include "../Graphics/SpriteBatch.h"
+#include "../Graphics/SpriteBatch.h"
 //#include "../Sound/AudioManager.h"
 //#include "../Input/InputManager.h"
-//#include "../Helpers/Debug/DebugDraw.h"
+#include "../Helpers/Debug/DebugDraw.h"
 
-#define INPUT_MANAGER (InputManager::GetInstance())
+//#define INPUT_MANAGER (InputManager::GetInstance())
 
 namespace star 
 {
@@ -29,9 +29,9 @@ namespace star
 		, m_bCustomCursorDefined(false)
 		, m_CurrentSceneName(EMPTY_STRING)
 	//	, m_pDefaultCursor(nullptr)
-#ifdef ANDROID
-		, mApplicationPtr(nullptr)
-#endif
+//#ifdef ANDROID
+//		, mApplicationPtr(nullptr)
+//#endif
 	{
 		m_TimerManager = std::make_shared<TimerManager>();
 		CreateDefaultCursor();
@@ -216,7 +216,7 @@ namespace star
 
 		else if(m_ActiveScene != nullptr)
 		{
-			INPUT_MANAGER->UpdateGestures(context);
+			//INPUT_MANAGER->UpdateGestures(context);
 			return m_ActiveScene->BaseUpdate(context);
 		}
 	}
@@ -231,7 +231,7 @@ namespace star
 		{
 			m_ActiveScene->BaseDraw();
 			SpriteBatch::GetInstance()->Flush();
-		//	DebugDraw::GetInstance()->Flush();
+			DebugDraw::GetInstance()->Flush();
 		}
 	}
 
@@ -245,20 +245,20 @@ namespace star
 	//	m_pDefaultCursor->BaseUpdate(context);
 	}
 
-	void SceneManager::SetDefaultCursor(UIBaseCursor * cursor)
-	{
-	//	SafeDelete(m_pDefaultCursor);
-		SetSystemCursorHiddenByDefault(true);
-		m_pDefaultCursor = cursor;
-		m_pDefaultCursor->BaseInitialize();
-		m_bCustomCursorDefined = true;
-#ifdef MOBILE
-		LOG(LogLevel::Warning,
-			tstring(_T("SceneManager::SetDefaultCursor: Cursor isn't supported on mobile device."))
-			+ _T(" For optimialisation reasons it's better to disable the code related to\
-the custom cursor code in your game project."), STARENGINE_LOG_TAG);
-#endif
-	}
+//	void SceneManager::SetDefaultCursor(UIBaseCursor * cursor)
+//	{
+//	//	SafeDelete(m_pDefaultCursor);
+//		SetSystemCursorHiddenByDefault(true);
+//		m_pDefaultCursor = cursor;
+//		m_pDefaultCursor->BaseInitialize();
+//		m_bCustomCursorDefined = true;
+//#ifdef MOBILE
+//		LOG(LogLevel::Warning,
+//			tstring(_T("SceneManager::SetDefaultCursor: Cursor isn't supported on mobile device."))
+//			+ _T(" For optimialisation reasons it's better to disable the code related to\
+//the custom cursor code in your game project."), STARENGINE_LOG_TAG);
+//#endif
+//	}
 
 	void SceneManager::UnsetDefaultCursor()
 	{
@@ -304,63 +304,63 @@ the custom cursor code in your game project."), STARENGINE_LOG_TAG);
 		return m_TimerManager;
 	}
 
-#ifdef ANDROID
-
-	void SceneManager::processActivityEvent(int32 pCommand, android_app* pApplication)
-	{
-		if(m_ActiveScene == nullptr)
-		{
-			return;
-		}
-		mApplicationPtr = pApplication;
-		switch(pCommand)
-		{
-
-		//First save state - then Stop - then Start - then Resume - then gained focus
-
-		case APP_CMD_STOP:
-			LOG(LogLevel::Info,
-				_T("SceneManager : APP_CMD_STOP"), STARENGINE_LOG_TAG);
-			break;
-
-		case APP_CMD_GAINED_FOCUS:
-			LOG(LogLevel::Info,
-				_T("SceneManager : APP_CMD_GAINED_FOCUS"), STARENGINE_LOG_TAG);
-			break;
-
-
-		case APP_CMD_SAVE_STATE:
-			LOG(LogLevel::Info,
-				_T("SceneManager : APP_CMD_SAVE_STATE"), STARENGINE_LOG_TAG);
-			m_ActiveScene->OnSaveState(&mApplicationPtr->savedState,&mApplicationPtr->savedStateSize);
-			break;
-
-		}
-	}
-
-	int32 SceneManager::processInputEvent(AInputEvent* pEvent)
-	{
-		//[TODO] Cast the input event to motionEvent and pass that type
-		int32_t lEventType = AInputEvent_getType(pEvent);
-		switch (lEventType)
-		{
-		case AINPUT_EVENT_TYPE_MOTION:
-			switch (AInputEvent_getSource(pEvent))
-			{
-			case AINPUT_SOURCE_TOUCHSCREEN:
-				INPUT_MANAGER->OnTouchEvent(pEvent);
-				return (true);
-			default:
-				return (false);
-			}
-			break;
-
-		case AINPUT_EVENT_TYPE_KEY:
-			return INPUT_MANAGER->OnKeyboardEvent(pEvent);
-		default:
-			return false;
-		}
-		return false;
-	}
-#endif
+//#ifdef ANDROID
+//
+//	void SceneManager::processActivityEvent(int32 pCommand, android_app* pApplication)
+//	{
+//		if(m_ActiveScene == nullptr)
+//		{
+//			return;
+//		}
+//		mApplicationPtr = pApplication;
+//		switch(pCommand)
+//		{
+//
+//		//First save state - then Stop - then Start - then Resume - then gained focus
+//
+//		case APP_CMD_STOP:
+//			LOG(LogLevel::Info,
+//				_T("SceneManager : APP_CMD_STOP"), STARENGINE_LOG_TAG);
+//			break;
+//
+//		case APP_CMD_GAINED_FOCUS:
+//			LOG(LogLevel::Info,
+//				_T("SceneManager : APP_CMD_GAINED_FOCUS"), STARENGINE_LOG_TAG);
+//			break;
+//
+//
+//		case APP_CMD_SAVE_STATE:
+//			LOG(LogLevel::Info,
+//				_T("SceneManager : APP_CMD_SAVE_STATE"), STARENGINE_LOG_TAG);
+//			m_ActiveScene->OnSaveState(&mApplicationPtr->savedState,&mApplicationPtr->savedStateSize);
+//			break;
+//
+//		}
+//	}
+//
+//	int32 SceneManager::processInputEvent(AInputEvent* pEvent)
+//	{
+//		//[TODO] Cast the input event to motionEvent and pass that type
+//		int32_t lEventType = AInputEvent_getType(pEvent);
+//		switch (lEventType)
+//		{
+//		case AINPUT_EVENT_TYPE_MOTION:
+//			switch (AInputEvent_getSource(pEvent))
+//			{
+//			case AINPUT_SOURCE_TOUCHSCREEN:
+//				INPUT_MANAGER->OnTouchEvent(pEvent);
+//				return (true);
+//			default:
+//				return (false);
+//			}
+//			break;
+//
+//		case AINPUT_EVENT_TYPE_KEY:
+//			return INPUT_MANAGER->OnKeyboardEvent(pEvent);
+//		default:
+//			return false;
+//		}
+//		return false;
+//	}
+//#endif
 }

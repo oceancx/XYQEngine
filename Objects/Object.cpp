@@ -2,10 +2,14 @@
 #include "../Actions/Action.h"
 #include "../Components/TransformComponent.h"
 //#include "../Graphics/GraphicsManager.h"
-//#include "../Scenes/BaseScene.h"
 //#include "../Physics/Collision/CollisionManager.h"
 #include <algorithm>
 #include <typeinfo>
+
+
+#include "../Helpers/Rect.h"
+#include "../Helpers/Debug/DebugDraw.h"
+
 
 namespace star
 {
@@ -16,7 +20,7 @@ namespace star
 		, m_IsFrozen(false)
 		, m_pParentGameObject(nullptr)
 		//, m_pPathFindComp(nullptr)
-		//, m_pScene(nullptr)
+		, m_pScene(nullptr)
 		, m_pGarbageContainer()
 		, m_pComponents()
 		, m_pChildren()
@@ -34,7 +38,7 @@ namespace star
 		, m_IsFrozen(false)
 		, m_pParentGameObject(nullptr)
 		//, m_pPathFindComp(nullptr)
-		//, m_pScene(nullptr)
+		, m_pScene(nullptr)
 		, m_pGarbageContainer()
 		, m_pComponents()
 		, m_pChildren()
@@ -55,7 +59,7 @@ namespace star
 		, m_IsFrozen(false)
 		, m_pParentGameObject(nullptr)
 		//, m_pPathFindComp(nullptr)
-	//	, m_pScene(nullptr)
+		, m_pScene(nullptr)
 		, m_pGarbageContainer()
 		, m_pComponents()
 		, m_pChildren()
@@ -101,7 +105,7 @@ namespace star
 		}
 		else
 		{
-		//	m_pScene->RemoveObject(this);
+			m_pScene->RemoveObject(this);
 		}
 	}
 	
@@ -138,7 +142,7 @@ namespace star
 		{
 			if(child && !child->m_bIsInitialized)
 			{
-			//	child->SetScene(GetScene());
+				child->SetScene(GetScene());
 				child->BaseInitialize();
 			}
 		}
@@ -296,8 +300,31 @@ namespace star
 		}
 	}
 
+
 	void Object::Draw()
 	{
+
+		for (int k = 0; k<50; k++)
+		{
+			int x = 200 - k, y = 100 - k;
+			int w = 50, h = 50;
+			for (int i = 0; i < 9; i++)
+			{
+				for (int j = 0; j < 9; j++)
+				{
+					const vec2 BL(x, y);
+					const vec2 BR(x + w, y);
+					const vec2 TL(x, y + h);
+					const vec2 TR(x + w, y + h);
+
+					Rect ret(BL, BR, TL, TR);
+					DebugDraw::GetInstance()->DrawRect(ret, Color(i * 40, j * 40, i + j, 0xff));
+					x += 50;
+				}
+				x = 200;
+				y += 50;
+			}
+		}
 	}
 
 	bool Object::BaseCheckCulling(
@@ -322,7 +349,8 @@ namespace star
 		float32 bottom
 		)
 	{
-		return false;
+		return true;
+		//return false;
 	}
 
 	void Object::BaseDraw()
@@ -476,7 +504,7 @@ Child gets added but beware, duplicate names can become the cause of problems.")
 
 		if(m_bIsInitialized && !pChild->m_bIsInitialized)
 		{
-			//pChild->SetScene(GetScene());
+			pChild->SetScene(GetScene());
 			pChild->BaseInitialize();
 		}
 
@@ -791,15 +819,15 @@ to remove could not be found."), STARENGINE_LOG_TAG);
 		return m_bIsInitialized;
 	}
 
-	//void Object::SetScene(BaseScene * pScene)
-	//{
-	//	m_pScene = pScene;
-	//}
+	void Object::SetScene(BaseScene * pScene)
+	{
+		m_pScene = pScene;
+	}
 
-	//void Object::UnsetScene()
-	//{
-	//	m_pScene = nullptr;
-	//}
+	void Object::UnsetScene()
+	{
+		m_pScene = nullptr;
+	}
 
 	void Object::Reset()
 	{
@@ -814,10 +842,10 @@ to remove could not be found."), STARENGINE_LOG_TAG);
 		return GetComponent<TransformComponent>();
 	}
 	
-	/*BaseScene * Object::GetScene() const
+	BaseScene * Object::GetScene() const
 	{
 		return m_pScene;
-	}*/
+	}
 
 	const std::vector<BaseComponent*> & Object::GetComponents() const
 	{

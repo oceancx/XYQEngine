@@ -8,15 +8,12 @@
 #include <map>
 #include <vector>
 
-#ifdef ANDROID
-#include <android_native_app_glue.h>
-#endif
 
 namespace star
 {
 	struct Context;
 	class BaseScene;
-	class UIBaseCursor;
+	//class UIBaseCursor;
 	class Object;
 
 	class SceneManager final : public Singleton<SceneManager>
@@ -39,7 +36,7 @@ namespace star
 		void DrawDefaultCursor();
 		void UpdateDefaultCursor(const Context & context);
 
-		void SetDefaultCursor(UIBaseCursor * cursor);
+	//	void SetDefaultCursor(UIBaseCursor * cursor);
 		void UnsetDefaultCursor();
 
 		void SetDefaultCursorState(const tstring & state);
@@ -51,13 +48,13 @@ namespace star
 
 		std::shared_ptr<TimerManager> GetTimerManager() const;
 
-#ifdef ANDROID
-		void processActivityEvent(int32 pCommand, android_app* pApplication);
-		int32 processInputEvent(AInputEvent* pEvent);
-
-	private:
-		android_app* mApplicationPtr;
-#endif
+//#ifdef ANDROID
+//		void processActivityEvent(int32 pCommand, android_app* pApplication);
+//		int32 processInputEvent(AInputEvent* pEvent);
+//
+//	private:
+//		android_app* mApplicationPtr;
+//#endif
 	private:
 		BaseScene	*m_ActiveScene, 
 					*m_NewActiveScene;

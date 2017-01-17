@@ -93,7 +93,7 @@ namespace star
 	void SpriteBatch::Begin()
 	{
 		//Create Vertexbuffer
-//		SortSprites(m_SpriteSortingMode);
+		SortSprites(m_SpriteSortingMode);
 		CreateSpriteQuads();
 		
 		m_ShaderPtr->Bind();
@@ -102,7 +102,7 @@ namespace star
 		int tbsize = m_UvCoordBuffer.size() * sizeof(GLfloat);
 		int cbsize = m_ColorBuffer.size() * sizeof(GLfloat);
 		int hbsize = m_IsHUDBuffer.size() * sizeof(GLfloat);
-
+		if (vbsize == 0)return;
 		glBufferData(GL_ARRAY_BUFFER, (vbsize + tbsize + cbsize + hbsize), NULL, GL_STATIC_DRAW);
 		glBufferSubData(GL_ARRAY_BUFFER, 0,
 			vbsize,

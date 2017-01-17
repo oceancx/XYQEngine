@@ -4,7 +4,7 @@
 #include "Graphics/SpriteBatch.h"
 //#include "Graphics/FontManager.h"
 #include "Graphics/ScaleSystem.h"
-//#include "Scenes/SceneManager.h"
+#include "Scenes/SceneManager.h"
 //#include "Input/InputManager.h"
 #include "Context.h"
 #include "Logger.h"
@@ -15,6 +15,9 @@
 #include "Helpers/Debug/DebugDraw.h"
 #include "Helpers\Rect.h"
 
+#include "Components\CameraComponent.h"
+#include "Objects\Object.h"
+#include "Scenes\BaseScene.h"
 namespace star
 {
 	StarEngine * StarEngine::m_pEngine = nullptr;
@@ -31,7 +34,8 @@ namespace star
 		}
 		return m_pEngine;
 	}
-
+	Object* obj;
+	BaseScene* scene;
 	void StarEngine::Initialize(int32 window_width, int32 window_height)
 	{
 		std::random_device seeder;
@@ -45,77 +49,70 @@ namespace star
 		GraphicsManager::GetInstance()->SetWindowDimensions(window_width, window_height);
 
 	//	AudioManager::GetInstance()->Start();
-	//	GraphicsManager::GetInstance()->CalculateViewPort();
+		GraphicsManager::GetInstance()->CalculateViewPort();
 		SpriteBatch::GetInstance()->Initialize();
 		DebugDraw::GetInstance()->Initialize();
+		
+		obj = new Object("obj");
+		obj->AddComponent(new CameraComponent());
+		obj->BaseInitialize();
+		//auto camera= obj.GetComponent<CameraComponent>(true);
+		
+		scene = new BaseScene("JYC");
+		scene->AddObject(obj);
+	//	scene->BaseInitialize();
+
+		SceneManager::GetInstance()->AddScene(scene);
+		SceneManager::GetInstance()->SetActiveScene("JYC");
+
 	}
 
 	void StarEngine::Update(const Context & context)
 	{
 		m_FPS.Update(context);
-	//	SceneManager::GetInstance()->Update(context);
-	//	GraphicsManager::GetInstance()->Update();
+		SceneManager::GetInstance()->Update(context);
+		GraphicsManager::GetInstance()->Update();
 	//	InputManager::GetInstance()->EndUpdate();
 		Logger::GetInstance()->Update(context);
-
+		//'obj.BaseUpdate(context);
 		m_bInitialized = true;
 
+		//scene->BaseUpdate(context);
 		std::cout << "Engine Update" << std::endl;
 	}
 
 	void StarEngine::Draw()
 	{
-	//	GraphicsManager::GetInstance()->StartDraw();
+		GraphicsManager::GetInstance()->StartDraw();
 		if(m_bInitialized)
 		{
-	//		SceneManager::GetInstance()->Draw();
+			SceneManager::GetInstance()->Draw();
 		}
-	//	GraphicsManager::GetInstance()->StopDraw();
+		GraphicsManager::GetInstance()->StopDraw();
 	/*	Color c = Color(0xff, 0, 0, 1);
 		DebugDraw::GetInstance()->DrawLine(vec2(0.0f,0.0f),vec2(20.0f,20.0f), c);
 		DebugDraw::GetInstance()->DrawPoint(vec2(50, 50), 30, Color(0xff, 0, 0, 1));
 */
-		for(int k=0;k<50;k++)
-		{
-			int x = 200-k, y = 100-k;
-			int w = 50, h = 50;
-			for (int i = 0; i < 9; i++)
-			{
-				for (int j = 0; j < 9; j++)
-				{
-					const vec2 BL(x, y);
-					const vec2 BR(x + w, y);
-					const vec2 TL(x, y + h);
-					const vec2 TR(x + w, y + h);
+		//scene->BaseDraw();
 
-					Rect ret(BL, BR, TL, TR);
-					DebugDraw::GetInstance()->DrawRect(ret, Color(i*40,j*40,i+j,0xff));
-					x += 50;
-				}
-				x = 200;
-				y += 50;
-			}
-		}
-		
-		DebugDraw::GetInstance()->Flush();
 		std::cout << "Engine Draw" << std::endl;
 	}
 
 	void StarEngine::End()
 	{
 	//	FontManager::GetInstance()->EraseFonts();
-	//	DebugDraw::DeleteSingleton();
-	//	ScaleSystem::DeleteSingleton();
+		DebugDraw::DeleteSingleton();
+		ScaleSystem::DeleteSingleton();
 	//	FontManager::DeleteSingleton();
 	//	SpriteAnimationManager::DeleteSingleton();
 	//	TextureManager::DeleteSingleton();
-	//	GraphicsManager::DeleteSingleton();
-	//	SpriteBatch::DeleteSingleton();
+		GraphicsManager::DeleteSingleton();
+		SpriteBatch::DeleteSingleton();
 	//	AudioManager::DeleteSingleton();
 	//	PathFindManager::DeleteSingleton();
-	//	SceneManager::DeleteSingleton();
-	//	Logger::DeleteSingleton();
-	//	TimeManager::DeleteSingleton();
+		SceneManager::DeleteSingleton();
+		Logger::DeleteSingleton();
+		TimeManager::DeleteSingleton();
 	}
 	
 	void StarEngine::SetActive()

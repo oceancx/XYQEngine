@@ -1,7 +1,5 @@
 #include "BaseCamera.h"
 #include "../Logger.h"
-#include "../Input/InputManager.h"
-#include "../Graphics/GraphicsManager.h"
 #include "../Components/CameraComponent.h"
 
 namespace star
