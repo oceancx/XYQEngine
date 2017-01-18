@@ -47,8 +47,8 @@
 //
 //	glClearColor(0.7f, 0.3f, 0.3f, 1.0f);	
 //
-//	star::Texture2D texture(_T("E:\\mhxy_code_repo\\Engine\\assets\\images\\wall.jpg"));
-//	star::Texture2D texture2(_T("E:\\mhxy_code_repo\\Engine\\assets\\images\\qinyuan.jpg"));
+//	star::Texture2D texture(_TT("E:\\mhxy_code_repo\\Engine\\assets\\images\\wall.jpg"));
+//	star::Texture2D texture2(_TT("E:\\mhxy_code_repo\\Engine\\assets\\images\\qinyuan.jpg"));
 //	printf("w:%d h:%d\n", texture2.GetWidth(), texture2.GetHeight());
 //	float ratio = texture2.GetWidth() * 1.0f / texture2.GetHeight();
 //	float swRatio = screenWidth* 1.0f / screenHeight;
@@ -77,8 +77,8 @@
 //		1, 2, 3 // Second Triangle
 //	};
 //
-//	tstring vShader(_T("E:\\mhxy_code_repo\\Engine\\assets\\shaders\\shader_7_6.vert")),
-//		fShader(_T("E:\\mhxy_code_repo\\Engine\\assets\\shaders\\shader_7_6.frag"));
+//	tstring vShader(_TT("E:\\mhxy_code_repo\\Engine\\assets\\shaders\\shader_7_6.vert")),
+//		fShader(_TT("E:\\mhxy_code_repo\\Engine\\assets\\shaders\\shader_7_6.frag"));
 //	star::Shader shader(vShader, fShader);
 //
 //	

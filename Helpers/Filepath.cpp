@@ -110,14 +110,14 @@ const tstring FilePath::ANDR_EXTERNAL_PATH =
 	tstring FilePath::GetName() const
 	{
 		tstring name(m_File);
-		auto index(name.find_last_of(_T(".")));
+		auto index(name.find_last_of(_TT(".")));
 		return name.substr(0, index);
 	}
 
 	tstring FilePath::GetExtension() const
 	{
 		tstring extension(m_File);
-		auto index(extension.find_last_of(_T(".")));
+		auto index(extension.find_last_of(_TT(".")));
 		return extension.substr(index, extension.size() - index);
 	}
 
@@ -230,11 +230,11 @@ const tstring FilePath::ANDR_EXTERNAL_PATH =
 			else
 			{
 				tstringstream message;
-				message << _T("FilePath::GetActualPathName: ")
-					<< _T("The path \"") 
+				message << _TT("FilePath::GetActualPathName: ")
+					<< _TT("The path \"") 
 					<< pathIn 
-					<< _T("\" points to an unexisting file! ")
-					<< _T("The file might be created or this can \
+					<< _TT("\" points to an unexisting file! ")
+					<< _TT("The file might be created or this can \
 be unexpected behaviour. Please verify!");
 				LOG(LogLevel::Info,
 					message.str(), STARENGINE_LOG_TAG);
@@ -273,13 +273,13 @@ be unexpected behaviour. Please verify!");
 			{
 				shellPath = shellPath.substr(seperatorIndex + 1, shellPath.size() - (seperatorIndex + 1));
 			}
-			auto extensionIndex = m_File.find_last_of(_T("."));
+			auto extensionIndex = m_File.find_last_of(_TT("."));
 			auto fileWithoutExtension(m_File);
 			if(extensionIndex != tstring::npos)
 			{
 				fileWithoutExtension = m_File.substr(0, extensionIndex);
 			}
-			auto shellExtensionIndex = shellPath.find_last_of(_T("."));
+			auto shellExtensionIndex = shellPath.find_last_of(_TT("."));
 			auto shellNameWithoutExtension(shellPath);
 			if(shellExtensionIndex != tstring::npos)
 			{
@@ -289,11 +289,11 @@ be unexpected behaviour. Please verify!");
 			{
 				tstringstream buffer; 
 				buffer << 
-					_T("The path \" ") << 
+					_TT("The path \" ") << 
 					full_path << 
-					_T(" \" is not capital correct. Please change the name in code to \" ") << 
+					_TT(" \" is not capital correct. Please change the name in code to \" ") << 
 					shellPath << 
-					_T(" \" or your game will crash on Android and Linux");
+					_TT(" \" or your game will crash on Android and Linux");
 				DEBUG_LOG(LogLevel::Error, buffer.str(), STARENGINE_LOG_TAG);
 			}
 		}

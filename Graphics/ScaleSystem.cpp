@@ -51,7 +51,7 @@ namespace star
 			if(m_WorkingRes == vec2())
 			{
 				ASSERT_LOG(m_WorkingRes != vec2(),
-					_T("ScaleSystem::CalculateScale(): \
+					_TT("ScaleSystem::CalculateScale(): \
 						Working resolution is 0! Please set correct working Resolution in the Game.cpp file!"),STARENGINE_LOG_TAG);				
 				return;
 			}

@@ -39,7 +39,7 @@ namespace star
 		if(m_bInitialized)
 		{
 			DEBUG_LOG(LogLevel::Warning,
-				_T("Component Already Initialized!"), STARENGINE_LOG_TAG);
+				_TT("Component Already Initialized!"), STARENGINE_LOG_TAG);
 			return;
 		}
 		m_bInitialized = true;

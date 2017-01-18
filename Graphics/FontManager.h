@@ -6,19 +6,10 @@
 #include "../Helpers/Helpers.h"
 #include "../Helpers/Singleton.h"
 #include "Font.h"
-#include "../Components/TransformComponent.h"
-#include "../Graphics/Color.h"
-#include "../Graphics/Shader.h"
+//#include "../Components/TransformComponent.h"
+//#include "../Graphics/Color.h"
+//#include "../Graphics/Shader.h"
 
-#include "ft2build.h"
-#include "freetype/freetype.h"
-
-#ifdef DESKTOP
-#include <glew.h>
-#else
-#include <GLES/gl.h>
-#include <GLES/glext.h>
-#endif
 
 namespace star
 {

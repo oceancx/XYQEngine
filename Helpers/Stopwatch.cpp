@@ -54,7 +54,7 @@ namespace star
 	{
 		if(m_bStarted)
 		{
-			LOG(LogLevel::Warning, _T("Stopwatch::Start(): \
+			LOG(LogLevel::Warning, _TT("Stopwatch::Start(): \
 Stopwatch already running! Overwriting start time..."), STARENGINE_LOG_TAG);
 		}
 		m_TimePairVec.push_back(

@@ -4,7 +4,7 @@
 #include "Graphics\GraphicsManager.h"
 namespace star
 {
-	Game::Game(std::string title)
+	Game::Game(tstring title)
 	{
 		m_Title=title;
 		StarEngine::GetInstance()->SetGameTitle(m_Title);

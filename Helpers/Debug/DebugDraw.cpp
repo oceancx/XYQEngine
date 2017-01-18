@@ -46,8 +46,8 @@ namespace star
 	void DebugDraw::Initialize()
 	{
 		
-		tstring vShader(_T("E:\\mhxy_code_repo\\Engine\\assets\\shaders\\DebugDraw.vert")),
-			fShader(_T("E:\\mhxy_code_repo\\Engine\\assets\\shaders\\DebugDraw.frag"));
+		tstring vShader(_TT("E:\\mhxy_code_repo\\Engine\\assets\\shaders\\DebugDraw.vert")),
+			fShader(_TT("E:\\mhxy_code_repo\\Engine\\assets\\shaders\\DebugDraw.frag"));
 		// create program
 		m_Shader = new Shader(vShader, fShader);
 
@@ -133,7 +133,7 @@ namespace star
 		//[TODO] Implement this through the font manager, 
 		//draw text on screen on given pos.
 		LOG(LogLevel::Warning, 
-			_T("DebugDraw::DrawString is not yet implemented!"),
+			_TT("DebugDraw::DrawString is not yet implemented!"),
 			STARENGINE_LOG_TAG);
 	}
 
@@ -194,7 +194,7 @@ namespace star
 		uint32 vertexCount)
 	{
 		ASSERT_LOG(vertexCount <= MAX_VERTICES, 
-			_T("DebugDraw::CreatePolygonVertices: \
+			_TT("DebugDraw::CreatePolygonVertices: \
 more vertices than allocated space"),
 			STARENGINE_LOG_TAG);
 
@@ -212,9 +212,9 @@ more vertices than allocated space"),
 		// [TODO] Fix this bug in eclipse: 
 		// (undefined reference to 'star::DebugDraw::MAX_VERTICES')
 		//ASSERT_LOG(m_CircleSegments < MAX_VERTICES, 
-		//	_T("DebugDraw::CreateCircleVertices: You can only draw "
+		//	_TT("DebugDraw::CreateCircleVertices: You can only draw "
 		//	+ string_cast<tstring>(MAX_VERTICES) 
-		//	+ _T(" vertices per primitive")).c_str(), STARENGINE_LOG_TAG);
+		//	+ _TT(" vertices per primitive")).c_str(), STARENGINE_LOG_TAG);
 		const float32 increment = float32(2.0 * PI / segments);
 		float32 theta = 0.0f;
 

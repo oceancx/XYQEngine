@@ -2,16 +2,14 @@
 #include "../Helpers/FilePath.h"
 #include "../Logger.h"
 #include "../Context.h"
-#include "../Graphics/GraphicsManager.h"
-#include "../Scenes/SceneManager.h"
-#include "../Scenes/BaseScene.h"
-#include "../Components/CameraComponent.h"
-#include "../Objects/FreeCamera.h"
+//#include "../Graphics/GraphicsManager.h"
+//#include "../Scenes/SceneManager.h"
+//#include "../Scenes/BaseScene.h"
+//#include "../Components/CameraComponent.h"
+//#include "../Objects/FreeCamera.h"
 #include "../Helpers/Math.h"
 
-#ifdef ANDROID
-#include "../StarEngine.h"
-#endif
+
 
 namespace star 
 {
@@ -22,12 +20,12 @@ namespace star
 		if(error)
 		{
 			LOG(star::LogLevel::Error,
-				_T("Font Manager : Could not initialize FreeType library"),
+				_TT("Font Manager : Could not initialize FreeType library"),
 				STARENGINE_LOG_TAG);
 		}
 
 		LOG(star::LogLevel::Info,
-			_T("Font Manager : Initialized FreeType library"),
+			_TT("Font Manager : Initialized FreeType library"),
 			STARENGINE_LOG_TAG);
 	}
 
@@ -56,7 +54,7 @@ namespace star
 		if(mFontList.find(name) != mFontList.end())
 		{
 			LOG(star::LogLevel::Info,
-				_T("Font Manager : Font ") + name + _T(" already exist, using that"),
+				_TT("Font Manager : Font ") + name + _TT(" already exist, using that"),
 				STARENGINE_LOG_TAG);
 			return true;
 		}
@@ -67,7 +65,6 @@ namespace star
 		if(tempFont->Init(filepath.GetFullPath(), size, mLibrary))
 		{
 			mFontList[name] = tempFont;
-
 		}
 		else
 		{
@@ -92,7 +89,7 @@ namespace star
 	{
 		ASSERT_LOG(
 			mFontList.find(name) != mFontList.end(),
-			_T("No such font"), STARENGINE_LOG_TAG
+			_TT("No such font"), STARENGINE_LOG_TAG
 			);
 		return mFontList[name];
 	}

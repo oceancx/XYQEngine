@@ -58,17 +58,17 @@ namespace star
 		tstringstream strstr;
 		if(hours < 10)
 		{
-			strstr << _T("0");
+			strstr << _TT("0");
 		}
-		strstr << hours << _T(":");
+		strstr << hours << _TT(":");
 		if(minutes < 10)
 		{
-			strstr << _T("0");
+			strstr << _TT("0");
 		}
-		strstr << minutes << _T(":");
+		strstr << minutes << _TT(":");
 		if(seconds < 10)
 		{
-			strstr << _T("0");
+			strstr << _TT("0");
 		}
 		strstr << seconds;
 

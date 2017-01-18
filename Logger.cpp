@@ -30,7 +30,7 @@ namespace star
 #else
 		,m_LogStream()
 #endif
-		,m_TimeStamp(_T("00:00:00"))
+		,m_TimeStamp(_TT("00:00:00"))
 	{
 
 	}
@@ -84,16 +84,16 @@ namespace star
 		switch(level)
 		{
 		case LogLevel::Info :
-			levelName = _T("INFO");
+			levelName = _TT("INFO");
 			break;
 		case LogLevel::Warning:
-			levelName = _T("WARNING");
+			levelName = _TT("WARNING");
 			break;
 		case LogLevel::Error:
-			levelName = _T("ERROR");
+			levelName = _TT("ERROR");
 			break;
 		case LogLevel::Debug:
-			levelName = _T("DEBUG");
+			levelName = _TT("DEBUG");
 			break;
 		}
 
@@ -121,16 +121,16 @@ namespace star
 		switch(level)
 		{
 		case LogLevel::Info :
-			levelName = _T("INFO-D");
+			levelName = _TT("INFO-D");
 			break;
 		case LogLevel::Warning:
-			levelName = _T("WARNING-D");
+			levelName = _TT("WARNING-D");
 			break;
 		case LogLevel::Error:
-			levelName = _T("ERROR-D");
+			levelName = _TT("ERROR-D");
 			break;
 		case LogLevel::Debug:
-			levelName = _T("DEBUG");
+			levelName = _TT("DEBUG");
 			break;
 		}
 
@@ -180,22 +180,22 @@ namespace star
 			switch(err) 
 			{
 				case GL_INVALID_OPERATION:      
-					error = _T("INVALID_OPERATION");     
+					error = _TT("INVALID_OPERATION");     
 					break;
 				case GL_INVALID_ENUM:
-					error = _T("INVALID_ENUM");
+					error = _TT("INVALID_ENUM");
 					break;
 				case GL_INVALID_VALUE:
-					error = _T("INVALID_VALUE");
+					error = _TT("INVALID_VALUE");
 					break;
 				case GL_OUT_OF_MEMORY:  
-					error = _T("OUT_OF_MEMORY"); 
+					error = _TT("OUT_OF_MEMORY"); 
 					break;
 				case GL_INVALID_FRAMEBUFFER_OPERATION:
-					error = _T("INVALID_FRAMEBUFFER_OPERATION");
+					error = _TT("INVALID_FRAMEBUFFER_OPERATION");
 					break;
 				default:
-					error =_T("UNKNOWN_ERROR");
+					error =_TT("UNKNOWN_ERROR");
 					break;
 			}
 			tstringstream buffer;
@@ -206,7 +206,7 @@ namespace star
 			LogMessage(buffer.str());
 #endif
 			Log(LogLevel::Error,
-				buffer.str(), _T("OPENGL"), breakInfo);
+				buffer.str(), _TT("OPENGL"), breakInfo);
 			err = glGetError();
 		}
 #endif
@@ -216,7 +216,7 @@ namespace star
 	{
 #ifndef NO_LOG_FILE
 		//SceneManager::GetInstance()->GetTimerManager()->SetTargetTimeTimer(
-	//		_T("STAR_LogSaveFileTimer"), seconds, true, false);
+	//		_TT("STAR_LogSaveFileTimer"), seconds, true, false);
 	//	SaveLogFile();
 #endif
 	}
@@ -232,16 +232,16 @@ namespace star
 #if LOGGER_MIN_LEVEL > 0
 	#ifdef DESKTOP
 		tstringstream messageBuffer;
-		messageBuffer << _T("[") << tag
-					  << _T("] ") << _T("[")
-					  << levelName <<  _T("] ")
+		messageBuffer << _TT("[") << tag
+					  << _TT("] ") << _TT("[")
+					  << levelName <<  _TT("] ")
 					  << message;
 		if(breakInfo.line != -1 && tag != STARENGINE_LOG_TAG)
 		{
-			messageBuffer << _T(" (L")
+			messageBuffer << _TT(" (L")
 						  << string_cast<tstring>(breakInfo.line)
-						  << _T("@") << breakInfo.file
-						  << _T(")");
+						  << _TT("@") << breakInfo.file
+						  << _TT(")");
 		}
 		messageBuffer << std::endl;
 		tstring combinedMessage = messageBuffer.str();
@@ -345,9 +345,9 @@ namespace star
 		}
 		#ifndef NO_LOG_FILE
 		tstringstream messageBuffer;
-		messageBuffer << _T("[") << tag
-					  << _T("] ") << _T("[")
-					  << levelName <<  _T("] ")
+		messageBuffer << _TT("[") << tag
+					  << _TT("] ") << _TT("[")
+					  << levelName <<  _TT("] ")
 					  << message << std::endl;
 		LogMessage(messageBuffer.str());
 		#endif
@@ -358,47 +358,47 @@ namespace star
 	void Logger::InitializeLogStream()
 	{
 	//	SceneManager::GetInstance()->GetTimerManager()->CreateTimer(
-		//	_T("STAR_LogSaveFileTimer"), 60.0f,
+		//	_TT("STAR_LogSaveFileTimer"), 60.0f,
 		//	false, true, [&] () { SaveLogFile(); }, false);
 
-		m_LogStream << _T("++++++++++++++++++++++++++++++++++++++\
+		m_LogStream << _TT("++++++++++++++++++++++++++++++++++++++\
 ++++++++++++++++++++++++++++++++++++++++++++++++++") << std::endl << std::endl;
-		m_LogStream << _T("	Star Engine version ")
+		m_LogStream << _TT("	Star Engine version ")
 					<< STARENGINE_VERSION << std::endl
 					<< std::endl;
-		m_LogStream << _T("	Game is compiled in");
+		m_LogStream << _TT("	Game is compiled in");
 
 	#ifdef _DEBUG
-		m_LogStream << _T(" debug mode.") << std::endl;
+		m_LogStream << _TT(" debug mode.") << std::endl;
 	#else
-		m_LogStream << _T(" release mode.") << std::endl;
+		m_LogStream << _TT(" release mode.") << std::endl;
 #endif
 	#if LOGGER_MIN_LEVEL < 2
-		m_LogStream << _T("	All Star::Logging levels are enabled.") << std::endl;
+		m_LogStream << _TT("	All Star::Logging levels are enabled.") << std::endl;
 	#elif LOGGER_MIN_LEVEL < 3
-		m_LogStream << _T("	Star::Logging level info is disabled.") << std::endl;
+		m_LogStream << _TT("	Star::Logging level info is disabled.") << std::endl;
 	#elif LOGGER_MIN_LEVEL < 4
-		m_LogStream << _T("	Star::Logging levels info and warning is disabled.") << std::endl;
+		m_LogStream << _TT("	Star::Logging levels info and warning is disabled.") << std::endl;
 	#elif LOGGER_MIN_LEVEL < 5
-		m_LogStream << _T("	Star::Logging levels info, warning and error is disabled.") << std::endl;
+		m_LogStream << _TT("	Star::Logging levels info, warning and error is disabled.") << std::endl;
 	#elif LOGGER_MIN_LEVEL < 6
-		m_LogStream << _T("	All Star::Logging levels are disabled.") << std::endl;
+		m_LogStream << _TT("	All Star::Logging levels are disabled.") << std::endl;
 	#endif
 		m_LogStream << std::endl;
-		m_LogStream << _T("	The Star Engine is licensed under the MIT License.") << std::endl;
-		m_LogStream << _T("	For more information, go to: \
+		m_LogStream << _TT("	The Star Engine is licensed under the MIT License.") << std::endl;
+		m_LogStream << _TT("	For more information, go to: \
 http://www.starengine.eu/") << std::endl << std::endl;
-		m_LogStream << _T("++++++++++++++++++++++++++++++++++\
+		m_LogStream << _TT("++++++++++++++++++++++++++++++++++\
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++") << std::endl << std::endl;
 	}
 	
 	void Logger::LogMessage(const tstring& message)
 	{
-		m_LogStream << _T("[") << m_TimeStamp << _T("] ") << message;
+		m_LogStream << _TT("[") << m_TimeStamp << _TT("] ") << message;
 	}
 
 	void Logger::SaveLogFile()
 	{
-		//WriteTextFile(_T("StarLog.txt"), m_LogStream.str(), DirectoryMode::internal);
+		//WriteTextFile(_TT("StarLog.txt"), m_LogStream.str(), DirectoryMode::internal);
 	}
 }

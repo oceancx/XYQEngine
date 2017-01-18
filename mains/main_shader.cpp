@@ -56,8 +56,8 @@
 //	};
 //
 //	
-//	tstring vShader(_T("E:\\mhxy_code_repo\\Engine\\assets\\shaders\\simple_shader.ver")),
-//		fShader(_T("E:\\mhxy_code_repo\\Engine\\assets\\shaders\\shader_6_4.frag"));
+//	tstring vShader(_TT("E:\\mhxy_code_repo\\Engine\\assets\\shaders\\simple_shader.ver")),
+//		fShader(_TT("E:\\mhxy_code_repo\\Engine\\assets\\shaders\\shader_6_4.frag"));
 //	star::Shader shader(vShader, fShader);
 //
 //

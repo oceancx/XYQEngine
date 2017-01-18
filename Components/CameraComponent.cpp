@@ -153,7 +153,7 @@ namespace star
 		{
 			LOG( 
 				LogLevel::Error,
-				_T("Can't set camera active, add this camera to a scene first!"),
+				_TT("Can't set camera active, add this camera to a scene first!"),
 				STARENGINE_LOG_TAG
 				);
 		}

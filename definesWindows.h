@@ -9,13 +9,13 @@
 		struct LocalAssert { \
 				int32 mLine; \
 				LocalAssert(int32 line=__LINE__) : mLine(line) {} \
-				LocalAssert(bool isOK, const tstring & message = _T("")) { \
+				LocalAssert(bool isOK, const tstring & message = _TT("")) { \
 				if ( !isOK ) { \
 				tstringstream buffer; \
-				buffer  << _T("ERROR!! Assert failed on line ") \
-						<< LocalAssert().mLine << _T(" in file \""); \
-				buffer  << __FILE__ << _T("\", message: \"") \
-						<< message << _T("\"\n"); \
+				buffer  << _TT("ERROR!! Assert failed on line ") \
+						<< LocalAssert().mLine << _TT(" in file \""); \
+				buffer  << __FILE__ << _TT("\", message: \"") \
+						<< message << _TT("\"\n"); \
 				tprintf(buffer.str().c_str()); \
 				__asm { int 3 } \
 				} \
@@ -25,6 +25,6 @@
 	#define ASSERT \
 		if ( true ) {} else \
 		struct NoAssert { \
-				NoAssert(bool isOK, const tstring & message = _T("")) {} \
+				NoAssert(bool isOK, const tstring & message = _TT("")) {} \
 		} myAsserter = NoAssert
 #endif

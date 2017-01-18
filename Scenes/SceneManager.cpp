@@ -39,7 +39,7 @@ namespace star
 
 	void SceneManager::CreateDefaultCursor()
 	{
-	//	m_pDefaultCursor = new UIBaseCursor(_T("DefaultCursor"));
+	//	m_pDefaultCursor = new UIBaseCursor(_TT("DefaultCursor"));
 	//	m_pDefaultCursor->BaseInitialize();
 		m_bCustomCursorDefined = false;
 	}
@@ -80,7 +80,7 @@ namespace star
 		if(m_CurrentSceneName == name)
 		{
 			LOG(LogLevel::Warning,
-				_T("SceneManager::SetActiveScene: Scene is already active!"),
+				_TT("SceneManager::SetActiveScene: Scene is already active!"),
 				STARENGINE_LOG_TAG);
 			return true;
 		}
@@ -96,7 +96,7 @@ namespace star
 			m_bInitialized = m_NewActiveScene->IsInitialized();
 			m_CurrentSceneName = name;
 			LOG(LogLevel::Info,
-				_T("Scene ") + name + _T(" is now Active"),
+				_TT("Scene ") + name + _TT(" is now Active"),
 				STARENGINE_LOG_TAG);
 			return true;
 		}
@@ -113,7 +113,7 @@ namespace star
 		if(!scene)
 		{
 			LOG(LogLevel::Error,
-				_T("SceneManager::AddScene: Trying to add a nullptr as a scene."));
+				_TT("SceneManager::AddScene: Trying to add a nullptr as a scene."));
 			return false;
 		}
 		if (m_SceneList.find(scene->GetName()) == m_SceneList.end())
@@ -122,13 +122,13 @@ namespace star
 			scene->BaseInitialize();
 			scene->SetSystemCursorHidden(m_bCursorHiddenByDefault);
 			LOG(LogLevel::Info,
-				_T("SceneManager::AddScene: Adding scene"),
+				_TT("SceneManager::AddScene: Adding scene"),
 				STARENGINE_LOG_TAG);
 		}
 		else
 		{
 			LOG(LogLevel::Info,
-				_T("SceneManager::AddScene: Scene Already Exists"),
+				_TT("SceneManager::AddScene: Scene Already Exists"),
 				STARENGINE_LOG_TAG);
 			return false;
 		}
@@ -140,7 +140,7 @@ namespace star
 		if(!scene)
 		{
 			LOG(LogLevel::Error,
-				_T("SceneManager::AddScene: Trying to add a nullptr as a scene."));
+				_TT("SceneManager::AddScene: Trying to add a nullptr as a scene."));
 			return false;
 		}
 		scene->SetName(name);
@@ -169,7 +169,7 @@ namespace star
 			return false;
 		}
 		LOG(LogLevel::Info,
-			_T("Initializing Scene :") + m_CurrentSceneName, STARENGINE_LOG_TAG);
+			_TT("Initializing Scene :") + m_CurrentSceneName, STARENGINE_LOG_TAG);
 		m_NewActiveScene->BaseInitialize();
 		m_bInitialized = m_NewActiveScene->IsInitialized();
 		return m_bInitialized;
@@ -254,8 +254,8 @@ namespace star
 //		m_bCustomCursorDefined = true;
 //#ifdef MOBILE
 //		LOG(LogLevel::Warning,
-//			tstring(_T("SceneManager::SetDefaultCursor: Cursor isn't supported on mobile device."))
-//			+ _T(" For optimialisation reasons it's better to disable the code related to\
+//			tstring(_TT("SceneManager::SetDefaultCursor: Cursor isn't supported on mobile device."))
+//			+ _TT(" For optimialisation reasons it's better to disable the code related to\
 //the custom cursor code in your game project."), STARENGINE_LOG_TAG);
 //#endif
 //	}
@@ -266,8 +266,8 @@ namespace star
 		SetSystemCursorHiddenByDefault(false);
 #ifdef MOBILE
 		LOG(LogLevel::Warning,
-			tstring(_T("SceneManager::UnsetDefaultCursor: Cursor isn't supported on mobile device."))
-			+ _T(" For optimialisation reasons it's better to disable the code related to\
+			tstring(_TT("SceneManager::UnsetDefaultCursor: Cursor isn't supported on mobile device."))
+			+ _TT(" For optimialisation reasons it's better to disable the code related to\
 the custom cursor code in your game project."), STARENGINE_LOG_TAG);
 #endif
 		CreateDefaultCursor();
@@ -320,18 +320,18 @@ the custom cursor code in your game project."), STARENGINE_LOG_TAG);
 //
 //		case APP_CMD_STOP:
 //			LOG(LogLevel::Info,
-//				_T("SceneManager : APP_CMD_STOP"), STARENGINE_LOG_TAG);
+//				_TT("SceneManager : APP_CMD_STOP"), STARENGINE_LOG_TAG);
 //			break;
 //
 //		case APP_CMD_GAINED_FOCUS:
 //			LOG(LogLevel::Info,
-//				_T("SceneManager : APP_CMD_GAINED_FOCUS"), STARENGINE_LOG_TAG);
+//				_TT("SceneManager : APP_CMD_GAINED_FOCUS"), STARENGINE_LOG_TAG);
 //			break;
 //
 //
 //		case APP_CMD_SAVE_STATE:
 //			LOG(LogLevel::Info,
-//				_T("SceneManager : APP_CMD_SAVE_STATE"), STARENGINE_LOG_TAG);
+//				_TT("SceneManager : APP_CMD_SAVE_STATE"), STARENGINE_LOG_TAG);
 //			m_ActiveScene->OnSaveState(&mApplicationPtr->savedState,&mApplicationPtr->savedStateSize);
 //			break;
 //

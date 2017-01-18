@@ -17,9 +17,9 @@ namespace star
 		m_Height(height)
 	{
 		ASSERT_LOG(m_Width >= 0,
-			_T("Width can't be negative!"), STARENGINE_LOG_TAG);
+			_TT("Width can't be negative!"), STARENGINE_LOG_TAG);
 		ASSERT_LOG(m_Height >= 0,
-			_T("Height can't be negative!"), STARENGINE_LOG_TAG);
+			_TT("Height can't be negative!"), STARENGINE_LOG_TAG);
 	}
 
 	AARect::AARect(const vec2& location,const vec2& size)

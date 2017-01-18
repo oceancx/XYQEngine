@@ -41,8 +41,8 @@ namespace star
 	void SpriteBatch::Initialize()
 	{
 		//Set Shader and shader variables
-		tstring vShader(_T("E:\\mhxy_code_repo\\Engine\\assets\\shaders\\engine_test.vert")),
-				fShader(_T("E:\\mhxy_code_repo\\Engine\\assets\\shaders\\engine_test.frag"));
+		tstring vShader(_TT("E:\\mhxy_code_repo\\Engine\\assets\\shaders\\engine_test.vert")),
+				fShader(_TT("E:\\mhxy_code_repo\\Engine\\assets\\shaders\\engine_test.frag"));
 
 		m_ShaderPtr = new Shader(vShader, fShader);
 
@@ -462,7 +462,7 @@ namespace star
 		default:
 			ASSERT_LOG(
 				false,
-				_T("SpriteBatch::SortSprites: Please implement this SpriteSortingMode"),
+				_TT("SpriteBatch::SortSprites: Please implement this SpriteSortingMode"),
 				STARENGINE_LOG_TAG
 				);
 			break;

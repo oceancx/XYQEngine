@@ -18,17 +18,17 @@ namespace star
 				if(returnobject == nullptr)
 				{
 					LOG(LogLevel::Error,
-						_T("Object::GetChildByName: couldn't convert object '")
-						+ name + _T("' to the requested type. Returning nullptr..."),
+						_TT("Object::GetChildByName: couldn't convert object '")
+						+ name + _TT("' to the requested type. Returning nullptr..."),
 						STARENGINE_LOG_TAG);
 				}
 				return returnobject;
 			}
 		}
 		LOG(LogLevel::Warning,
-				_T("Object::GetChildByName: \
+				_TT("Object::GetChildByName: \
 Trying to get unknown child '")
-				+ name + _T("'."), STARENGINE_LOG_TAG);
+				+ name + _TT("'."), STARENGINE_LOG_TAG);
 		return nullptr;
 	}
 

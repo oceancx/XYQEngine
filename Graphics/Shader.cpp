@@ -31,7 +31,7 @@ namespace star
 		if(!CompileShader(&m_VertexShader, GL_VERTEX_SHADER, vsFile ))
 		{
 			LOG(LogLevel::Error, 
-				_T("Shader::Init: \
+				_TT("Shader::Init: \
 Failed To load Vertex Shader ") + vsFile,
 				   STARENGINE_LOG_TAG);
 			return false;
@@ -40,7 +40,7 @@ Failed To load Vertex Shader ") + vsFile,
 		if(!CompileShader(&m_FragmentShader, GL_FRAGMENT_SHADER, fsFile))
 		{
 			LOG(LogLevel::Error, 
-				 _T("Shader::Init: \
+				 _TT("Shader::Init: \
 Failed To load Fragment Shader ") + fsFile,
 					STARENGINE_LOG_TAG);
 			return false;
@@ -54,7 +54,7 @@ Failed To load Fragment Shader ") + fsFile,
 		if(!CompileShader(&m_VertexShader, GL_VERTEX_SHADER, inlineVert ))
 		{
 			LOG(LogLevel::Error, 
-				_T("Shader::Init: \
+				_TT("Shader::Init: \
 Failed To load Vertex Shader ") + string_cast<tstring>(inlineVert),
 				   STARENGINE_LOG_TAG);
 			return false;
@@ -63,7 +63,7 @@ Failed To load Vertex Shader ") + string_cast<tstring>(inlineVert),
 		if(!CompileShader(&m_FragmentShader, GL_FRAGMENT_SHADER, inlineFrag))
 		{
 			LOG(LogLevel::Error, 
-				 _T("Shader::Init: \
+				 _TT("Shader::Init: \
 Failed To load Fragment Shader ") + string_cast<tstring>(inlineFrag),
 					STARENGINE_LOG_TAG);
 			return false;
@@ -78,7 +78,7 @@ Failed To load Fragment Shader ") + string_cast<tstring>(inlineFrag),
 		if(m_ProgramID == 0)
 		{
 			LOG(LogLevel::Error,
-				_T("Shader::GLInit: Failed to create program!"),
+				_TT("Shader::GLInit: Failed to create program!"),
 				STARENGINE_LOG_TAG);
 		}
 
@@ -97,7 +97,7 @@ Failed To load Fragment Shader ") + string_cast<tstring>(inlineFrag),
 				schar* infoLog = new schar[infoLen];
 				glGetProgramInfoLog(m_ProgramID, infoLen, NULL, infoLog);
 				tstringstream buffer;
-				buffer	<< _T("Shader::GLInit: Failed to link program: ")
+				buffer	<< _TT("Shader::GLInit: Failed to link program: ")
 						<< infoLog;
 				LOG(LogLevel::Error, buffer.str(),
 					STARENGINE_LOG_TAG);
@@ -110,7 +110,7 @@ Failed To load Fragment Shader ") + string_cast<tstring>(inlineFrag),
 				schar* infoLog = new schar[ANDROID_ERROR_SIZE];
 				glGetProgramInfoLog(m_ProgramID, ANDROID_ERROR_SIZE, NULL, infoLog);
 				tstringstream buffer;
-				buffer << _T("Shader::GLInit: Failed to link program: ")
+				buffer << _TT("Shader::GLInit: Failed to link program: ")
 						<< infoLog;
 				LOG(LogLevel::Error, buffer.str());
 				delete infoLog;
@@ -156,7 +156,7 @@ Failed To load Fragment Shader ") + string_cast<tstring>(inlineFrag),
 		if(status == 0)
 		{
 			LOG(LogLevel::Error,
-				_T("Shader::CompileShader: Failed Compile"),
+				_TT("Shader::CompileShader: Failed Compile"),
 				STARENGINE_LOG_TAG);
 			GLint infolength;
 			glGetShaderiv(*shader, GL_INFO_LOG_LENGTH, &infolength);
@@ -169,21 +169,21 @@ Failed To load Fragment Shader ") + string_cast<tstring>(inlineFrag),
 					switch(type)
 					{
 					case GL_VERTEX_SHADER:
-						stringType = _T("GL_VERTEX_SHADER");
+						stringType = _TT("GL_VERTEX_SHADER");
 						break;
 					case GL_FRAGMENT_SHADER:
-						stringType = _T("GL_FRAGMENT_SHADER");
+						stringType = _TT("GL_FRAGMENT_SHADER");
 						break;
 					default:
-						stringType = _T("UNKNOWN_SHADER_TYPE");
+						stringType = _TT("UNKNOWN_SHADER_TYPE");
 						break;
 					}
 					glGetShaderInfoLog(*shader, infolength, NULL, buf);
 					tstringstream buffer;
-					buffer	<< _T("Shader::CompileShader: \
+					buffer	<< _TT("Shader::CompileShader: \
 Could not compile shader of type ") 
 							<< stringType
-							<< _T(": ")
+							<< _TT(": ")
 							<< buf;
 					LOG(LogLevel::Error,
 						buffer.str(), STARENGINE_LOG_TAG);
@@ -201,21 +201,21 @@ Could not compile shader of type ")
 					switch(type)
 					{
 					case GL_VERTEX_SHADER:
-						stringType = _T("GL_VERTEX_SHADER");
+						stringType = _TT("GL_VERTEX_SHADER");
 						break;
 					case GL_FRAGMENT_SHADER:
-						stringType = _T("GL_FRAGMENT_SHADER");
+						stringType = _TT("GL_FRAGMENT_SHADER");
 						break;
 					default:
-						stringType = _T("UNKNOWN_SHADER_TYPE");
+						stringType = _TT("UNKNOWN_SHADER_TYPE");
 						break;
 					}
 					glGetShaderInfoLog(*shader, ANDROID_ERROR_SIZE, NULL, buf);
 					tstringstream buffer;
-					buffer 	<< _T("Shader::CompileShader: \
+					buffer 	<< _TT("Shader::CompileShader: \
 Could not compile shader of type ") 
 							<< stringType
-							<< _T(": ")
+							<< _TT(": ")
 							<< buf;
 					LOG(LogLevel::Error,
 						buffer.str(), STARENGINE_LOG_TAG);
@@ -268,9 +268,9 @@ Could not compile shader of type ")
 		GLint written, size, location;
 		GLenum type;
 		DEBUG_LOG(LogLevel::Info,
-			_T(" Location | Name"), STARENGINE_LOG_TAG);
+			_TT(" Location | Name"), STARENGINE_LOG_TAG);
 		DEBUG_LOG(LogLevel::Info,
-			_T("------------------------------------------------"),
+			_TT("------------------------------------------------"),
 			STARENGINE_LOG_TAG);
 		for(GLuint i = 0; i < GLuint(nAttribs); ++i)
 		{
@@ -287,7 +287,7 @@ Could not compile shader of type ")
 			Logger::GetInstance()->
 				DebugLog(LogLevel::Info, 
 					string_cast<tstring>(location) +
-					_T(" | ") + 
+					_TT(" | ") + 
 					string_cast<tstring>(name), 
 					STARENGINE_LOG_TAG
 				);
@@ -309,9 +309,9 @@ Could not compile shader of type ")
 		GLsizei written;
 		GLenum type;
 		DEBUG_LOG(LogLevel::Info,
-			_T(" Location | Name"), STARENGINE_LOG_TAG);
+			_TT(" Location | Name"), STARENGINE_LOG_TAG);
 		DEBUG_LOG(LogLevel::Info,
-			_T("------------------------------------------------"),
+			_TT("------------------------------------------------"),
 			STARENGINE_LOG_TAG);
 		for(GLuint i = 0; i < GLuint(nUniforms); ++i)
 		{
@@ -328,7 +328,7 @@ Could not compile shader of type ")
 			Logger::GetInstance()->
 				DebugLog(LogLevel::Info, 
 					string_cast<tstring>(location) +
-					_T(" | ") + 
+					_TT(" | ") + 
 					string_cast<tstring>(name), 
 					STARENGINE_LOG_TAG
 				);

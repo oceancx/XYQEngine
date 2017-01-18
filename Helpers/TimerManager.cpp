@@ -76,8 +76,8 @@ namespace star
 			}
 		}
 		LOG(LogLevel::Warning,
-			_T("TimerManager::RemoveTimer: trying to remove unknown timer '")
-			+ name + _T("'."), STARENGINE_LOG_TAG);
+			_TT("TimerManager::RemoveTimer: trying to remove unknown timer '")
+			+ name + _TT("'."), STARENGINE_LOG_TAG);
 		return false;
 	}
 
@@ -92,8 +92,8 @@ namespace star
 			}
 		}
 		LOG(LogLevel::Warning,
-			_T("TimerManager::PauseTimer: trying to pause unknown timer '")
-			+ name + _T("'."), STARENGINE_LOG_TAG);
+			_TT("TimerManager::PauseTimer: trying to pause unknown timer '")
+			+ name + _TT("'."), STARENGINE_LOG_TAG);
 	}
 
 	void TimerManager::SetCountingDownTimer(const tstring & name, bool countingDown)
@@ -107,8 +107,8 @@ namespace star
 			}
 		}
 		LOG(LogLevel::Warning,
-			_T("TimerManager::SetCountingDownTimer: trying to adjust unknown timer '")
-			+ name + _T("'."), STARENGINE_LOG_TAG);
+			_TT("TimerManager::SetCountingDownTimer: trying to adjust unknown timer '")
+			+ name + _TT("'."), STARENGINE_LOG_TAG);
 	}
 
 	void TimerManager::SetLoopTimer(const tstring & name, bool looping)
@@ -122,8 +122,8 @@ namespace star
 			}
 		}
 		LOG(LogLevel::Warning,
-			_T("TimerManager::SetLoopTimer: trying to adjust unknown timer '")
-			+ name + _T("'."), STARENGINE_LOG_TAG);
+			_TT("TimerManager::SetLoopTimer: trying to adjust unknown timer '")
+			+ name + _TT("'."), STARENGINE_LOG_TAG);
 	}
 
 	void TimerManager::ResetTimer(const tstring & name, bool paused)
@@ -137,8 +137,8 @@ namespace star
 			}
 		}
 		LOG(LogLevel::Warning,
-			_T("TimerManager::ResetTimer: trying to reset unknown timer '")
-			+ name + _T("'."), STARENGINE_LOG_TAG);
+			_TT("TimerManager::ResetTimer: trying to reset unknown timer '")
+			+ name + _TT("'."), STARENGINE_LOG_TAG);
 	}
 
 	void TimerManager::SetTargetTimeTimer(const tstring & name, float32 targetTime, bool reset, bool paused)
@@ -152,8 +152,8 @@ namespace star
 			}
 		}
 		LOG(LogLevel::Warning,
-			_T("TimerManager::SetTargetTimeTimer: trying to adjust unknown timer '")
-			+ name + _T("'."), STARENGINE_LOG_TAG);
+			_TT("TimerManager::SetTargetTimeTimer: trying to adjust unknown timer '")
+			+ name + _TT("'."), STARENGINE_LOG_TAG);
 	}
 
 	void TimerManager::SetFunctionTimer(const tstring & name, const std::function<void ()> & func)
@@ -167,8 +167,8 @@ namespace star
 			}
 		}
 		LOG(LogLevel::Warning,
-			_T("TimerManager::SetFunctionTimer: trying to adjust unknown timer '")
-			+ name + _T("'."), STARENGINE_LOG_TAG);
+			_TT("TimerManager::SetFunctionTimer: trying to adjust unknown timer '")
+			+ name + _TT("'."), STARENGINE_LOG_TAG);
 	}
 
 	float64 TimerManager::ForceEndTimer(const tstring & name)
@@ -181,8 +181,8 @@ namespace star
 			}
 		}
 		LOG(LogLevel::Warning,
-			_T("TimerManager::ForceEndTimer: trying to end unknown timer '")
-			+ name + _T("'."), STARENGINE_LOG_TAG);
+			_TT("TimerManager::ForceEndTimer: trying to end unknown timer '")
+			+ name + _TT("'."), STARENGINE_LOG_TAG);
 		return 0;
 	}
 	
@@ -197,8 +197,8 @@ namespace star
 			}
 		}
 		LOG(LogLevel::Warning,
-			_T("TimerManager::ForwardTimer: trying to forward unknown timer '")
-			+ name + _T("'."), STARENGINE_LOG_TAG);
+			_TT("TimerManager::ForwardTimer: trying to forward unknown timer '")
+			+ name + _TT("'."), STARENGINE_LOG_TAG);
 	}
 
 	void TimerManager::ForwardAllTimers(float64 time)
@@ -219,8 +219,8 @@ namespace star
 			}
 		}
 		LOG(LogLevel::Warning, 
-			_T("TimerManager::GetTimerMinutes: Couldn't find the timer '")
-				+ name + _T("'."),
+			_TT("TimerManager::GetTimerMinutes: Couldn't find the timer '")
+				+ name + _TT("'."),
 			STARENGINE_LOG_TAG);
 		return 0;
 	}
@@ -235,8 +235,8 @@ namespace star
 			}
 		}
 		LOG(LogLevel::Warning, 
-			_T("TimerManager::GetTimerSeconds: Couldn't find the timer '")
-				+ name + _T("'."),
+			_TT("TimerManager::GetTimerSeconds: Couldn't find the timer '")
+				+ name + _TT("'."),
 			STARENGINE_LOG_TAG);
 		return 0;
 	}
@@ -251,8 +251,8 @@ namespace star
 			}
 		}
 		LOG(LogLevel::Warning, 
-			_T("TimerManager::GetTimerTotalSeconds: Couldn't find the timer '")
-				+ name + _T("'."),
+			_TT("TimerManager::GetTimerTotalSeconds: Couldn't find the timer '")
+				+ name + _TT("'."),
 			STARENGINE_LOG_TAG);
 		return 0;
 	}
@@ -267,8 +267,8 @@ namespace star
 			}
 		}
 		LOG(LogLevel::Warning,
-			_T("TimerManager::GetTimerTargetTime: trying to access unknown timer '")
-				+ name + _T("'."), STARENGINE_LOG_TAG);
+			_TT("TimerManager::GetTimerTargetTime: trying to access unknown timer '")
+				+ name + _TT("'."), STARENGINE_LOG_TAG);
 		return 0;
 	}
 
@@ -282,8 +282,8 @@ namespace star
 			}
 		}
 		LOG(LogLevel::Warning, 
-			_T("TimerManager::GetTimerAccurateTime: Couldn't find the timer '")
-				+ name + _T("'."),
+			_TT("TimerManager::GetTimerAccurateTime: Couldn't find the timer '")
+				+ name + _TT("'."),
 			STARENGINE_LOG_TAG);
 		return 0;
 	}

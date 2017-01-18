@@ -75,15 +75,9 @@ typedef long double float128;
 	#define SSHFILEINFO SHFILEINFOA
 #endif
 
-#ifdef _T
-	#undef _T
-#endif
 
-#ifdef _TEXT
-	#undef _TEXT
-#endif
-
-#ifdef _UNICODE
+#define _UNICODES
+#ifdef _UNICODES
 	#define tstring swstring
 	#define tcin swcin
 	#define tcout swcout
@@ -97,8 +91,8 @@ typedef long double float128;
 	#define ttof swtof
 	#define ttoi swtoi
 	#define tstrlen swcslen
-	#define _T(x) L ## x
-	#define _TEXT(x) L ## x
+	#define _TT(x) L ## x
+	#define _TTEXT(x) L ## x
 	#ifdef _WIN32
 		#define tfopen swfopen
 		#define TSHFILEINFO SWSHFILEINFO

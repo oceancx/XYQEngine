@@ -55,8 +55,8 @@ namespace star
 				))
 		{
 			LOG(LogLevel::Error,
-				_T("TextComponent : Could not load Font '")
-				+ m_FileName + _T("'."), STARENGINE_LOG_TAG);
+				_TT("TextComponent : Could not load Font '")
+				+ m_FileName + _TT("'."), STARENGINE_LOG_TAG);
 		}
 
 		m_Font = FontManager::GetInstance()->GetFont(fontName);
@@ -69,8 +69,8 @@ namespace star
 			|| m_pParentObject->HasComponent<SpriteComponent>(this))
 		{
 			ASSERT_LOG(false,
-				_T("Object '") + m_pParentObject->GetName() +
-				_T("': Can't add a TextComponent when already \
+				_TT("Object '") + m_pParentObject->GetName() +
+				_TT("': Can't add a TextComponent when already \
 having a SpriteSheet- or SpriteComponent."), STARENGINE_LOG_TAG);
 			m_pParentObject->RemoveComponent(this);
 		}
@@ -294,7 +294,7 @@ having a SpriteSheet- or SpriteComponent."), STARENGINE_LOG_TAG);
 		{
 			LOG(
 				LogLevel::Warning,
-				_T("Trying to draw empty textComponent"),
+				_TT("Trying to draw empty textComponent"),
 				STARENGINE_LOG_TAG
 				);
 			return;
@@ -449,12 +449,12 @@ having a SpriteSheet- or SpriteComponent."), STARENGINE_LOG_TAG);
 
 				if( w > wrapWidth)
 				{
-					returnString += line + _T("\n");
+					returnString += line + _TT("\n");
 					++lines;
 					line = EMPTY_STRING;
 				}
 
-				line += words.elements[i] + _T(" ");
+				line += words.elements[i] + _TT(" ");
 			}
 		}
 

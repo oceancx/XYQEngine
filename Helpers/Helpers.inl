@@ -13,7 +13,7 @@ namespace star
 		)
 	{
 		ASSERT_LOG(size != 0,
-			_T("You can't calculate the minimum of 0 elements!"),
+			_TT("You can't calculate the minimum of 0 elements!"),
 			STARENGINE_LOG_TAG);
 		float32 minimum = vec[0];
 		for(int32 i = 1; i < size; ++i)
@@ -33,7 +33,7 @@ namespace star
 		)
 	{
 		ASSERT_LOG(size != 0, 
-			_T("You can't calculate the maximum of 0 elements!"),
+			_TT("You can't calculate the maximum of 0 elements!"),
 			STARENGINE_LOG_TAG);
 		float32 maximum = vec[0];
 		for(int32 i = 1; i < size; ++i)
@@ -58,7 +58,7 @@ namespace star
 	TReturnValue string_cast(const TValue * value)
 	{
 		ASSERT_LOG(false,
-			_T("Invalid String cast: No implementation found that match these parameters!"),
+			_TT("Invalid String cast: No implementation found that match these parameters!"),
 			STARENGINE_LOG_TAG);
 		return TReturnValue();
 	}

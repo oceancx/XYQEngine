@@ -5,15 +5,16 @@
 #include "../Helpers/FilePath.h"
 #include "../Helpers/Helpers.h"
 
-#include "ft2build.h"
-#include "freetype/freetype.h"
+#include <ft2build.h>
+#include <freetype/freetype.h>
 
-#ifdef DESKTOP
-#include <glew.h>
-#else
-#include <GLES/gl.h>
-#include <GLES/glext.h>
-#endif
+//GLEW
+#ifndef GLEW_STATIC
+#define GLEW_STATIC
+#include <GL/glew.h>
+#endif 
+
+
 
 namespace star
 {
@@ -50,14 +51,14 @@ namespace star
 		GLuint* GetTextures() const;
 		uint32 GetFontSize() const;
 		
-		const std::unordered_map<suchar, CharacterInfo>& GetCharacterInfoMap() const;
-		const CharacterInfo& GetCharacterInfo(suchar character) const;
+		const std::unordered_map<tchar, CharacterInfo>& GetCharacterInfoMap() const;
+		const CharacterInfo& GetCharacterInfo(tchar character) const;
 		int32 GetMaxLetterHeight() const;
 		int32 GetMinLetterHeight() const;
 		uint32 GetStringLength(const tstring& string) const;
 
 	private:
-		void Make_D_List(FT_Face face, suchar ch,GLuint * tex_base);
+		void Make_D_List(FT_Face face, tchar ch,GLuint * tex_base);
 		int32 NextPowerOfTwo(int32 number) const;
 
 		tstring m_FontPath;
@@ -66,10 +67,8 @@ namespace star
 		int32	mMaxLetterHeight,
 				mMinLetterHeight;
 
-#ifdef ANDROID
-		BYTE* mFontBuffer;
-#endif
-		std::unordered_map<suchar, CharacterInfo> mCharacterInfoMap;
+
+		std::unordered_map<tchar, CharacterInfo> mCharacterInfoMap;
 		uint32 mSize;
 	};
 }
