@@ -36,7 +36,7 @@ namespace star
 		ASSERT_LOG((abs(dot1) < 0 + tolerance
 			|| abs(dot2) < 0 + tolerance
 			|| abs(dot3) < 0 + tolerance)
-			, _TT("The Rect is not a rectangle!!"), STARENGINE_LOG_TAG);*/
+			, _T("The Rect is not a rectangle!!"), STARENGINE_LOG_TAG);*/
 			
 		m_Width = m_RightTop.x - m_LeftTop.x;
 		m_Height = m_RightTop.y - m_LeftTop.y;

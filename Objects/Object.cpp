@@ -25,8 +25,8 @@ namespace star
 		, m_pComponents()
 		, m_pChildren()
 		, m_pActions()
-		, m_GroupTag(_TT("Default"))
-		, m_PhysicsTag(_TT("Default"))
+		, m_GroupTag(_T("Default"))
+		, m_PhysicsTag(_T("Default"))
 	{
 		m_pComponents.push_back(new TransformComponent(this));
 	}
@@ -43,8 +43,8 @@ namespace star
 		, m_pComponents()
 		, m_pChildren()
 		, m_pActions()
-		, m_GroupTag(_TT("Default"))
-		, m_PhysicsTag(_TT("Default"))
+		, m_GroupTag(_T("Default"))
+		, m_PhysicsTag(_T("Default"))
 	{
 		m_pComponents.push_back(new TransformComponent(this));
 	}
@@ -65,7 +65,7 @@ namespace star
 		, m_pChildren()
 		, m_pActions()
 		, m_GroupTag(groupTag)
-		, m_PhysicsTag(_TT("Default"))
+		, m_PhysicsTag(_T("Default"))
 	{
 		m_pComponents.push_back(new TransformComponent(this));
 	}
@@ -250,9 +250,9 @@ namespace star
 						action)
 						);
 					LOG(LogLevel::Warning,
-						tstring(_TT("Object::BaseUpdate: ")) +
-						_TT("Trying to update nullptr action from object '")
-						+ GetName() + _TT("'."), STARENGINE_LOG_TAG);
+						tstring(_T("Object::BaseUpdate: ")) +
+						_T("Trying to update nullptr action from object '")
+						+ GetName() + _T("'."), STARENGINE_LOG_TAG);
 				}
 			}
 
@@ -271,9 +271,9 @@ namespace star
 						component)
 						);
 					LOG(LogLevel::Warning,
-						tstring(_TT("Object::BaseUpdate: ")) +
-						_TT("Trying to update nullptr component from object '")
-						+ GetName() + _TT("'."), STARENGINE_LOG_TAG);
+						tstring(_T("Object::BaseUpdate: ")) +
+						_T("Trying to update nullptr component from object '")
+						+ GetName() + _T("'."), STARENGINE_LOG_TAG);
 				}
 			}
 
@@ -292,9 +292,9 @@ namespace star
 						child)
 						);
 					LOG(LogLevel::Warning,
-						tstring(_TT("Object::BaseUpdate: ")) +
-						_TT("Trying to update nullptr child from object '")
-						+ GetName() + _TT("'."), STARENGINE_LOG_TAG);
+						tstring(_T("Object::BaseUpdate: ")) +
+						_T("Trying to update nullptr child from object '")
+						+ GetName() + _T("'."), STARENGINE_LOG_TAG);
 				}
 			}
 		}
@@ -304,7 +304,7 @@ namespace star
 	void Object::Draw()
 	{
 
-		for (int k = 0; k<10; k++)
+		for (int k = 0; k<50; k++)
 		{
 			int x = 200 - k, y = 100 - k;
 			int w = 50, h = 50;
@@ -368,9 +368,9 @@ namespace star
 				else
 				{
 					LOG(LogLevel::Warning,
-						tstring(_TT("Object::BaseDraw: ")) +
-						_TT("Trying to draw nullptr component from object '")
-						+ GetName() + _TT("'."), STARENGINE_LOG_TAG);
+						tstring(_T("Object::BaseDraw: ")) +
+						_T("Trying to draw nullptr component from object '")
+						+ GetName() + _T("'."), STARENGINE_LOG_TAG);
 				}
 			}
 
@@ -383,9 +383,9 @@ namespace star
 				else
 				{
 					LOG(LogLevel::Warning,
-						tstring(_TT("Object::BaseDraw: ")) +
-						_TT("Trying to draw nullptr object child from object '")
-						+ GetName() + _TT("'."), STARENGINE_LOG_TAG);
+						tstring(_T("Object::BaseDraw: ")) +
+						_T("Trying to draw nullptr object child from object '")
+						+ GetName() + _T("'."), STARENGINE_LOG_TAG);
 				}
 			}
 		}
@@ -413,9 +413,9 @@ namespace star
 					else
 					{
 						LOG(LogLevel::Warning,
-							tstring(_TT("Object::BaseDrawWithCulling: ")) +
-							_TT("Trying to draw nullptr component from object '")
-							+ GetName() + _TT("'."), STARENGINE_LOG_TAG);
+							tstring(_T("Object::BaseDrawWithCulling: ")) +
+							_T("Trying to draw nullptr component from object '")
+							+ GetName() + _T("'."), STARENGINE_LOG_TAG);
 					}
 				}
 			}
@@ -429,9 +429,9 @@ namespace star
 				else
 				{
 					LOG(LogLevel::Warning,
-						tstring(_TT("Object::BaseDrawWithCulling: ")) +
-						_TT("Trying to draw nullptr object child from object '")
-						+ GetName() + _TT("'."), STARENGINE_LOG_TAG);
+						tstring(_T("Object::BaseDrawWithCulling: ")) +
+						_T("Trying to draw nullptr object child from object '")
+						+ GetName() + _T("'."), STARENGINE_LOG_TAG);
 				}
 			}
 		}
@@ -474,7 +474,7 @@ namespace star
 		for(auto comp : m_pComponents)
 		{
 			ASSERT_LOG(typeid(*comp) != typeid(*pComponent), 
-				_TT("Object::AddComponent: \
+				_T("Object::AddComponent: \
 Adding 2 components of the same type \
 to the same object is illegal."), STARENGINE_LOG_TAG);
 		}
@@ -496,8 +496,8 @@ to the same object is illegal."), STARENGINE_LOG_TAG);
 		if(IsChildNameAlreadyInUse(pChild->GetName()))
 		{
 			DEBUG_LOG(LogLevel::Warning,
-				_TT("Object::AddChild: a child with the name '")
-				+ pChild->GetName() + _TT("' already exists. \
+				_T("Object::AddChild: a child with the name '")
+				+ pChild->GetName() + _T("' already exists. \
 Child gets added but beware, duplicate names can become the cause of problems."),
 				STARENGINE_LOG_TAG);
 		}
@@ -527,7 +527,7 @@ Child gets added but beware, duplicate names can become the cause of problems.")
 		else
 		{
 			LOG(LogLevel::Error,
-				_TT("Object::RemoveChild: The object you tried \
+				_T("Object::RemoveChild: The object you tried \
 to remove is not a child of this object!"), STARENGINE_LOG_TAG);
 		}
 	}
@@ -543,7 +543,7 @@ to remove is not a child of this object!"), STARENGINE_LOG_TAG);
 			}
 		}
 		LOG(LogLevel::Error,
-			_TT("Object::RemoveChild: The object you tried \
+			_T("Object::RemoveChild: The object you tried \
 to remove is not a child of this object!"), STARENGINE_LOG_TAG);
 	}
 
@@ -563,9 +563,9 @@ to remove is not a child of this object!"), STARENGINE_LOG_TAG);
 			}
 		}
 		LOG(LogLevel::Warning,
-				_TT("Object::SetChildFrozen: \
+				_T("Object::SetChildFrozen: \
 Trying to (un)freeze unknown child '")
-				   + name + _TT("'."), STARENGINE_LOG_TAG);
+				   + name + _T("'."), STARENGINE_LOG_TAG);
 	}
 
 	void Object::SetChildDisabled(const tstring & name, bool disabled)
@@ -579,9 +579,9 @@ Trying to (un)freeze unknown child '")
 			}
 		}
 		LOG(LogLevel::Warning,
-				_TT("Object::SetChildDisabled: \
+				_T("Object::SetChildDisabled: \
 Trying to enable/disable unknown child '")
-				   + name + _TT("'."), STARENGINE_LOG_TAG);
+				   + name + _T("'."), STARENGINE_LOG_TAG);
 	}
 
 	void Object::SetChildVisible(const tstring & name, bool visible)
@@ -595,9 +595,9 @@ Trying to enable/disable unknown child '")
 			}
 		}
 		LOG(LogLevel::Warning,
-				_TT("Object::SetChildVisible: \
+				_T("Object::SetChildVisible: \
 Trying to (un)hide unknown child '")
-				+ name + _TT("'."), STARENGINE_LOG_TAG);
+				+ name + _T("'."), STARENGINE_LOG_TAG);
 	}
 
 	void Object::SetChildrenFrozen(bool freeze)
@@ -634,7 +634,7 @@ Trying to (un)hide unknown child '")
 			if(action == pAction)
 			{
 				LOG(LogLevel::Warning,
-					_TT("Object::AddAction: Trying to add a duplicate action."),
+					_T("Object::AddAction: Trying to add a duplicate action."),
 					STARENGINE_LOG_TAG);
 				return;
 			}
@@ -642,8 +642,8 @@ Trying to (un)hide unknown child '")
 		if(IsActionNameAlreadyInUse(pAction->GetName()))
 		{
 			DEBUG_LOG(LogLevel::Warning,
-			_TT("Object::AddAction: an action with the name '")
-			+ pAction->GetName() + _TT("' already exists. \
+			_T("Object::AddAction: an action with the name '")
+			+ pAction->GetName() + _T("' already exists. \
 Action gets added but beware, duplicate names can become the cause of problems."),
 			STARENGINE_LOG_TAG);
 		}
@@ -660,7 +660,7 @@ Action gets added but beware, duplicate names can become the cause of problems."
 		auto it = std::find(m_pActions.begin(), m_pActions.end(), pAction);
 		bool isOK = it != m_pActions.end();
 		ASSERT_LOG(isOK,
-			_TT("Object::RemoveAction: The action you tried \
+			_T("Object::RemoveAction: The action you tried \
 to remove could not be found."), STARENGINE_LOG_TAG);
 		if(isOK)
 		{
@@ -684,8 +684,8 @@ to remove could not be found."), STARENGINE_LOG_TAG);
 			}
 		}
 		LOG(LogLevel::Warning,
-			_TT("Object::RemoveAction: Action '")
-			+ name + _TT("' could not be found."), STARENGINE_LOG_TAG);
+			_T("Object::RemoveAction: Action '")
+			+ name + _T("' could not be found."), STARENGINE_LOG_TAG);
 	}
 
 	void Object::RestartAction(const tstring & name)
@@ -699,8 +699,8 @@ to remove could not be found."), STARENGINE_LOG_TAG);
 			}
 		}
 		LOG(LogLevel::Warning,
-			_TT("Object::RestartAction: Action '")
-			+ name + _TT("' could not be found."), STARENGINE_LOG_TAG);
+			_T("Object::RestartAction: Action '")
+			+ name + _T("' could not be found."), STARENGINE_LOG_TAG);
 	}
 
 	void Object::PauseAction(const tstring & name)
@@ -714,8 +714,8 @@ to remove could not be found."), STARENGINE_LOG_TAG);
 			}
 		}
 		LOG(LogLevel::Warning,
-			_TT("Object::PauseAction: Action '")
-			+ name + _TT("' could not be found."), STARENGINE_LOG_TAG);
+			_T("Object::PauseAction: Action '")
+			+ name + _T("' could not be found."), STARENGINE_LOG_TAG);
 	}
 
 	void Object::ResumeAction(const tstring & name)
@@ -729,8 +729,8 @@ to remove could not be found."), STARENGINE_LOG_TAG);
 			}
 		}
 		LOG(LogLevel::Warning,
-			_TT("Object::ResumeAction: Action '")
-			+ name + _TT("' could not be found."), STARENGINE_LOG_TAG);
+			_T("Object::ResumeAction: Action '")
+			+ name + _T("' could not be found."), STARENGINE_LOG_TAG);
 	}
 
 	void Object::RemoveComponent(BaseComponent * pComponent)
@@ -738,7 +738,7 @@ to remove could not be found."), STARENGINE_LOG_TAG);
 		auto it = std::find(m_pComponents.begin(), m_pComponents.end(), pComponent);
 		bool isOK = it != m_pComponents.end();
 		ASSERT_LOG(isOK,
-			_TT("Object::RemoveComponent: The component you tried \
+			_T("Object::RemoveComponent: The component you tried \
 			   to remove could not be found."), STARENGINE_LOG_TAG);
 		if(isOK)
 		{
@@ -857,9 +857,9 @@ to remove could not be found."), STARENGINE_LOG_TAG);
 		for(auto & info : m_pGarbageContainer)
 		{
 			LOG(LogLevel::Info,
-				tstring(_TT("Object::CollectGarbage: ")) +
-				_TT("Object::CollectGarbage: Removed entity '")
-				+ info.element->GetName() + _TT("'."), STARENGINE_LOG_TAG);
+				tstring(_T("Object::CollectGarbage: ")) +
+				_T("Object::CollectGarbage: Removed entity '")
+				+ info.element->GetName() + _T("'."), STARENGINE_LOG_TAG);
 			DestroyGarbageElement(info);
 		}
 		m_pGarbageContainer.clear();

@@ -63,11 +63,11 @@
 //
 //	glClearColor(0.7f, 0.3f, 0.3f, 1.0f);	
 //
-//	tstring vShader(_TT("E:\\mhxy_code_repo\\Engine\\assets\\shaders\\engine_test.vert")),
-//		fShader(_TT("E:\\mhxy_code_repo\\Engine\\assets\\shaders\\engine_test.frag"));
+//	tstring vShader(_T("E:\\mhxy_code_repo\\Engine\\assets\\shaders\\engine_test.vert")),
+//		fShader(_T("E:\\mhxy_code_repo\\Engine\\assets\\shaders\\engine_test.frag"));
 //	
 //	star::Shader* m_ShaderPtr = new star::Shader(vShader, fShader);
-//	star::Texture2D texture(_TT("E:\\mhxy_code_repo\\Engine\\assets\\images\\wall.jpg"));
+//	star::Texture2D texture(_T("E:\\mhxy_code_repo\\Engine\\assets\\images\\wall.jpg"));
 //
 //	GLfloat tw, th;
 //	tw = texture.GetWidth();

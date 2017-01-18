@@ -24,7 +24,6 @@ namespace star
 
 	StarEngine::~StarEngine()
 	{
-
 	}
 
 	StarEngine*  StarEngine::GetInstance()
@@ -35,11 +34,8 @@ namespace star
 		}
 		return m_pEngine;
 	}
-	
 	Object* obj;
-
 	BaseScene* scene;
-
 	void StarEngine::Initialize(int32 window_width, int32 window_height)
 	{
 		std::random_device seeder;
@@ -57,23 +53,18 @@ namespace star
 		SpriteBatch::GetInstance()->Initialize();
 		DebugDraw::GetInstance()->Initialize();
 		
-		obj = new Object(_TT("obj"));
+		obj = new Object("obj");
 		obj->AddComponent(new CameraComponent());
-		
-		tstring path = _TT("E:\\mhxy_code_repo\\Engine\\assets\\images\\wall.jpg");
-		tstring name = _TT("wall");
-		
-		obj->AddComponent(new SpriteComponent(path,name,1,1));
 		obj->BaseInitialize();
 		//auto camera= obj.GetComponent<CameraComponent>(true);
 		
-		scene = new BaseScene(_TT("JYC"));
+		scene = new BaseScene("JYC");
 		scene->AddObject(obj);
-
-		//scene->BaseInitialize();
+	//	scene->BaseInitialize();
 
 		SceneManager::GetInstance()->AddScene(scene);
-		SceneManager::GetInstance()->SetActiveScene(_TT("JYC"));
+		SceneManager::GetInstance()->SetActiveScene("JYC");
+
 	}
 
 	void StarEngine::Update(const Context & context)
@@ -81,10 +72,11 @@ namespace star
 		m_FPS.Update(context);
 		SceneManager::GetInstance()->Update(context);
 		GraphicsManager::GetInstance()->Update();
-		//InputManager::GetInstance()->EndUpdate();
+	//	InputManager::GetInstance()->EndUpdate();
 		Logger::GetInstance()->Update(context);
-		//obj.BaseUpdate(context);
+		//'obj.BaseUpdate(context);
 		m_bInitialized = true;
+
 		//scene->BaseUpdate(context);
 		std::cout << "Engine Update" << std::endl;
 	}
@@ -97,12 +89,12 @@ namespace star
 			SceneManager::GetInstance()->Draw();
 		}
 		GraphicsManager::GetInstance()->StopDraw();
-		/*	
-		Color c = Color(0xff, 0, 0, 1);
+	/*	Color c = Color(0xff, 0, 0, 1);
 		DebugDraw::GetInstance()->DrawLine(vec2(0.0f,0.0f),vec2(20.0f,20.0f), c);
 		DebugDraw::GetInstance()->DrawPoint(vec2(50, 50), 30, Color(0xff, 0, 0, 1));
-		*/
+*/
 		//scene->BaseDraw();
+
 		std::cout << "Engine Draw" << std::endl;
 	}
 

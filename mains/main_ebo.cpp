@@ -55,8 +55,8 @@
 //		1, 2, 3 // Second Triangle
 //	};
 //
-//	tstring vShader(_TT("E:\\mhxy_code_repo\\Engine\\assets\\shaders\\simple_shader.ver")),
-//		fShader(_TT("E:\\mhxy_code_repo\\Engine\\assets\\shaders\\simple_shader.frg"));
+//	tstring vShader(_T("E:\\mhxy_code_repo\\Engine\\assets\\shaders\\simple_shader.ver")),
+//		fShader(_T("E:\\mhxy_code_repo\\Engine\\assets\\shaders\\simple_shader.frg"));
 //	star::Shader shader(vShader, fShader);
 //
 //

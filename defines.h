@@ -13,7 +13,7 @@
 /// <summary>
 /// The starengine's version
 /// </summary>
-static const tstring STARENGINE_VERSION = _TT("0.1.1");
+static const tstring STARENGINE_VERSION = _T("0.1.1");
 
 #include <algorithm>
 
@@ -26,15 +26,15 @@ static const int32 NO_WRAPPING = -1;
 /// <summary>
 /// Empty string.
 /// </summary>
-static const tstring EMPTY_STRING = _TT("");
+static const tstring EMPTY_STRING = _T("");
 /// <summary>
 /// The log tag used for the engine.
 /// </summary>
-static const tstring STARENGINE_LOG_TAG = _TT("STARENGINE");
+static const tstring STARENGINE_LOG_TAG = _T("STARENGINE");
 /// <summary>
 /// The log tag used for the game.
 /// </summary>
-static const tstring GAME_LOG_TAG = _TT("GAME");
+static const tstring GAME_LOG_TAG = _T("GAME");
 /// <summary>
 /// Platform specific path seperator. (Android)
 /// </summary>
@@ -93,24 +93,24 @@ static const DirectoryMode DEFAULT_DIRECTORY_MODE = DirectoryMode::custom;
 /// <summary>
 /// Idle UI state
 /// </summary>
-static const tstring UI_STATE_IDLE = _TT("idle");
+static const tstring UI_STATE_IDLE = _T("idle");
 /// <summary>
 /// Hover UI state
 /// </summary>
-static const tstring UI_STATE_HOVER = _TT("hover");
+static const tstring UI_STATE_HOVER = _T("hover");
 /// <summary>
 /// Click UI state
 /// </summary>
-static const tstring UI_STATE_CLICK = _TT("click");
+static const tstring UI_STATE_CLICK = _T("click");
 /// <summary>
 /// Disable UI state
 /// </summary>
-static const tstring UI_STATE_DISABLE = _TT("disable");
+static const tstring UI_STATE_DISABLE = _T("disable");
 
 /// <summary>
 /// A tab, in spaces.
 /// </summary>
-static const tstring TAB = _TT("    ");
+static const tstring TAB = _T("    ");
 
 /// <summary>
 /// Value that can be used to create a Timer with the duration of +/- 1 frame

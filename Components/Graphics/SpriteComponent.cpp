@@ -31,8 +31,8 @@ namespace star
 			|| m_pParentObject->HasComponent<TextComponent>(this))
 		{
 			ASSERT_LOG(false,
-				_TT("Object '") + m_pParentObject->GetName() +
-				_TT("': Can't add a SpriteComponent when already \
+				_T("Object '") + m_pParentObject->GetName() +
+				_T("': Can't add a SpriteComponent when already \
 having a SpriteSheet- or TextComponent."), STARENGINE_LOG_TAG);
 			m_pParentObject->RemoveComponent(this);
 		}

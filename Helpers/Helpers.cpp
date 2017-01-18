@@ -31,7 +31,7 @@ namespace star
 	void LaunchWebpage(const tstring & page)
 	{
 #ifdef _WIN32
-		ShellExecute(NULL, _TT("open"), page.c_str(),
+		ShellExecute(NULL, _T("open"), page.c_str(),
 			NULL, NULL, SW_SHOWNORMAL);
 #endif
 	}
@@ -341,7 +341,7 @@ namespace star
 		(const fvec2 & value)
 	{
 		tstringstream strstr;
-		strstr << value.x << _TT(";");
+		strstr << value.x << _T(";");
 		strstr << value.y;
 		return strstr.str();
 	}
@@ -351,8 +351,8 @@ namespace star
 		(const pos & value)
 	{
 		tstringstream strstr;
-		strstr << value.x << _TT(";");
-		strstr << value.y << _TT(";");
+		strstr << value.x << _T(";");
+		strstr << value.y << _T(";");
 		strstr << value.l;
 		return strstr.str();
 	}
@@ -362,8 +362,8 @@ namespace star
 		(const fvec3 & value)
 	{
 		tstringstream strstr;
-		strstr << value.x << _TT(";");
-		strstr << value.y << _TT(";");
+		strstr << value.x << _T(";");
+		strstr << value.y << _T(";");
 		strstr << value.z;
 		return strstr.str();
 	}
@@ -373,9 +373,9 @@ namespace star
 		(const fvec4 & value)
 	{
 		tstringstream strstr;
-		strstr << value.x << _TT(";");
-		strstr << value.y << _TT(";");
-		strstr << value.z << _TT(";");
+		strstr << value.x << _T(";");
+		strstr << value.y << _T(";");
+		strstr << value.z << _T(";");
 		strstr << value.w;
 		return strstr.str();
 	}
@@ -385,9 +385,9 @@ namespace star
 		(const fquat & value)
 	{
 		tstringstream strstr;
-		strstr << value.x << _TT(";");
-		strstr << value.y << _TT(";");
-		strstr << value.z << _TT(";");
+		strstr << value.x << _T(";");
+		strstr << value.y << _T(";");
+		strstr << value.z << _T(";");
 		strstr << value.w;
 		return strstr.str();
 	}
@@ -397,7 +397,7 @@ namespace star
 		(const dvec2 & value)
 	{
 		tstringstream strstr;
-		strstr << value.x << _TT(";");
+		strstr << value.x << _T(";");
 		strstr << value.y;
 		return strstr.str();
 	}
@@ -408,8 +408,8 @@ namespace star
 	{
 		
 		tstringstream strstr;
-		strstr << value.x << _TT(";");
-		strstr << value.y << _TT(";");
+		strstr << value.x << _T(";");
+		strstr << value.y << _T(";");
 		strstr << value.z;
 		return strstr.str();
 	}
@@ -419,9 +419,9 @@ namespace star
 		(const dvec4 & value)
 	{
 		tstringstream strstr;
-		strstr << value.x << _TT(";");
-		strstr << value.y << _TT(";");
-		strstr << value.z << _TT(";");
+		strstr << value.x << _T(";");
+		strstr << value.y << _T(";");
+		strstr << value.z << _T(";");
 		strstr << value.w;
 		return strstr.str();
 	}
@@ -431,9 +431,9 @@ namespace star
 		(const dquat & value)
 	{
 		tstringstream strstr;
-		strstr << value.x << _TT(";");
-		strstr << value.y << _TT(";");
-		strstr << value.z << _TT(";");
+		strstr << value.x << _T(";");
+		strstr << value.y << _T(";");
+		strstr << value.z << _T(";");
 		strstr << value.w;
 		return strstr.str();
 	}
@@ -443,7 +443,7 @@ namespace star
 		(const ivec2 & value)
 	{	
 		tstringstream strstr;
-		strstr << value.x << _TT(";");
+		strstr << value.x << _T(";");
 		strstr << value.y;
 		return strstr.str();
 	}
@@ -453,8 +453,8 @@ namespace star
 		(const ivec3 & value)
 	{
 		tstringstream strstr;
-		strstr << value.x << _TT(";");
-		strstr << value.y << _TT(";");
+		strstr << value.x << _T(";");
+		strstr << value.y << _T(";");
 		strstr << value.z;
 		return strstr.str();
 	}
@@ -464,9 +464,9 @@ namespace star
 		(const ivec4 & value)
 	{
 		tstringstream strstr;
-		strstr << value.x << _TT(";");
-		strstr << value.y << _TT(";");
-		strstr << value.z << _TT(";");
+		strstr << value.x << _T(";");
+		strstr << value.y << _T(";");
+		strstr << value.z << _T(";");
 		strstr << value.w;
 		return strstr.str();
 	}
@@ -476,7 +476,7 @@ namespace star
 		(const uvec2 & value)
 	{
 		tstringstream strstr;
-		strstr << value.x << _TT(";");
+		strstr << value.x << _T(";");
 		strstr << value.y;
 		return strstr.str();
 	}
@@ -486,8 +486,8 @@ namespace star
 		(const uvec3 & value)
 	{
 		tstringstream strstr;
-		strstr << value.x << _TT(";");
-		strstr << value.y << _TT(";");
+		strstr << value.x << _T(";");
+		strstr << value.y << _T(";");
 		strstr << value.z;
 		return strstr.str();
 	}
@@ -497,9 +497,9 @@ namespace star
 		(const uvec4 & value)
 	{
 		tstringstream strstr;
-		strstr << value.x << _TT(";");
-		strstr << value.y << _TT(";");
-		strstr << value.z << _TT(";");
+		strstr << value.x << _T(";");
+		strstr << value.y << _T(";");
+		strstr << value.z << _T(";");
 		strstr << value.w;
 		return strstr.str();
 	}
@@ -509,9 +509,9 @@ namespace star
 		(const Color & value)
 	{
 		tstringstream strstr;
-		strstr << value.r << _TT(";");
-		strstr << value.g << _TT(";");
-		strstr << value.b << _TT(";");
+		strstr << value.r << _T(";");
+		strstr << value.g << _T(";");
+		strstr << value.b << _T(";");
 		strstr << value.a;
 		return strstr.str();
 	}
@@ -788,12 +788,12 @@ namespace star
 		}
 		else
 		{
-			text = _TT("");
+			text = _T("");
 			sifstream myfile;
 			myfile.open(string_cast<sstring>(file_path.GetFullPath()), std::ios::in);
 			ASSERT_LOG(myfile.is_open(),
-				_TT("Couldn't open the text file '") +
-				file_path.GetFullPath() + _TT("'."), STARENGINE_LOG_TAG);
+				_T("Couldn't open the text file '") +
+				file_path.GetFullPath() + _T("'."), STARENGINE_LOG_TAG);
 
 			sstring str;
 			while (std::getline(myfile, str))
@@ -807,7 +807,7 @@ namespace star
 		tifstream myfile;
 		myfile.open(file_path.GetFullPath(), std::ios::in);
 		ASSERT_LOG(myfile.is_open(),
-			_TT("Couldn't open the text file '") + file_path.GetFullPath() + _TT("'."),
+			_T("Couldn't open the text file '") + file_path.GetFullPath() + _T("'."),
 			STARENGINE_LOG_TAG);
 
 		tstring str;
@@ -861,8 +861,8 @@ namespace star
 			else if(logWarning)
 			{
 				LOG(LogLevel::Warning,
-					_TT("Couldn't open the text file '") +
-					file_path.GetFullPath() + _TT("'."), STARENGINE_LOG_TAG);
+					_T("Couldn't open the text file '") +
+					file_path.GetFullPath() + _T("'."), STARENGINE_LOG_TAG);
 			}
 		}
 #else
@@ -881,7 +881,7 @@ namespace star
 		else if(logWarning)
 		{
 			LOG(LogLevel::Warning,
-				_TT("Couldn't open the text file '") + file_path.GetFullPath() + _TT("'."),
+				_T("Couldn't open the text file '") + file_path.GetFullPath() + _T("'."),
 				STARENGINE_LOG_TAG);
 		}
 #endif
@@ -902,12 +902,12 @@ namespace star
 		FilePath file_path = FilePath(file, directory);
 #ifdef ANDROID
 		ASSERT_LOG(directory != DirectoryMode::assets,
-			_TT("Android doesn't support writing to a text file in the assets directory."),
+			_T("Android doesn't support writing to a text file in the assets directory."),
 			STARENGINE_LOG_TAG);
 
 		sofstream myfile(string_cast<sstring>(file_path.GetFullPath()), std::ios::out);
 		ASSERT_LOG(myfile.is_open(),
-			_TT("Couldn't open the text file '") + file_path.GetFullPath() + _TT("'."),
+			_T("Couldn't open the text file '") + file_path.GetFullPath() + _T("'."),
 			STARENGINE_LOG_TAG);
 
 		myfile << text;
@@ -915,7 +915,7 @@ namespace star
 #else
 		tofstream myfile(file_path.GetFullPath(), std::ios::out);
 		ASSERT_LOG(myfile.is_open(),
-			_TT("Couldn't open the text file '") + file_path.GetFullPath() + _TT("'."),
+			_T("Couldn't open the text file '") + file_path.GetFullPath() + _T("'."),
 			STARENGINE_LOG_TAG);
 
 		myfile << text;
@@ -930,12 +930,12 @@ namespace star
 		FilePath file_path = FilePath(file, directory);
 #ifdef ANDROID
 		ASSERT_LOG(directory != DirectoryMode::assets,
-			_TT("Android doesn't support writing to a text file in the assets directory."),
+			_T("Android doesn't support writing to a text file in the assets directory."),
 			STARENGINE_LOG_TAG);
 
 		sofstream myfile(string_cast<sstring>(file_path.GetFullPath()), std::ios::out | std::ios::app);
 		ASSERT_LOG(myfile.is_open(),
-			_TT("Couldn't open the text file '") + file_path.GetFullPath() + _TT("'."),
+			_T("Couldn't open the text file '") + file_path.GetFullPath() + _T("'."),
 			STARENGINE_LOG_TAG);
 
 		myfile << text;
@@ -943,7 +943,7 @@ namespace star
 #else
 		tofstream myfile(file_path.GetFullPath(), std::ios::out | std::ios::app);
 		ASSERT_LOG(myfile.is_open(),
-			_TT("Couldn't open the text file '") + file_path.GetFullPath() + _TT("'."),
+			_T("Couldn't open the text file '") + file_path.GetFullPath() + _T("'."),
 			STARENGINE_LOG_TAG);
 
 		myfile << text;
@@ -969,8 +969,8 @@ namespace star
 			binary_file.open(string_cast<sstring>(file_path.GetFullPath()).c_str(),
 					std::ios::in | std::ios::binary | std::ios::ate);
 			ASSERT_LOG(binary_file.is_open(),
-				_TT("Couldn't open the binary file '") +
-				file_path.GetFullPath() + _TT("'."), STARENGINE_LOG_TAG);
+				_T("Couldn't open the binary file '") +
+				file_path.GetFullPath() + _T("'."), STARENGINE_LOG_TAG);
 
 			schar * buffer(nullptr);
 			size = uint32(binary_file.tellg());
@@ -986,8 +986,8 @@ namespace star
 		binary_file.open(file_path.GetFullPath(),
 				std::ios::in | std::ios::binary | std::ios::ate);	
 		ASSERT_LOG(binary_file.is_open(),
-			_TT("Couldn't open the binary file '") +
-				file_path.GetFullPath() + _TT("'."), STARENGINE_LOG_TAG);
+			_T("Couldn't open the binary file '") +
+				file_path.GetFullPath() + _T("'."), STARENGINE_LOG_TAG);
 
 		schar * buffer(nullptr);
 		size = uint32(binary_file.tellg());
@@ -1030,8 +1030,8 @@ namespace star
 			else if(logWarning)
 			{
 				LOG(LogLevel::Warning,
-					_TT("Couldn't open the binary file '") +
-					file_path.GetFullPath() + _TT("'."), STARENGINE_LOG_TAG);
+					_T("Couldn't open the binary file '") +
+					file_path.GetFullPath() + _T("'."), STARENGINE_LOG_TAG);
 			}
 			return succes;
 		}
@@ -1051,8 +1051,8 @@ namespace star
 		else if(logWarning)
 		{
 			LOG(LogLevel::Warning,
-				_TT("Couldn't open the binary file '") +
-				file_path.GetFullPath() + _TT("'."), STARENGINE_LOG_TAG);
+				_T("Couldn't open the binary file '") +
+				file_path.GetFullPath() + _T("'."), STARENGINE_LOG_TAG);
 		}
 		return succes;
 #endif
@@ -1064,15 +1064,15 @@ namespace star
 		FilePath file_path = FilePath(file, directory);
 #ifdef ANDROID
 		ASSERT_LOG(directory != DirectoryMode::assets,
-			_TT("Android doesn't support writing to a binary file in the assets directory."),
+			_T("Android doesn't support writing to a binary file in the assets directory."),
 			STARENGINE_LOG_TAG);
 
 		sofstream binary_file;
 		binary_file.open(string_cast<sstring>(file_path.GetFullPath()), std::ios::binary
 				| std::ios::trunc);
 		ASSERT_LOG(binary_file.is_open(),
-			_TT("Couldn't open the binary file '") +
-			file_path.GetFullPath() + _TT("'."), STARENGINE_LOG_TAG);
+			_T("Couldn't open the binary file '") +
+			file_path.GetFullPath() + _T("'."), STARENGINE_LOG_TAG);
 
 		for(uint32 i = 0 ; i < size ; ++i)
 		{
@@ -1083,7 +1083,7 @@ namespace star
 		sofstream binary_file;
 		binary_file.open(file_path.GetFullPath(), std::ios::binary | std::ios::trunc);
 		ASSERT_LOG(binary_file.is_open(),
-			_TT("Couldn't open the binary file '") + file_path.GetFullPath() + _TT("'."),
+			_T("Couldn't open the binary file '") + file_path.GetFullPath() + _T("'."),
 			STARENGINE_LOG_TAG);
 
 		for(uint32 i = 0 ; i < size ; ++i)
@@ -1101,14 +1101,14 @@ namespace star
 		FilePath file_path = FilePath(file, directory);
 #ifdef ANDROID
 		ASSERT_LOG(directory != DirectoryMode::assets,
-			_TT("Android doesn't support writing to a binary file in the assets directory."),
+			_T("Android doesn't support writing to a binary file in the assets directory."),
 			STARENGINE_LOG_TAG);
 
 		sofstream binary_file(string_cast<sstring>(file_path.GetFullPath()),
 				std::ios::out | std::ios::binary | std::ios::app);
 		ASSERT_LOG(binary_file.is_open(),
-			_TT("Couldn't open the binary file '") +
-			file_path.GetFullPath() + _TT("'."), STARENGINE_LOG_TAG);
+			_T("Couldn't open the binary file '") +
+			file_path.GetFullPath() + _T("'."), STARENGINE_LOG_TAG);
 
 		for(uint32 i = 0 ; i < size ; ++i)
 		{
@@ -1120,8 +1120,8 @@ namespace star
 		sofstream binary_file(file_path.GetFullPath(),
 				std::ios::out | std::ios::binary | std::ios::app);
 		ASSERT_LOG(binary_file.is_open(),
-			_TT("Couldn't open the binary file '") +
-				file_path.GetFullPath() + _TT("'."), STARENGINE_LOG_TAG);
+			_T("Couldn't open the binary file '") +
+				file_path.GetFullPath() + _T("'."), STARENGINE_LOG_TAG);
 
 		for(uint32 i = 0 ; i < size ; ++i)
 		{

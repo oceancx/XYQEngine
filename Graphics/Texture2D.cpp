@@ -4,7 +4,7 @@
 #include <SOIL.h>
 namespace star
 {
-	const tstring Texture2D::LIBSOIL_LOG_TAG = _TT("LIBSOIL");
+	const tstring Texture2D::LIBSOIL_LOG_TAG = _T("LIBSOIL");
 
 	Texture2D::Texture2D(const tstring & pPath)
 			: mTextureId(0)
@@ -32,14 +32,14 @@ namespace star
 	uint8* Texture2D::ReadImage()
 	{
 		FILE *fp;
-		tfopen(&fp, mPath.c_str(), _TT("rb"));
+		tfopen(&fp, mPath.c_str(), _T("rb"));
 
 		if (fp == NULL)
 		{
 			LOG(LogLevel::Error,
-				_TT("Texture2D::ReadSOIL: the image \"") +
+				_T("Texture2D::ReadSOIL: the image \"") +
 				mPath +
-				_TT("\" could not be loaded"), LIBSOIL_LOG_TAG
+				_T("\" could not be loaded"), LIBSOIL_LOG_TAG
 			);
 			return NULL;
 		}
@@ -53,7 +53,7 @@ namespace star
 		if(lImageBuffer == NULL)
 		{
 			LOG(LogLevel::Error, 
-				_TT("PNG : ReadSOIL FAILED - NO IMAGE BUFFER"), LIBSOIL_LOG_TAG);
+				_T("PNG : ReadSOIL FAILED - NO IMAGE BUFFER"), LIBSOIL_LOG_TAG);
 			return;
 		}
 

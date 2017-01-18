@@ -15,16 +15,16 @@ namespace star
 				if(pReturnObject == nullptr)
 				{
 					LOG(LogLevel::Error,
-						_TT("BaseScene::GetObjectByName: couldn't convert object '")
-						+ name + _TT("' to the requested type. Returning nullptr..."),
+						_T("BaseScene::GetObjectByName: couldn't convert object '")
+						+ name + _T("' to the requested type. Returning nullptr..."),
 						STARENGINE_LOG_TAG);
 				}
 				return pReturnObject;
 			}
 		}
 		LOG(LogLevel::Warning,
-			_TT("BaseScene::GetObjectByName: Trying to get an unknown object '")
-			+ name + _TT("'."), STARENGINE_LOG_TAG);
+			_T("BaseScene::GetObjectByName: Trying to get an unknown object '")
+			+ name + _T("'."), STARENGINE_LOG_TAG);
 		return nullptr;
 	}
 

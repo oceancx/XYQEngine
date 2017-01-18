@@ -19,7 +19,7 @@ namespace star
 	class Game :public BaseGame
 	{
 	public:
-		Game(tstring title=L"");
+		Game(std::string title="");
 		~Game();
 
 		//  初始化 做一些全局变量初始化 由program调用 游戏状态变为开始
@@ -32,10 +32,10 @@ namespace star
 
 		void End();
 
-		tstring GetTitle(){return m_Title;}
+		std::string GetTitle(){return m_Title;}
 
 	private:
-		tstring m_Title;
+		std::string m_Title;
 		int32 m_Width;
 		int32 m_Height;
 		GameState m_State;

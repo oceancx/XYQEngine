@@ -32,12 +32,12 @@ typedef struct myPoint
 				{ \
 					BreakInformation info = BREAK_INFO(); \
 					tstringstream buffer; \
-					buffer	<< _TT("ERROR!! Assert failed on line ") \
-							<< info.line << _TT(" in file '") \
-							<< info.file << _TT("', message: \"") \
-							<< message << _TT("\"\n"); \
+					buffer	<< _T("ERROR!! Assert failed on line ") \
+							<< info.line << _T(" in file '") \
+							<< info.file << _T("', message: \"") \
+							<< message << _T("\"\n"); \
 					__android_log_assert( \
-						_TT("ASSERT"), \
+						_T("ASSERT"), \
 						STARENGINE_LOG_TAG.c_str(), \
 						"%s", \
 						buffer.str().c_str() \

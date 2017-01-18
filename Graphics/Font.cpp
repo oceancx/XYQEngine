@@ -1,6 +1,11 @@
 #include "Font.h"
 #include "../Logger.h"
 
+#ifndef DESKTOP
+#include "Resource.h"
+#include "../StarEngine.h"
+#endif
+
 namespace star
 {
 	Font::Font():
@@ -25,29 +30,55 @@ namespace star
 		mTextures = new GLuint[FONT_TEXTURES];
 		m_FontPath = path;
 
+#ifdef DESKTOP
 		//Convert from wstring to const schar* trough sstring
 		sstring font_path = string_cast<sstring>(path);
 		FT_Error error = FT_New_Face(library,font_path.c_str(),0,&mFace);
+#else
+		Resource resource(path);
+		if(!resource.Open())
+		{
+			LOG(LogLevel::Error,
+				_T("Font : Failed to open file"), STARENGINE_LOG_TAG);
+			return false;
+		}
 
+		int32 length = resource.GetLength();
+		LOG(LogLevel::Info,
+			_T("Font : File size :") + star::string_cast<tstring>(length),
+			STARENGINE_LOG_TAG);
+		mFontBuffer = new BYTE[length]();
+
+		if(!resource.Read(mFontBuffer,length))
+		{
+			LOG(LogLevel::Error,
+				_T("Font : Failed to read file"), STARENGINE_LOG_TAG);
+			resource.Close();
+			return false;
+		}
+
+		auto error = FT_New_Memory_Face(library,mFontBuffer,length,0,&mFace);
+		resource.Close();
+#endif
 		if(error == FT_Err_Unknown_File_Format)
 		{
 			LOG(star::LogLevel::Error,
-				_TT("Font Manager : Font : ") + path +
-				_TT(" ,could be opened but it's in an unsupported format"),
+				_T("Font Manager : Font : ") + path +
+				_T(" ,could be opened but it's in an unsupported format"),
 				STARENGINE_LOG_TAG);
 			return (false);
 		}
 		else if(error)
 		{
 			LOG(star::LogLevel::Error,
-				_TT("Font Manager : Font : ") + path +
-				_TT(" ,is invalid and can't be opened or read."),
+				_T("Font Manager : Font : ") + path +
+				_T(" ,is invalid and can't be opened or read."),
 				STARENGINE_LOG_TAG);
 			return (false);
 		}
 		LOG(star::LogLevel::Info,
-			_TT("Font Manager : Font : ") + path + 
-			_TT(" ,loaded and ready for use"),
+			_T("Font Manager : Font : ") + path + 
+			_T(" ,loaded and ready for use"),
 			STARENGINE_LOG_TAG);
 
 		int32 iSize = int32(size);
@@ -67,15 +98,18 @@ namespace star
 	{
 		glDeleteTextures(FONT_TEXTURES,mTextures);
 		delete[] mTextures;
+#ifdef ANDROID
+		delete [] mFontBuffer;
+#endif
 	}
 
-	void Font::Make_D_List(FT_Face face, wchar_t ch,GLuint * tex_base)
+	void Font::Make_D_List(FT_Face face, suchar ch,GLuint * tex_base)
 	{
 		auto error = FT_Load_Char(face, ch, FT_LOAD_DEFAULT);
 		if(error)
 		{
 			LOG(star::LogLevel::Error, 
-				_TT("Font : could not load glyph"), STARENGINE_LOG_TAG);
+				_T("Font : could not load glyph"), STARENGINE_LOG_TAG);
 			return;
 		}
 
@@ -83,7 +117,7 @@ namespace star
 		if(error)
 		{
 			LOG(star::LogLevel::Error,
-				_TT("Font : could not load glyph"), STARENGINE_LOG_TAG);
+				_T("Font : could not load glyph"), STARENGINE_LOG_TAG);
 			return;
 		}
 
@@ -107,9 +141,12 @@ namespace star
 		glBindTexture(GL_TEXTURE_2D, tex_base[ch]);
 		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-
+#ifdef DESKTOP
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_LUMINANCE_ALPHA, GL_UNSIGNED_BYTE, expanded_data);
-
+#else
+		//For android "internal format" must be the same as "format" in glTexImage2D
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE_ALPHA, width, height, 0, GL_LUMINANCE_ALPHA, GL_UNSIGNED_BYTE, expanded_data);
+#endif
 		OPENGL_LOG();
 		delete[] expanded_data;
 
@@ -157,12 +194,12 @@ namespace star
 		return rval;
 	}
 
-	const std::unordered_map<tchar, CharacterInfo>& Font::GetCharacterInfoMap() const
+	const std::unordered_map<suchar, CharacterInfo>& Font::GetCharacterInfoMap() const 
 	{
 		return mCharacterInfoMap;
 	}
 
-	const CharacterInfo& Font::GetCharacterInfo(tchar character) const
+	const CharacterInfo& Font::GetCharacterInfo(suchar character) const 
 	{
 		//[COMMENT] Performing a good check here 
 		//with std::find will only slow things down
@@ -183,15 +220,12 @@ namespace star
 	uint32 Font::GetStringLength(const tstring& string) const
 	{
 		int32 length = 0;
-		for (auto i = 0; i < string.size(); i++) 
-		{
-			length += mCharacterInfoMap.at(string[i]).letterDimensions.x;
-		}
-		/*const uswchar *line = conv_text.c_str();
+		sstring conv_text = star::string_cast<sstring>(string);
+		const schar *line = conv_text.c_str();
 		for(uint32 i = 0; line[i] != 0; ++i) 
 		{
 			length += mCharacterInfoMap.at(line[i]).letterDimensions.x;
-		}*/
+		}
 		return length;
 	}
 }

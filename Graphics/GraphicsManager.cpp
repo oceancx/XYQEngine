@@ -39,13 +39,13 @@ namespace star
 		//#endif
 	{
 		LOG(star::LogLevel::Info,
-			_TT("Graphics Manager : Constructor"), STARENGINE_LOG_TAG);
+			_T("Graphics Manager : Constructor"), STARENGINE_LOG_TAG);
 	}
 
 	GraphicsManager::~GraphicsManager()
 	{
 		LOG(star::LogLevel::Info,
-			_TT("Graphics Manager : Destructor"), STARENGINE_LOG_TAG);
+			_T("Graphics Manager : Destructor"), STARENGINE_LOG_TAG);
 	}
 
 	void GraphicsManager::CalculateViewPort()
@@ -103,7 +103,7 @@ namespace star
 		//		}
 		//	#else
 		//		LOG(LogLevel::Warning, 
-		//			_TT("Setting VSync on mobile is not supported. Default VSync is enabled"),
+		//			_T("Setting VSync on mobile is not supported. Default VSync is enabled"),
 		//			STARENGINE_LOG_TAG);
 		//#endif
 	}
@@ -114,7 +114,7 @@ namespace star
 		//		return !(mWglGetSwapIntervalEXT() == 0);
 		//#else
 		//		LOG(LogLevel::Warning, 
-		//			_TT("Toggeling VSync on mobile is not supported. Default VSync is enabled"),
+		//			_T("Toggeling VSync on mobile is not supported. Default VSync is enabled"),
 		//			STARENGINE_LOG_TAG);
 		return true;
 		//#endif
@@ -129,12 +129,12 @@ namespace star
 			//glewInit();
 
 			//LOG(star::LogLevel::Info,
-			//	_TT("Graphics Manager : Initializing OpenGL Functors"),
+			//	_T("Graphics Manager : Initializing OpenGL Functors"),
 			//	STARENGINE_LOG_TAG);
 			//if (!InitializeOpenGLFunctors())
 			//{
 			//	LOG(star::LogLevel::Error,
-			//		_TT("Graphics Manager : Graphics card doesn't support VSync option!!"),
+			//		_T("Graphics Manager : Graphics card doesn't support VSync option!!"),
 			//		STARENGINE_LOG_TAG);
 			//}
 
