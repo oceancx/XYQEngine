@@ -1,19 +1,13 @@
 #pragma once
 
-#include <unordered_map>
 #include "../defines.h"
 #include "../Helpers/FilePath.h"
 #include "../Helpers/Helpers.h"
+#include <map>
+#include <GL/glew.h>
 
-#include "ft2build.h"
-#include "freetype/freetype.h"
-
-#ifdef DESKTOP
-#include <glew.h>
-#else
-#include <GLES/gl.h>
-#include <GLES/glext.h>
-#endif
+#include <ft2build.h>
+#include FT_FREETYPE_H
 
 namespace star
 {
@@ -26,14 +20,12 @@ namespace star
 			: vertexDimensions()
 			, uvDimensions()
 			, letterDimensions() 
-		{
-
-		}
-
-		vec2	vertexDimensions,
+			//, textureId(0)
+		{}
+		vec2    vertexDimensions,
 				uvDimensions;
 		ivec2	letterDimensions;
-
+		GLuint  textureId;
 	};
 
 	class Font
@@ -48,16 +40,17 @@ namespace star
 		const tstring & GetFontPath() const;
 
 		GLuint* GetTextures() const;
-		uint32 GetFontSize() const;
+		uint32  GetFontSize() const;
 		
-		const std::unordered_map<suchar, CharacterInfo>& GetCharacterInfoMap() const;
-		const CharacterInfo& GetCharacterInfo(suchar character) const;
+		const std::map<swchar, CharacterInfo> & GetCharacterInfoMap() const;
+		CharacterInfo GetCharacterInfo(swchar character)  ;
 		int32 GetMaxLetterHeight() const;
 		int32 GetMinLetterHeight() const;
-		uint32 GetStringLength(const tstring& string) const;
+		uint32 GetStringLength(const std::wstring& string) ;
+		
 
 	private:
-		void Make_D_List(FT_Face face, suchar ch,GLuint * tex_base);
+		CharacterInfo Make_D_List( swchar ch);
 		int32 NextPowerOfTwo(int32 number) const;
 
 		tstring m_FontPath;
@@ -66,10 +59,7 @@ namespace star
 		int32	mMaxLetterHeight,
 				mMinLetterHeight;
 
-#ifdef ANDROID
-		BYTE* mFontBuffer;
-#endif
-		std::unordered_map<suchar, CharacterInfo> mCharacterInfoMap;
+		std::map<swchar, CharacterInfo> mCharacterInfoMap;
 		uint32 mSize;
 	};
 }

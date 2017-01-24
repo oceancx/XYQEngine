@@ -38,7 +38,6 @@ having a SpriteSheet- or TextComponent."), STARENGINE_LOG_TAG);
 		}
 		else
 		{*/
-	
 		std::cout << "path:" << m_FilePath.GetFullPath() << std::endl;
 		
 			TextureManager::GetInstance()->LoadTexture(

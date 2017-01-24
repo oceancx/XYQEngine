@@ -1,10 +1,6 @@
 #include "Font.h"
 #include "../Logger.h"
 
-#ifndef DESKTOP
-#include "Resource.h"
-#include "../StarEngine.h"
-#endif
 
 namespace star
 {
@@ -27,39 +23,13 @@ namespace star
 	bool Font::Init(const tstring& path, uint32 size, FT_Library& library)
 	{
 		mSize = size;
-		mTextures = new GLuint[FONT_TEXTURES];
+	//	mTextures = new GLuint[FONT_TEXTURES];
 		m_FontPath = path;
 
-#ifdef DESKTOP
 		//Convert from wstring to const schar* trough sstring
 		sstring font_path = string_cast<sstring>(path);
 		FT_Error error = FT_New_Face(library,font_path.c_str(),0,&mFace);
-#else
-		Resource resource(path);
-		if(!resource.Open())
-		{
-			LOG(LogLevel::Error,
-				_T("Font : Failed to open file"), STARENGINE_LOG_TAG);
-			return false;
-		}
 
-		int32 length = resource.GetLength();
-		LOG(LogLevel::Info,
-			_T("Font : File size :") + star::string_cast<tstring>(length),
-			STARENGINE_LOG_TAG);
-		mFontBuffer = new BYTE[length]();
-
-		if(!resource.Read(mFontBuffer,length))
-		{
-			LOG(LogLevel::Error,
-				_T("Font : Failed to read file"), STARENGINE_LOG_TAG);
-			resource.Close();
-			return false;
-		}
-
-		auto error = FT_New_Memory_Face(library,mFontBuffer,length,0,&mFace);
-		resource.Close();
-#endif
 		if(error == FT_Err_Unknown_File_Format)
 		{
 			LOG(star::LogLevel::Error,
@@ -83,45 +53,55 @@ namespace star
 
 		int32 iSize = int32(size);
 		FT_Set_Char_Size(mFace, iSize << 6, iSize << 6, FONT_DPI, FONT_DPI);
+		
+		// Disable byte-alignment restriction
+	//	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
-		glGenTextures(FONT_TEXTURES, mTextures);
-		for(suchar i = 0; i < FONT_TEXTURES; ++i)
+		//glGenTextures(FONT_TEXTURES, mTextures);
+		/*for(suchar i = 0; i < FONT_TEXTURES; ++i)
 		{
 			mCharacterInfoMap.insert(std::make_pair(i, CharacterInfo()));
 			Make_D_List(mFace, i, mTextures);
-		}
-		FT_Done_Face(mFace);
+		}*/
+		//FT_Done_Face(mFace);
 		return true;
 	}
 
 	void Font::DeleteFont()
 	{
-		glDeleteTextures(FONT_TEXTURES,mTextures);
-		delete[] mTextures;
-#ifdef ANDROID
-		delete [] mFontBuffer;
-#endif
+		//glDeleteTextures(FONT_TEXTURES,mTextures);
+		//delete[] mTextures;
+	/*	auto map_it = mCharacterInfoMap.cbegin();
+		while (map_it != mCharacterInfoMap.cend())
+		{
+			glDeleteTextures(1,&(map_it->second).textureId);
+			++map_it;
+		}
+		mCharacterInfoMap.clear();
+		FT_Done_Face(mFace);
+		*/
 	}
 
-	void Font::Make_D_List(FT_Face face, suchar ch,GLuint * tex_base)
+	CharacterInfo Font::Make_D_List(swchar ch)
 	{
-		auto error = FT_Load_Char(face, ch, FT_LOAD_DEFAULT);
+		CharacterInfo charInfo = CharacterInfo();
+		auto error = FT_Load_Char(mFace, ch, FT_LOAD_DEFAULT);
 		if(error)
 		{
 			LOG(star::LogLevel::Error, 
 				_T("Font : could not load glyph"), STARENGINE_LOG_TAG);
-			return;
+			return charInfo;
 		}
 
-		error = FT_Render_Glyph(face->glyph, FT_RENDER_MODE_NORMAL);
+		error = FT_Render_Glyph(mFace->glyph, FT_RENDER_MODE_NORMAL);
 		if(error)
 		{
 			LOG(star::LogLevel::Error,
 				_T("Font : could not load glyph"), STARENGINE_LOG_TAG);
-			return;
+			return charInfo;
 		}
 
-		FT_Bitmap& bitmap = face->glyph->bitmap;
+		FT_Bitmap& bitmap = mFace->glyph->bitmap;
 
 		int32 width = NextPowerOfTwo(bitmap.width);
 		int32 height = NextPowerOfTwo(bitmap.rows);
@@ -137,36 +117,36 @@ namespace star
 					(i >= bitmap.width || j >= bitmap.rows) ? 0 : bitmap.buffer[i + bitmap.width * j];
 			}
 		}
-
-		glBindTexture(GL_TEXTURE_2D, tex_base[ch]);
+		//mCharacterInfoMap[ch] = *new CharacterInfo();
+		glGenTextures(GL_TEXTURE_2D, &(charInfo.textureId));
+		glBindTexture(GL_TEXTURE_2D, charInfo.textureId);
 		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-#ifdef DESKTOP
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_LUMINANCE_ALPHA, GL_UNSIGNED_BYTE, expanded_data);
-#else
-		//For android "internal format" must be the same as "format" in glTexImage2D
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE_ALPHA, width, height, 0, GL_LUMINANCE_ALPHA, GL_UNSIGNED_BYTE, expanded_data);
-#endif
-		OPENGL_LOG();
-		delete[] expanded_data;
 
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, expanded_data);
+
+		//OPENGL_LOG();
+		if (expanded_data != NULL) {
+			delete[] expanded_data;
+		}
 		//uvs
 		float32 x = static_cast<float32>(bitmap.width) / static_cast<float32>(width);
 		float32 y = static_cast<float32>(bitmap.rows) / static_cast<float32>(height);
 		//letter height
-		int32 dimX = (face->glyph->metrics.horiAdvance / 64);
-		int32 dimY = ((face->glyph->metrics.horiBearingY) - (face->glyph->metrics.height)) / 64;		
-		if(mMaxLetterHeight < face->glyph->bitmap_top)
+		int32 dimX = (mFace->glyph->metrics.horiAdvance / 64);
+		int32 dimY = ((mFace->glyph->metrics.horiBearingY) - (mFace->glyph->metrics.height)) / 64;
+		if(mMaxLetterHeight < mFace->glyph->bitmap_top)
 		{
-			mMaxLetterHeight = face->glyph->bitmap_top;
+			mMaxLetterHeight = mFace->glyph->bitmap_top;
 		}
 		if(mMinLetterHeight > dimY)
 		{
 			mMinLetterHeight = dimY;
 		}
-		mCharacterInfoMap.at(ch).letterDimensions = ivec2(dimX, dimY);
-		mCharacterInfoMap.at(ch).vertexDimensions = vec2(bitmap.width, bitmap.rows);
-		mCharacterInfoMap.at(ch).uvDimensions = vec2(x, y);
+		charInfo.letterDimensions = ivec2(dimX, dimY);
+		charInfo.vertexDimensions = vec2(bitmap.width, bitmap.rows);
+		charInfo.uvDimensions = vec2(x, y);
+		return charInfo;
 	}
 
 	const tstring & Font::GetFontPath() const
@@ -194,17 +174,23 @@ namespace star
 		return rval;
 	}
 
-	const std::unordered_map<suchar, CharacterInfo>& Font::GetCharacterInfoMap() const 
+	const  std::map<wchar_t, CharacterInfo> & Font::GetCharacterInfoMap() const
 	{
 		return mCharacterInfoMap;
 	}
 
-	const CharacterInfo& Font::GetCharacterInfo(suchar character) const 
+	CharacterInfo Font::GetCharacterInfo(swchar character)
 	{
-		//[COMMENT] Performing a good check here 
-		//with std::find will only slow things down
-		//If the map.at has an unknown value, it will throw an exception anyway
-		return mCharacterInfoMap.at(character);
+		/*[COMMENT] Performing a good check here 0
+		with std::find will only slow things down
+		If the map.at has an unknown value, it will throw an exception anyway*/
+		if (mCharacterInfoMap.find(character) == mCharacterInfoMap.end())
+		{
+			mCharacterInfoMap[character] = Make_D_List(character);
+			//mCharacterInfoMap[(std::make_pair(character, Make_D_List(character)));
+			
+		}
+		return mCharacterInfoMap[character];
 	}
 
 	int32 Font::GetMaxLetterHeight() const 
@@ -217,14 +203,14 @@ namespace star
 		return mMinLetterHeight;
 	}
 
-	uint32 Font::GetStringLength(const tstring& string) const
+	uint32 Font::GetStringLength(const std::wstring& wstr) 
 	{
 		int32 length = 0;
-		sstring conv_text = star::string_cast<sstring>(string);
-		const schar *line = conv_text.c_str();
-		for(uint32 i = 0; line[i] != 0; ++i) 
+		
+		for(uint32 i = 0; i< wstr.size(); ++i)
 		{
-			length += mCharacterInfoMap.at(line[i]).letterDimensions.x;
+			CharacterInfo info = GetCharacterInfo(wstr[i]);
+			length += info.letterDimensions.x;
 		}
 		return length;
 	}

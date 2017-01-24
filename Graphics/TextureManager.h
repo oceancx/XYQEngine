@@ -4,6 +4,7 @@
 #include <memory>
 #include "../defines.h"
 #include "../Helpers/Singleton.h"
+#include "../Graphics/XYQ/Sprite2.h"
 
 //#ifdef DESKTOP
 #define GLEW_STATIC
@@ -22,11 +23,13 @@ namespace star
 		friend Singleton<TextureManager>;
 
 		void LoadTexture(const tstring& path, const tstring& name);
+		void LoadTexture(const tstring& path, const tstring& name, int width, int height, uint8* src);
 		bool DeleteTexture(const tstring& name);
 		GLuint GetTextureID(const tstring& name);
 		ivec2 GetTextureDimensions(const tstring& name);
 		void EraseAllTextures();
 		bool ReloadAllTextures();
+		
 
 	private:
 		std::map<tstring, std::shared_ptr<Texture2D>> m_TextureMap;

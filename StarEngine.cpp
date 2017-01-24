@@ -17,7 +17,12 @@
 
 #include "Components\CameraComponent.h"
 #include "Objects\Object.h"
+#include "Objects\Player.h"
 #include "Scenes\BaseScene.h"
+
+#include "Graphics\Font.h"
+
+#include "Components\Graphics\SpriteArrayComponent.h"
 namespace star
 {
 	StarEngine * StarEngine::m_pEngine = nullptr;
@@ -34,8 +39,48 @@ namespace star
 		}
 		return m_pEngine;
 	}
-	Object* obj;
+	
+	Font font;
+	
+	void RenderText(std::wstring text,int x,int y)
+	{
+		for (int i = 0; i < text.size(); i++)
+		{
+			wchar_t& c = text[i];
+			const CharacterInfo& cinfo = font.GetCharacterInfo(c);
+			GLfloat xpos = x ;
+			GLfloat ypos = y;
+
+			GLfloat w = cinfo.vertexDimensions.x;
+			GLfloat h = cinfo.vertexDimensions.y;
+			// Update VBO for each character
+			GLfloat vertices[6][4] = {
+				{ xpos,     ypos + h,   0.0, 0.0 },
+				{ xpos,     ypos,       0.0, 1.0 },
+				{ xpos + w, ypos,       1.0, 1.0 },
+
+				{ xpos,     ypos + h,   0.0, 0.0 },
+				{ xpos + w, ypos,       1.0, 1.0 },
+				{ xpos + w, ypos + h,   1.0, 0.0 }
+			};
+			glBindTexture(GL_TEXTURE_2D, cinfo.textureId);
+			GLuint VBO;
+			glGenBuffers(1, &VBO);
+			glBindBuffer(GL_ARRAY_BUFFER, VBO);
+			glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices); // Be sure to use glBufferSubData and not glBufferData
+
+			glBindBuffer(GL_ARRAY_BUFFER, 0);
+			// Render quad
+			glDrawArrays(GL_TRIANGLES, 0, 6);
+			// Now advance cursors for next glyph (note that advance is number of 1/64 pixels)
+			x += (((int)w )>> 6); // Bitshift by 6 to get value in pixels (2^6 = 64 (divide amount of 1/64th pixels by 64 to get amount of pixels))
+			glBindTexture(GL_TEXTURE_2D, 0);
+		}
+	}
+
+	Player* obj;
 	BaseScene* scene;
+	
 	void StarEngine::Initialize(int32 window_width, int32 window_height)
 	{
 		std::random_device seeder;
@@ -53,15 +98,43 @@ namespace star
 		SpriteBatch::GetInstance()->Initialize();
 		DebugDraw::GetInstance()->Initialize();
 		
-		obj = new Object("obj");
+		obj = new Player("obj");
 		obj->AddComponent(new CameraComponent());
 		obj->BaseInitialize();
-		//auto camera= obj.GetComponent<CameraComponent>(true);
+		tstring playerPath = _T("E:\\mhxy_code_repo\\Engine\\assets\\fonts\\simsun.ttc");
+		tstring playerName = _T("ËÎÌו");
+		obj->AddComponent(new TextComponent(
+			playerPath,
+			playerName,
+			14
+		));
+
+
+	/*	tstring playerPath = _T("E:\\mhxy_code_repo\\Engine\\assets\\animation\\mhxy3_");
+		tstring playerName = _T("Player");
+		obj->AddComponent(new SpriteArrayComponent(
+			playerPath,
+			playerName,
+			1,1
+		));*/
+
+
+	
+		//auto camera = obj.GetComponent<CameraComponent>(true);
+		//tstring playerPath = _T("E:\\mhxy_code_repo\\Engine\\assets\\animation\\mhxy3_");
+		//tstring playerName = _T("Player");
 		
+
 		scene = new BaseScene("JYC");
 		scene->AddObject(obj);
 	//	scene->BaseInitialize();
 
+
+	
+		/*FT_Library ft;
+		FT_Init_FreeType(&ft);
+		font.Init(_T( "E:\\mhxy_code_repo\\Engine\\assets\\fonts\\simsun.ttc"), 48, ft);
+*/
 		SceneManager::GetInstance()->AddScene(scene);
 		SceneManager::GetInstance()->SetActiveScene("JYC");
 

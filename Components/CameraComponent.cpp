@@ -51,11 +51,11 @@ namespace star
 				m_Size = static_cast<float32>(GraphicsManager::GetInstance()->GetViewportHeight());
 			}
 
-			m_Projection = MatrixOrtho(m_Size * m_AspectRatio * m_Zoom,
+			/*m_Projection = MatrixOrtho(m_Size * m_AspectRatio * m_Zoom,
 										m_Size * m_Zoom, 
 										m_NearPlane, 
-										m_FarPlane);
-			//projectionMat = glm::ortho(0.0f, 800.0f, 0.0f, 600.0f, -1.0f, 1.0f);
+										m_FarPlane);*/
+			m_Projection = glm::ortho(0.0f, m_Size * m_AspectRatio * m_Zoom, m_Size * m_Zoom, 0.0f, -1.0f, 1.0f);
 		}
 	}
 
@@ -75,11 +75,12 @@ namespace star
 			}
 			else
 			{
-				m_Size = static_cast<float32>(GraphicsManager::GetInstance()->GetViewportHeight());
+				/*m_Size = static_cast<float32>(GraphicsManager::GetInstance()->GetViewportHeight());
 				m_Projection = MatrixOrtho(m_Size * m_AspectRatio * m_Zoom, 
 										   m_Size * m_Zoom, 
 										   m_NearPlane, 
-										   m_FarPlane);
+										   m_FarPlane);*/
+				m_Projection = glm::ortho(0.0f, m_Size * m_AspectRatio * m_Zoom, m_Size * m_Zoom, 0.0f, -1.0f, 1.0f);
 			}
 		}
 #endif
@@ -147,7 +148,7 @@ namespace star
 		
 	void CameraComponent::SetActive()
 	{
-		/*auto scene = GetGameScene();
+		auto scene = GetGameScene();
 	
 		if(scene == nullptr)
 		{
@@ -160,7 +161,7 @@ namespace star
 		else
 		{
 			scene->SetActiveCamera(dynamic_cast<BaseCamera*>(m_pParentObject));
-		}*/
+		}
 	}
 
 	bool CameraComponent::IsActive() const

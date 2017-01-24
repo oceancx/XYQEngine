@@ -16,7 +16,7 @@ namespace star
 		GAME_WIN
 	};
 
-	class Game :public BaseGame
+	class Game //:public BaseGame
 	{
 	public:
 		Game(std::string title="");
@@ -26,7 +26,7 @@ namespace star
 		void Initialize(int32, int32);
 
 		// 
-		void Update();
+		void Update(float dt);
 
 		void Draw();
 

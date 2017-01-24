@@ -14,5 +14,6 @@ namespace star
 	struct Context 
 	{
 		TimeManager * time;
+		float dt;
 	};
 }

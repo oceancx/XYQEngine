@@ -3,6 +3,7 @@
 #include "../BaseComponent.h"
 #include "../../defines.h"
 #include "../../Graphics/Color.h"
+#include "../../Graphics/Font.h"
 #include <vector>
 
 namespace star
@@ -29,13 +30,13 @@ namespace star
 			, text()
 			, textHeight()
 		{}
-		const Font* font;
+		Font* font;
 		TransformComponent* transformPtr;
 		Color colorMultiplier; 
 		bool bIsHud;	
 		std::vector<int32> horizontalTextOffset;
 		int32 verticalSpacing;
-		tstring text;	
+		swstring text;
 		int32 textHeight;
 	};
 
@@ -105,13 +106,13 @@ namespace star
 		/// Sets the text.
 		/// </summary>
 		/// <param name="text">The text.</param>
-		void SetText(const tstring& text);
+		void SetText(const swstring& text);
 
 		/// <summary>
 		/// Gets the text.
 		/// </summary>
 		/// <returns>The text.</returns>
-		const tstring& GetText() const;
+		const swstring& GetText() const;
 
 		/// <summary>
 		/// Sets the color.
@@ -202,7 +203,7 @@ namespace star
 		/// Also calls CalculateHorizontalTextOffset() 
 		/// </summary>
 		/// <param name="str">The string.</param>
-		void CleanUpText(const tstring & str);
+		void CleanUpText(const swstring & str);
 
 		/// <summary>
 		/// Calculates the horizontal text offset.
@@ -213,7 +214,7 @@ namespace star
 		/// </summary>
 		/// <param name="str">The text.</param>
 		/// <returns></returns>
-		int32 GetLongestLine(const tstring & str);
+		int32 GetLongestLine(const swstring & str);
 
 		/// <summary>
 		/// Fills the text information struct, to send to the <see cref="SpriteBatch"/>
@@ -226,13 +227,13 @@ namespace star
 
 		int32 m_WrapWidth;
 
-		tstring m_FileName,
-				m_OrigText,
+		tstring m_FileName;
+		swstring m_OrigText,
 				m_EditText;
 
 		Color m_TextColor;
 		TextInfo* m_TextInfo;
-		const Font* m_Font;
+		Font* m_Font;
 		HorizontalAlignment m_TextAlignment;
 
 		/// <summary>
@@ -241,8 +242,8 @@ namespace star
 		/// <param name="stringIn">The string in.</param>
 		/// <param name="wrapWidth">Width of the wrap.</param>
 		/// <returns>a new string, wrapped correctly</returns>
-		tstring CheckWrapping(
-			const tstring& stringIn,
+		swstring CheckWrapping(
+			const swstring& stringIn,
 			int32 wrapWidth
 			);
 
@@ -253,9 +254,9 @@ namespace star
 		/// <param name="str">The string.</param>
 		/// <param name="delimiter">The delimiter.</param>
 		void SplitString(
-			PointerArray<tstring, uint32> & words,
-			tstring str,
-			tchar delimiter
+			PointerArray<swstring, uint32> & words,
+			swstring str,
+			swchar delimiter
 			);
 
 		TextComponent(const TextComponent &);

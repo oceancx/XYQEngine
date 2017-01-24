@@ -49,6 +49,33 @@ namespace star
 		m_PathList[path] = name;
 	}
 
+
+	void TextureManager::LoadTexture(const tstring& path, const tstring& name,int width,int height,uint8* src)
+	{
+		if (m_TextureMap.find(name) != m_TextureMap.end())
+		{
+			return;
+		}
+
+		auto pathit = m_PathList.find(path);
+		if (pathit != m_PathList.end())
+		{
+			tstring nameOld = pathit->second;
+			auto nameit = m_TextureMap.find(nameOld);
+			if (nameit != m_TextureMap.end())
+			{
+				m_TextureMap[name] = nameit->second;
+				return;
+			}
+			m_PathList.erase(pathit);
+			return;
+		}
+
+		m_TextureMap[name] = std::make_shared<Texture2D>(path, width,height,src);
+
+		m_PathList[path] = name;
+	}
+
 	bool TextureManager::DeleteTexture(const tstring& name)
 	{
 		auto it = m_TextureMap.find(name);

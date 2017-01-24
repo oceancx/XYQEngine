@@ -1,9 +1,11 @@
 #include "TextComponent.h"
-#include "../../Graphics/FontManager.h"
+//#include "../../Graphics/FontManager.h"
 #include "../../Objects/Object.h"
 #include "SpriteComponent.h"
-#include "SpriteSheetComponent.h"
+//#include "SpriteSheetComponent.h"
 #include "../../Graphics/SpriteBatch.h"
+
+#include "../../Graphics/Font.h"
 
 namespace star
 {
@@ -14,21 +16,26 @@ namespace star
 		, m_FontSize(0)
 		, m_StringLength(0)
 		, m_WrapWidth(NO_WRAPPING)
-		, m_FileName(EMPTY_STRING)
-		, m_OrigText(EMPTY_STRING)
-		, m_EditText(EMPTY_STRING)
+		, m_FileName("")
+		, m_OrigText(L"")
+		, m_EditText(L"")
 		, m_TextColor(Color::Black)
 		, m_TextInfo(nullptr)
 		, m_Font(nullptr)
 		, m_TextAlignment(HorizontalAlignment::left)
 	{
-		const auto * font = 
-			FontManager::GetInstance()->GetFont(fontName);
+		//const auto * font = 
+			//FontManager::GetInstance()->GetFont(fontName);
+		Font * font = new Font();
+		FT_Library ft;
+		FT_Init_FreeType(&ft);
+		font->Init(_T("E:\\mhxy_code_repo\\Engine\\assets\\fonts\\simsun.ttc"), 48, ft);
 		m_FileName = font->GetFontPath();
 		m_FontSize = font->GetFontSize();
 
-		m_Font = FontManager::GetInstance()->GetFont(fontName);
+		m_Font = font;// FontManager::GetInstance()->GetFont(fontName);
 		m_TextInfo = new TextInfo();
+	
 	}
 
 	TextComponent::TextComponent(
@@ -41,14 +48,14 @@ namespace star
 		, m_StringLength(0)
 		, m_WrapWidth(NO_WRAPPING)
 		, m_FileName(fontPath)
-		, m_OrigText(EMPTY_STRING)
-		, m_EditText(EMPTY_STRING)
+		, m_OrigText(L"123")
+		, m_EditText(L"")
 		, m_TextColor(Color::Black)
 		, m_TextInfo(nullptr)
 		, m_Font()
 		, m_TextAlignment(HorizontalAlignment::left)
 	{
-		if(!FontManager::GetInstance()->LoadFont(
+		/*if(!FontManager::GetInstance()->LoadFont(
 				m_FileName,
 				fontName,
 				m_FontSize
@@ -57,15 +64,23 @@ namespace star
 			LOG(LogLevel::Error,
 				_T("TextComponent : Could not load Font '")
 				+ m_FileName + _T("'."), STARENGINE_LOG_TAG);
-		}
+		}*/
 
-		m_Font = FontManager::GetInstance()->GetFont(fontName);
+		Font * font = new Font();
+		FT_Library ft;
+		FT_Init_FreeType(&ft);
+		font->Init(_T("E:\\mhxy_code_repo\\Engine\\assets\\fonts\\simsun.ttc"), 48, ft);
+		m_FileName = font->GetFontPath();
+		m_FontSize = font->GetFontSize();
+
+		m_Font = font;// FontManager::GetInstance()->GetFont(fontName);
 		m_TextInfo = new TextInfo();
+	
 	}
 
 	void TextComponent::InitializeComponent()
 	{
-		if(m_pParentObject->HasComponent<SpriteSheetComponent>(this)
+		/*if(m_pParentObject->HasComponent<SpriteSheetComponent>(this)
 			|| m_pParentObject->HasComponent<SpriteComponent>(this))
 		{
 			ASSERT_LOG(false,
@@ -75,7 +90,7 @@ having a SpriteSheet- or SpriteComponent."), STARENGINE_LOG_TAG);
 			m_pParentObject->RemoveComponent(this);
 		}
 		else
-		{
+		{*/
 			if(m_WrapWidth == NO_WRAPPING)
 			{
 				CleanUpText(m_OrigText);
@@ -90,7 +105,8 @@ having a SpriteSheet- or SpriteComponent."), STARENGINE_LOG_TAG);
 			}
 
 			FillTextInfo();
-		}
+		//}
+	//		SetText(L"12");
 	}
 
 	void TextComponent::FillTextInfo()
@@ -121,7 +137,7 @@ having a SpriteSheet- or SpriteComponent."), STARENGINE_LOG_TAG);
 
 	void TextComponent::CalculateTextHeight()
 	{
-		auto count = std::count(m_EditText.begin(), m_EditText.end(), _T('\n'));
+		auto count = std::count(m_EditText.begin(), m_EditText.end(), L'\n');
 		++count;
 		m_Dimensions.y = (m_Font->GetMaxLetterHeight() * count)
 				+ (m_TextInfo->verticalSpacing * (count - 1));
@@ -129,15 +145,16 @@ having a SpriteSheet- or SpriteComponent."), STARENGINE_LOG_TAG);
 		GetTransform()->SetDimensionsYSafe(m_Dimensions.y);
 	}
 	
-	void TextComponent::CleanUpText(const tstring & str)
+	void TextComponent::CleanUpText(const swstring & str)
 	{
-		size_t length = str.length();
-		m_EditText = EMPTY_STRING;
+		size_t length = str.size();
+		m_EditText = L"";
 		for(size_t i = 0 ; i < length ; ++i)
 		{
-			if(str[i] == _T('\t'))
+			if(str[i] == L'\t')
 			{
-				m_EditText += TAB;
+				
+				m_EditText += L"    ";
 			}
 			else
 			{
@@ -162,13 +179,13 @@ having a SpriteSheet- or SpriteComponent."), STARENGINE_LOG_TAG);
 				}
 				else
 				{
-					m_TextInfo->text = EMPTY_STRING;
-					tstring substr(EMPTY_STRING);
+					m_TextInfo->text = L"";
+					swstring substr(L"");
 					for(size_t i = 0 ; i < m_EditText.length() ; ++i)
 					{
-						if(m_EditText[i] == _T('\n'))
+						if(m_EditText[i] == L'\n')
 						{
-							m_TextInfo->text += substr + _T('\n');
+							m_TextInfo->text += substr + L'\n';
 
 							uint32 diff = length - m_Font->GetStringLength(substr);
 							if(diff > 0)
@@ -177,7 +194,7 @@ having a SpriteSheet- or SpriteComponent."), STARENGINE_LOG_TAG);
 							}
 							m_TextInfo->horizontalTextOffset.push_back(diff);
 							
-							substr = EMPTY_STRING;
+							substr = L"";
 							counter = 0;
 						}
 						else
@@ -206,18 +223,18 @@ having a SpriteSheet- or SpriteComponent."), STARENGINE_LOG_TAG);
 				}
 				else
 				{
-					m_TextInfo->text = EMPTY_STRING;
-					tstring substr(EMPTY_STRING);
+					m_TextInfo->text = L"";
+					swstring substr(L"");
 					for(size_t i = 0 ; i < m_EditText.length() ; ++i)
 					{
-						if(m_EditText[i] == _T('\n'))
+						if(m_EditText[i] == L'\n')
 						{
-							m_TextInfo->text += substr + _T('\n');
+							m_TextInfo->text += substr + L'\n';
 
 							uint32 diff = length - m_Font->GetStringLength(substr);
 							m_TextInfo->horizontalTextOffset.push_back(diff);
 
-							substr = EMPTY_STRING;
+							substr = L"";
 							counter = 0;
 						}
 						else
@@ -238,7 +255,7 @@ having a SpriteSheet- or SpriteComponent."), STARENGINE_LOG_TAG);
 				GetLongestLine(m_EditText);
 				m_TextInfo->text = m_EditText;
 				m_TextInfo->horizontalTextOffset.push_back(0);
-				auto n = std::count(m_EditText.begin(), m_EditText.end(), _T('\n'));
+				auto n = std::count(m_EditText.begin(), m_EditText.end(), L'\n');
 				for( ; n > 0 ; --n)
 				{
 					m_TextInfo->horizontalTextOffset.push_back(0);
@@ -247,15 +264,15 @@ having a SpriteSheet- or SpriteComponent."), STARENGINE_LOG_TAG);
 		}
 	}
 	
-	int32 TextComponent::GetLongestLine(const tstring & str)
+	int32 TextComponent::GetLongestLine(const swstring & str)
 	{
 		int32 length(0);
 		if(m_bInitialized)
 		{
-			tstring substr(EMPTY_STRING);
+			swstring substr(L"");
 			for(size_t i = 0 ; i < str.length() ; ++i)
 			{
-				if(str[i] == _T('\n'))
+				if(str[i] == L'\n')
 				{
 					int32 strLength = m_Font->GetStringLength(substr);
 					if(strLength > length)
@@ -264,7 +281,7 @@ having a SpriteSheet- or SpriteComponent."), STARENGINE_LOG_TAG);
 						m_Dimensions.x = strLength;
 						GetTransform()->SetDimensionsXSafe(m_Dimensions.x);
 					}
-					substr = EMPTY_STRING;
+					substr = L"";
 				}
 				else
 				{
@@ -339,7 +356,7 @@ having a SpriteSheet- or SpriteComponent."), STARENGINE_LOG_TAG);
 	}
 
 
-	void TextComponent::SetText(const tstring& text)
+	void TextComponent::SetText(const swstring& text)
 	{
 		m_OrigText = text;
 		if (m_WrapWidth != NO_WRAPPING)
@@ -361,7 +378,7 @@ having a SpriteSheet- or SpriteComponent."), STARENGINE_LOG_TAG);
 		m_StringLength = m_Font->GetStringLength(m_OrigText);
 	}
 
-	const tstring& TextComponent::GetText() const
+	const swstring& TextComponent::GetText() const
 	{
 		return m_OrigText;
 	}
@@ -402,16 +419,16 @@ having a SpriteSheet- or SpriteComponent."), STARENGINE_LOG_TAG);
 		return m_WrapWidth;
 	}
 
-	tstring TextComponent::CheckWrapping(
-		const tstring& stringIn,
+	swstring TextComponent::CheckWrapping(
+		const swstring& stringIn,
 		int32 wrapWidth
 		)
 	{
-		tstring line(EMPTY_STRING),
-				returnString(EMPTY_STRING);
+		swstring line(L""),
+				returnString(L"");
 
-		PointerArray<tstring, uint32> words;
-		SplitString(words, stringIn, _T(' '));
+		PointerArray<swstring, uint32> words;
+		SplitString(words, stringIn, L' ');
 
 		m_Dimensions.y = m_Font->GetMaxLetterHeight();
 		GetTransform()->SetDimensionsYSafe(m_Dimensions.y);
@@ -420,18 +437,18 @@ having a SpriteSheet- or SpriteComponent."), STARENGINE_LOG_TAG);
 
 		for(uint32 i = 0; i < words.amount ; ++i)
 		{
-			size_t n_count = words.elements[i].find(_T('\n'));
-			if(n_count != tstring::npos)
+			size_t n_count = words.elements[i].find(L'\n');
+			if(n_count != swstring::npos)
 			{
-				if(words.elements[i][0] == _T('\n'))
+				if (words.elements[i][0] == L'\n')
 				{
-					returnString += line + _T('\n');
+					returnString += line + L'\n';
 					line = words.elements[i].substr(0, words.elements[i].size() - 1);
 				}
 				else
 				{
 					returnString += line + words.elements[i];
-					line = EMPTY_STRING;
+					line = L"";
 				}
 				++lines;
 			}
@@ -449,12 +466,12 @@ having a SpriteSheet- or SpriteComponent."), STARENGINE_LOG_TAG);
 
 				if( w > wrapWidth)
 				{
-					returnString += line + _T("\n");
+					returnString += line + L"\n";
 					++lines;
-					line = EMPTY_STRING;
+					line = L"";
 				}
 
-				line += words.elements[i] + _T(" ");
+				line += words.elements[i] +L" ";
 			}
 		}
 
@@ -466,9 +483,9 @@ having a SpriteSheet- or SpriteComponent."), STARENGINE_LOG_TAG);
 	}
 
 	void TextComponent::SplitString(
-		PointerArray<tstring, uint32> & words,
-		tstring str,
-		tchar delimiter
+		PointerArray<swstring, uint32> & words,
+		swstring str,
+		swchar delimiter
 		)
 	{
 		words.amount =
@@ -478,7 +495,7 @@ having a SpriteSheet- or SpriteComponent."), STARENGINE_LOG_TAG);
 				delimiter
 				);
 
-		words.elements = new tstring[words.amount];
+		words.elements = new swstring[words.amount];
 		size_t pos(0);
 		uint32 n(0);
 

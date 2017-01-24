@@ -304,7 +304,7 @@ namespace star
 	void Object::Draw()
 	{
 
-		for (int k = 0; k<50; k++)
+		/*for (int k = 0; k<50; k++)
 		{
 			int x = 200 - k, y = 100 - k;
 			int w = 50, h = 50;
@@ -324,7 +324,7 @@ namespace star
 				x = 200;
 				y += 50;
 			}
-		}
+		}*/
 	}
 
 	bool Object::BaseCheckCulling(

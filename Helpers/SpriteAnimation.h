@@ -4,6 +4,10 @@
 #include <vector>
 #include <functional>
 
+/*
+此类要保留 
+对动画播放进行控制
+*/
 namespace star
 {
 	struct Context;

@@ -1,7 +1,7 @@
 #include "SpriteBatch.h"
 #include "../Objects/Object.h"
 //#include "../Scenes/SceneManager.h"
-//#include "GraphicsManager.h"
+#include "GraphicsManager.h"
 //#include "../Components/CameraComponent.h"
 //#include "../Objects/FreeCamera.h"
 //#include "../Scenes/BaseScene.h"
@@ -17,7 +17,7 @@ namespace star
 	SpriteBatch::SpriteBatch()
 		: Singleton<SpriteBatch>()
 		, m_SpriteQueue()
-		//, m_TextQueue()
+		, m_TextQueue()
 		, m_VertexBuffer()
 		, m_UvCoordBuffer()
 		, m_IsHUDBuffer()
@@ -60,21 +60,9 @@ namespace star
 		glGenBuffers(1, &m_VBO);
 		glGenVertexArrays(1, &m_VAO);
 
-		m_ShaderPtr->Bind();
-		const mat4 viewInverseMat;// = GraphicsManager::GetInstance()->GetViewInverseMatrix();
-		glm::mat4 model;
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
-
-		glm::mat4 projectionMat = glm::ortho(0.0f, 800.0f, 0.0f, 600.0f, -1.0f, 1.0f);
-
-		glUniform1i(m_TextureSamplerID, 0);
-
-		glUniformMatrix4fv(m_ScalingID, 1, GL_FALSE, ToPointerValue(model));
-		glUniformMatrix4fv(m_ViewInverseID, 1, GL_FALSE, ToPointerValue(viewInverseMat));
-		glUniformMatrix4fv(m_ProjectionID, 1, GL_FALSE, ToPointerValue(projectionMat));
-
-		m_ShaderPtr->Unbind();
+	//	m_ShaderPtr->Bind();
+		
+	//	m_ShaderPtr->Unbind();
 		
 		
 	}
@@ -84,9 +72,14 @@ namespace star
 		Begin();
 		
 		DrawSprites();
-		
+
+		m_VertexBuffer.clear();
+		m_UvCoordBuffer.clear();
+		m_IsHUDBuffer.clear();
+		m_ColorBuffer.clear();
 		//Clear vertex, uv, color and isHud buffer
-//		DrawTextSprites();
+		DrawTextSprites();
+
 		End();
 	}
 	
@@ -97,6 +90,7 @@ namespace star
 		CreateSpriteQuads();
 		
 		m_ShaderPtr->Bind();
+
 		glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
 		int vbsize = m_VertexBuffer.size() * sizeof(GLfloat);
 		int tbsize = m_UvCoordBuffer.size() * sizeof(GLfloat);
@@ -133,6 +127,20 @@ namespace star
 			glVertexAttribPointer(3, 1, GL_FLOAT, GL_FALSE, 0,
 				(GLvoid*)(vbsize + tbsize + cbsize));
 		glBindVertexArray(0);
+
+
+		const mat4 viewInverseMat;// = GraphicsManager::GetInstance()->GetViewInverseMatrix();
+		glm::mat4 model;
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+
+		glm::mat4 projectionMat = GraphicsManager::GetInstance()->GetProjectionMatrix();// glm::ortho(0.0f, 800.0f, 0.0f, 600.0f, -1.0f, 1.0f);
+
+		glUniform1i(m_TextureSamplerID, 0);
+
+		glUniformMatrix4fv(m_ScalingID, 1, GL_FALSE, ToPointerValue(model));
+		glUniformMatrix4fv(m_ViewInverseID, 1, GL_FALSE, ToPointerValue(viewInverseMat));
+		glUniformMatrix4fv(m_ProjectionID, 1, GL_FALSE, ToPointerValue(projectionMat));
 
 		
 		
@@ -182,7 +190,7 @@ namespace star
 		m_ShaderPtr->Unbind();
 
 		m_SpriteQueue.clear();
-	//	m_TextQueue.clear();
+		m_TextQueue.clear();
 
 		m_VertexBuffer.clear();
 		m_UvCoordBuffer.clear();
@@ -192,36 +200,83 @@ namespace star
 
 	void SpriteBatch::DrawTextSprites()
 	{	
-		//CreateTextQuads();
+		CreateTextQuads();
 
-		////FlushText once per TextComponent (same font)
-		////Check per text how many characters -> Forloop drawing
-		//int32 startIndex(0);
-		//for(const TextInfo* text : m_TextQueue)
-		//{
-		//	GLuint* textures = text->font->GetTextures();
+		glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
+		int vbsize = m_VertexBuffer.size() * sizeof(GLfloat);
+		int tbsize = m_UvCoordBuffer.size() * sizeof(GLfloat);
+		int cbsize = m_ColorBuffer.size() * sizeof(GLfloat);
+		int hbsize = m_IsHUDBuffer.size() * sizeof(GLfloat);
+		if (vbsize == 0)return;
+		glBufferData(GL_ARRAY_BUFFER, (vbsize + tbsize + cbsize + hbsize), NULL, GL_STATIC_DRAW);
+		glBufferSubData(GL_ARRAY_BUFFER, 0,
+			vbsize,
+			&m_VertexBuffer[0]);
+		glBufferSubData(GL_ARRAY_BUFFER, vbsize,
+			tbsize,
+			&m_UvCoordBuffer[0]);
+		glBufferSubData(GL_ARRAY_BUFFER, vbsize + tbsize,
+			cbsize,
+			&m_ColorBuffer[0]);
+		glBufferSubData(GL_ARRAY_BUFFER, vbsize + tbsize + cbsize,
+			hbsize,
+			&m_IsHUDBuffer[0]);
 
-		//	const tchar *start_line = text->text.c_str();
-		//	for(int32 i = 0 ; start_line[i] != 0 ; ++i) 
-		//	{
-		//		if(start_line[i] > FIRST_REAL_ASCII_CHAR)
-		//		{
-		//			glBindTexture(GL_TEXTURE_2D, textures[start_line[i]]);
 
-		//			//Set attributes and buffers
-		//			glVertexAttribPointer(m_VertexID, 4, GL_FLOAT, 0, 0,
-		//				reinterpret_cast<GLvoid*>(&m_VertexBuffer.at(0)));
-		//			glVertexAttribPointer(m_UVID, 2, GL_FLOAT, 0, 0, 
-		//				reinterpret_cast<GLvoid*>(&m_UvCoordBuffer.at(0)));
-		//			glVertexAttribPointer(m_IsHUDID, 1, GL_FLOAT, 0, 0,
-		//				reinterpret_cast<GLvoid*>(&m_IsHUDBuffer.at(0)));
-		//			glVertexAttribPointer(m_ColorID, 4, GL_FLOAT, 0, 0,
-		//				reinterpret_cast<GLvoid*>(&m_ColorBuffer.at(0)));
-		//			glDrawArrays(GL_TRIANGLES, startIndex * 6, 6);
-		//		}
-		//		++startIndex;
-		//	}
-		//}
+		glBindVertexArray(m_VAO);
+		glEnableVertexAttribArray(0);
+		glEnableVertexAttribArray(1);
+		glEnableVertexAttribArray(2);
+		glEnableVertexAttribArray(3);
+
+		glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0,
+			(GLvoid*)0);
+		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0,
+			(GLvoid*)(vbsize));
+		glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, 0,
+			(GLvoid*)(vbsize + tbsize));
+		glVertexAttribPointer(3, 1, GL_FLOAT, GL_FALSE, 0,
+			(GLvoid*)(vbsize + tbsize + cbsize));
+		glBindVertexArray(0);
+
+
+		const mat4 viewInverseMat;// = GraphicsManager::GetInstance()->GetViewInverseMatrix();
+		glm::mat4 model;
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+
+		glm::mat4 projectionMat = GraphicsManager::GetInstance()->GetProjectionMatrix();// glm::ortho(0.0f, 800.0f, 0.0f, 600.0f, -1.0f, 1.0f);
+
+		glUniform1i(m_TextureSamplerID, 0);
+
+		glUniformMatrix4fv(m_ScalingID, 1, GL_FALSE, ToPointerValue(model));
+		glUniformMatrix4fv(m_ViewInverseID, 1, GL_FALSE, ToPointerValue(viewInverseMat));
+		glUniformMatrix4fv(m_ProjectionID, 1, GL_FALSE, ToPointerValue(projectionMat));
+
+
+		//FlushText once per TextComponent (same font)
+		//Check per text how many characters -> Forloop drawing
+		int32 startIndex(0);
+		for(const TextInfo* text : m_TextQueue)
+		{
+			
+			swstring start_line= text->text;
+			for(int32 i = 0 ; i<start_line.size() ; ++i) 
+			{
+				//if(start_line[i] > first_real_ascii_char)
+				{
+				
+					glActiveTexture(GL_TEXTURE0);
+					glBindTexture(GL_TEXTURE_2D, text->font->GetCharacterInfo(start_line[i]).textureId);
+					
+					glBindVertexArray(m_VAO);
+					glDrawArrays(GL_TRIANGLES, startIndex * 6, 6);
+					glBindVertexArray(0);
+
+				}
+				++startIndex;
+			}
+		}
 	}
 
 	void SpriteBatch::CreateSpriteQuads()
@@ -342,99 +397,115 @@ namespace star
 		*   2----3
 		*  BL    BR
 		*/
-		//for(const TextInfo* text : m_TextQueue)
-		//{
-		//	//Variables per textcomponent
-		//	mat4 transformMat, offsetMatrix; 
-		//	const mat4& worldMat = text->transformPtr->GetWorldMatrix();
-		//	int32 line_counter(0);
-		//	int32 offsetX(text->horizontalTextOffset.at(line_counter));
-		//	int32 offsetY(0);
-		//	int32 fontHeight(text->font->GetMaxLetterHeight() + text->font->GetMinLetterHeight());
-		//	for(auto it : text->text)
-		//	{
-		//		const CharacterInfo& charInfo = text->font->GetCharacterInfo(static_cast<suchar>(it));
-		//		offsetMatrix = Translate
-		//			(vec3(
-		//				offsetX, 
-		//				offsetY + charInfo.letterDimensions.y + text->textHeight - fontHeight, 
-		//				0));
-		//		offsetX += charInfo.letterDimensions.x;
+		for( TextInfo* text : m_TextQueue)
+		{
+			//Variables per textcomponent
+			mat4 transformMat, offsetMatrix; 
+			const mat4& worldMat = text->transformPtr->GetWorldMatrix();
+			int32 line_counter(0);
+			int32 offsetX(text->horizontalTextOffset.at(line_counter));
+			int32 offsetY(0);
+			int32 fontHeight(text->font->GetMaxLetterHeight() + text->font->GetMinLetterHeight());
+			
+			for(auto it : text->text)
+			{
+				const CharacterInfo& charInfo = text->font->GetCharacterInfo(it);
+				offsetMatrix = Translate
+					(vec3(
+						offsetX, 
+						offsetY + charInfo.letterDimensions.y + text->textHeight - fontHeight, 
+						0));
+				offsetX += charInfo.letterDimensions.x;
 
-		//		transformMat = Transpose(worldMat * offsetMatrix);
+				transformMat = Transpose(worldMat * offsetMatrix);
 
-		//		vec4 TL = vec4(0, charInfo.vertexDimensions.y, 0, 1);
-		//		Mul(TL, transformMat, TL);
+				vec4 TL = vec4(0, charInfo.vertexDimensions.y, 0, 1);
+				Mul(TL, transformMat, TL);
 
-		//		vec4 TR = vec4(charInfo.vertexDimensions.x, charInfo.vertexDimensions.y, 0, 1);
-		//		Mul(TR, transformMat, TR);
+				vec4 TR = vec4(charInfo.vertexDimensions.x, charInfo.vertexDimensions.y, 0, 1);
+				Mul(TR, transformMat, TR);
 
-		//		vec4 BL = vec4(0, 0, 0, 1);
-		//		Mul(BL, transformMat, BL);
+				vec4 BL = vec4(0, 0, 0, 1);
+				Mul(BL, transformMat, BL);
 
-		//		vec4 BR = vec4(charInfo.vertexDimensions.x, 0, 0, 1);
-		//		Mul(BR, transformMat, BR);
+				vec4 BR = vec4(charInfo.vertexDimensions.x, 0, 0, 1);
+				Mul(BR, transformMat, BR);
 
-		//		//0
-		//		m_VertexBuffer.push_back(TL);
+				//0
+				m_VertexBuffer2.push_back(TL);
 
-		//		//1
-		//		m_VertexBuffer.push_back(TR);
+				//1
+				m_VertexBuffer2.push_back(TR);
 
-		//		//2
-		//		m_VertexBuffer.push_back(BL);
+				//2
+				m_VertexBuffer2.push_back(BL);
 
-		//		//1
-		//		m_VertexBuffer.push_back(TR);
+				//1
+				m_VertexBuffer2.push_back(TR);
 
-		//		//3
-		//		m_VertexBuffer.push_back(BR);
+				//3
+				m_VertexBuffer2.push_back(BR);
 
-		//		//2
-		//		m_VertexBuffer.push_back(BL);
+				//2
+				m_VertexBuffer2.push_back(BL);
 
-		//		//Push back all uv's
+				//Push back all uv's
 
-		//		//0
-		//		m_UvCoordBuffer.push_back(0);
-		//		m_UvCoordBuffer.push_back(0);
+				//0
+				m_UvCoordBuffer.push_back(0);
+				m_UvCoordBuffer.push_back(0);
 
-		//		//1
-		//		m_UvCoordBuffer.push_back(charInfo.uvDimensions.x);
-		//		m_UvCoordBuffer.push_back(0);
+				//1
+				m_UvCoordBuffer.push_back(charInfo.uvDimensions.x);
+				m_UvCoordBuffer.push_back(0);
 
-		//		//2
-		//		m_UvCoordBuffer.push_back(0);
-		//		m_UvCoordBuffer.push_back(charInfo.uvDimensions.y);
+				//2
+				m_UvCoordBuffer.push_back(0);
+				m_UvCoordBuffer.push_back(charInfo.uvDimensions.y);
 
-		//		//1
-		//		m_UvCoordBuffer.push_back(charInfo.uvDimensions.x);
-		//		m_UvCoordBuffer.push_back(0);
+				//1
+				m_UvCoordBuffer.push_back(charInfo.uvDimensions.x);
+				m_UvCoordBuffer.push_back(0);
 
-		//		//3
-		//		m_UvCoordBuffer.push_back(charInfo.uvDimensions.x);
-		//		m_UvCoordBuffer.push_back(charInfo.uvDimensions.y);
+				//3
+				m_UvCoordBuffer.push_back(charInfo.uvDimensions.x);
+				m_UvCoordBuffer.push_back(charInfo.uvDimensions.y);
 
-		//		//2
-		//		m_UvCoordBuffer.push_back(0);
-		//		m_UvCoordBuffer.push_back(charInfo.uvDimensions.y);
+				//2
+				m_UvCoordBuffer.push_back(0);
+				m_UvCoordBuffer.push_back(charInfo.uvDimensions.y);
 
-		//		//bool & color buffer
-		//		for(uint32 i = 0; i < 6; ++i)
-		//		{
-		//			m_IsHUDBuffer.push_back(float32(text->bIsHud));
-		//			//rgba
-		//			m_ColorBuffer.push_back(text->colorMultiplier);
-		//		}
+				//bool & color buffer
+				for(uint32 i = 0; i < 6; ++i)
+				{
+					m_IsHUDBuffer.push_back(float32(text->bIsHud));
+					//rgba
+					m_ColorBuffer2.push_back(text->colorMultiplier);
+					m_ColorBuffer.push_back(text->colorMultiplier.r);
+					m_ColorBuffer.push_back(text->colorMultiplier.g);
+					m_ColorBuffer.push_back(text->colorMultiplier.b);
+					m_ColorBuffer.push_back(text->colorMultiplier.a);
+				}
 
-		//		if(it == _T('\n'))
-		//		{
-		//			offsetY -= text->font->GetMaxLetterHeight() + text->verticalSpacing;
-		//			++line_counter;
-		//			offsetX = text->horizontalTextOffset.at(line_counter);
-		//		}
-		//	}
-		//}
+				if(it == L'\n')
+				{
+					offsetY -= text->font->GetMaxLetterHeight() + text->verticalSpacing;
+					++line_counter;
+					offsetX = text->horizontalTextOffset.at(line_counter);
+				}
+			}
+		}
+
+		for (auto a : m_VertexBuffer2)
+		{
+			m_VertexBuffer.push_back(a.x);
+			m_VertexBuffer.push_back(a.y);
+			m_VertexBuffer.push_back(a.z);
+			m_VertexBuffer.push_back(a.w);
+			std::cout << " x : " << a.x << " y: " << a.y << " z: " << a.z << " w:" << a.w << std::endl;
+		}
+		m_VertexBuffer2.clear();
+		m_ColorBuffer2.clear();
 	}
 
 	void SpriteBatch::SortSprites(SpriteSortingMode mode)
@@ -474,10 +545,10 @@ namespace star
 		m_SpriteQueue.push_back(spriteInfo);		
 	}
 
-	/*void SpriteBatch::AddTextToQueue(const TextInfo* text)
+	void SpriteBatch::AddTextToQueue( TextInfo* text)
 	{
 		m_TextQueue.push_back(text);
-	}*/
+	}
 
 	void SpriteBatch::SetSpriteSortingMode(SpriteSortingMode mode)
 	{

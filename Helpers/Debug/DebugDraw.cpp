@@ -260,7 +260,7 @@ more vertices than allocated space"),
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
 
-		glm::mat4 projectionMat = glm::ortho(0.0f, 800.0f, 0.0f, 600.0f, -1.0f, 1.0f);
+		glm::mat4 projectionMat = GraphicsManager::GetInstance()->GetProjectionMatrix();
 
 		glUniformMatrix4fv(
 			m_MVPLocation,

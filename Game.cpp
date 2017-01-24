@@ -26,9 +26,10 @@ namespace star
 		StarEngine::GetInstance()->Initialize(width, height);
 	}
 	
-	void Game::Update()
+	void Game::Update(float dt)
 	{
 		std::cout << "Update" << std::endl;
+		m_Context.dt = dt;
 		StarEngine::GetInstance()->Update(m_Context);
 	}
 
