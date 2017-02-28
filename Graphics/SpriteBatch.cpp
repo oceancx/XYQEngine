@@ -50,18 +50,18 @@ namespace star
 		m_UVID = 1;
 		m_ColorID = 2;
 		m_IsHUDID = 3;
-
+		m_ShaderPtr->Bind();
 		m_TextureSamplerID = m_ShaderPtr->GetUniformLocation("textureSampler");
 		m_ScalingID = m_ShaderPtr->GetUniformLocation("scaleMatrix");
 		m_ViewInverseID = m_ShaderPtr->GetUniformLocation("viewInverseMatrix");
 		m_ProjectionID = m_ShaderPtr->GetUniformLocation("projectionMatrix");
 
-
+	
 		glGenBuffers(1, &m_VBO);
 		glGenVertexArrays(1, &m_VAO);
 
 	//	m_ShaderPtr->Bind();
-		
+		m_ShaderPtr->Unbind();
 	//	m_ShaderPtr->Unbind();
 		
 		

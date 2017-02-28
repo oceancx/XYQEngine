@@ -23,6 +23,8 @@
 #include "Graphics\Font.h"
 
 #include "Components\Graphics\SpriteArrayComponent.h"
+
+#include "TextRenderer.h"
 namespace star
 {
 	StarEngine * StarEngine::m_pEngine = nullptr;
@@ -40,56 +42,16 @@ namespace star
 		return m_pEngine;
 	}
 	
-	Font font;
-	
-	void RenderText(std::wstring text,int x,int y)
-	{
-		for (int i = 0; i < text.size(); i++)
-		{
-			wchar_t& c = text[i];
-			const CharacterInfo& cinfo = font.GetCharacterInfo(c);
-			GLfloat xpos = x ;
-			GLfloat ypos = y;
-
-			GLfloat w = cinfo.vertexDimensions.x;
-			GLfloat h = cinfo.vertexDimensions.y;
-			// Update VBO for each character
-			GLfloat vertices[6][4] = {
-				{ xpos,     ypos + h,   0.0, 0.0 },
-				{ xpos,     ypos,       0.0, 1.0 },
-				{ xpos + w, ypos,       1.0, 1.0 },
-
-				{ xpos,     ypos + h,   0.0, 0.0 },
-				{ xpos + w, ypos,       1.0, 1.0 },
-				{ xpos + w, ypos + h,   1.0, 0.0 }
-			};
-			glBindTexture(GL_TEXTURE_2D, cinfo.textureId);
-			GLuint VBO;
-			glGenBuffers(1, &VBO);
-			glBindBuffer(GL_ARRAY_BUFFER, VBO);
-			glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices); // Be sure to use glBufferSubData and not glBufferData
-
-			glBindBuffer(GL_ARRAY_BUFFER, 0);
-			// Render quad
-			glDrawArrays(GL_TRIANGLES, 0, 6);
-			// Now advance cursors for next glyph (note that advance is number of 1/64 pixels)
-			x += (((int)w )>> 6); // Bitshift by 6 to get value in pixels (2^6 = 64 (divide amount of 1/64th pixels by 64 to get amount of pixels))
-			glBindTexture(GL_TEXTURE_2D, 0);
-		}
-	}
-
 	Player* obj;
 	BaseScene* scene;
-	
+	TextRenderer * textRenderer;
 	void StarEngine::Initialize(int32 window_width, int32 window_height)
 	{
+
 		std::random_device seeder;
 		m_RandomEngine.seed(seeder());
-
-		//Only for windows we need to pas the window paramaters
-		//for android these will be fetched when setting up the OpenGL context
-		//within the Graphics Manager
-
+		
+		textRenderer = new TextRenderer();
 		GraphicsManager::GetInstance()->Initialize(window_width,window_height);
 		GraphicsManager::GetInstance()->SetWindowDimensions(window_width, window_height);
 
@@ -101,25 +63,16 @@ namespace star
 		obj = new Player("obj");
 		obj->AddComponent(new CameraComponent());
 		obj->BaseInitialize();
-		tstring playerPath = _T("E:\\mhxy_code_repo\\Engine\\assets\\fonts\\simsun.ttc");
-		tstring playerName = _T("宋体");
-		obj->AddComponent(new TextComponent(
-			playerPath,
-			playerName,
-			14
-		));
 
-
-	/*	tstring playerPath = _T("E:\\mhxy_code_repo\\Engine\\assets\\animation\\mhxy3_");
+		tstring playerPath = _T("E:\\mhxy_code_repo\\Engine\\assets\\animation\\mhxy3_");
 		tstring playerName = _T("Player");
 		obj->AddComponent(new SpriteArrayComponent(
 			playerPath,
 			playerName,
 			1,1
-		));*/
+		));
 
-
-	
+		//textRenderer.RenderText(L"来看他阿萨德", 0.0f, 0.0f, 1.0f, vec3(0.7f, 0.5f, 0.8f));
 		//auto camera = obj.GetComponent<CameraComponent>(true);
 		//tstring playerPath = _T("E:\\mhxy_code_repo\\Engine\\assets\\animation\\mhxy3_");
 		//tstring playerName = _T("Player");
@@ -131,10 +84,6 @@ namespace star
 
 
 	
-		/*FT_Library ft;
-		FT_Init_FreeType(&ft);
-		font.Init(_T( "E:\\mhxy_code_repo\\Engine\\assets\\fonts\\simsun.ttc"), 48, ft);
-*/
 		SceneManager::GetInstance()->AddScene(scene);
 		SceneManager::GetInstance()->SetActiveScene("JYC");
 
@@ -147,7 +96,7 @@ namespace star
 		GraphicsManager::GetInstance()->Update();
 	//	InputManager::GetInstance()->EndUpdate();
 		Logger::GetInstance()->Update(context);
-		//'obj.BaseUpdate(context);
+		
 		m_bInitialized = true;
 
 		//scene->BaseUpdate(context);
@@ -156,12 +105,15 @@ namespace star
 
 	void StarEngine::Draw()
 	{
+		textRenderer->RenderText(L"asdsazxczxcbvbnghfgerfgggg来看他阿萨德", 0.0f, 20.0f, 1.0f, vec3(0.7f, 0.5f, 0.8f));
 		GraphicsManager::GetInstance()->StartDraw();
 		if(m_bInitialized)
 		{
 			SceneManager::GetInstance()->Draw();
+		
 		}
 		GraphicsManager::GetInstance()->StopDraw();
+		
 	/*	Color c = Color(0xff, 0, 0, 1);
 		DebugDraw::GetInstance()->DrawLine(vec2(0.0f,0.0f),vec2(20.0f,20.0f), c);
 		DebugDraw::GetInstance()->DrawPoint(vec2(50, 50), 30, Color(0xff, 0, 0, 1));
